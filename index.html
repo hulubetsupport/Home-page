@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hulu Bet - Official Platform</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg-dark: #070b12;
+      --panel-dark: #0f172a;
+      --card-bg: #141f36;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --accent-blue: #007aff;
+      --accent-blue-bright: #1880f0;
+      --accent-green: #10b981;
+      --accent-green-bright: #22c55e;
+      --text-gray: #8292a7;
+      --text-white: #ffffff;
+      --radius-rect: 8px;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+      -webkit-tap-highlight-color: transparent; 
+    }
+
+    body { 
+      background: var(--bg-dark); 
+      color: var(--text-white); 
+      display: flex; 
+      justify-content: center; 
+      min-height: 100vh; 
+    }
+
+    .app-container {
+      width: 100%; 
+      max-width: 440px; 
+      min-height: 100vh; 
+      background: var(--bg-dark);
+      display: flex; 
+      flex-direction: column; 
+      position: relative; 
+      border-left: 1px solid rgba(255, 255, 255, 0.05); 
+      border-right: 1px solid rgba(255, 255, 255, 0.05); 
+      overflow-x: hidden;
+    }
+
+    /* Top Auth Navigation Header */
+    .top-auth-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-logo-img {
+      height: 34px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .auth-btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-auth-rect {
+      border: none;
+      border-radius: var(--radius-rect);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-login {
+      background: var(--accent-blue-bright);
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(24, 128, 240, 0.3);
+    }
+
+    .btn-register {
+      background: var(--accent-green-bright);
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Category Navigation */
+    .subnav-pills-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .subnav-pills-bar::-webkit-scrollbar { display: none; }
+
+    .subnav-pill {
+      background: transparent;
+      border: none;
+      color: var(--text-gray);
+      padding: 7px 14px;
+      border-radius: 18px;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .subnav-pill.active {
+      background: var(--accent-blue-bright);
+      color: #ffffff;
+    }
+
+    .search-pill-btn {
+      margin-left: auto;
+      background: var(--panel-dark);
+      border: 1px solid var(--border-color);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .search-pill-btn svg { stroke: var(--text-gray); width: 16px; height: 16px; }
+
+    /* Search Bar Drawer */
+    .search-drawer { padding: 0 14px 10px; display: none; }
+
+    .search-input-rect {
+      width: 100%;
+      background: var(--panel-dark);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-rect);
+      padding: 10px 14px;
+    }
+
+    .search-input-rect input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    /* Wallet Bar */
+    .wallet-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 14px 10px;
+      padding: 10px 12px;
+      background: var(--panel-dark);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-rect);
+    }
+
+    .bal-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .btn-top-dep {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+      color: #fff; 
+      font-size: 12px; 
+      font-weight: 800; 
+      padding: 7px 16px; 
+      border-radius: var(--radius-rect); 
+      border: none; 
+      cursor: pointer;
+    }
+
+    /* Banners Carousel */
+    .banner-carousel-box {
+      margin: 0 14px 12px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      border-radius: 12px;
+    }
+
+    .banner-carousel-box::-webkit-scrollbar { display: none; }
+
+    .banner-slide {
+      min-width: 100%;
+      scroll-snap-align: start;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 2.7/1;
+      border: 1px solid var(--border-color);
+    }
+
+    .banner-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Quick Action Cards */
+    .dual-promo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 14px 14px;
+    }
+
+    .promo-action-card {
+      border-radius: var(--radius-rect);
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .card-yellow { background: linear-gradient(135deg, #facc15 0%, #eab308 100%); color: #000; }
+    .card-purple { background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); color: #fff; }
+
+    .promo-card-title { font-size: 13px; font-weight: 900; }
+    .promo-card-sub { font-size: 10px; font-weight: 700; opacity: 0.85; }
+
+    /* Games Grid Section */
+    .main-lobby-body { flex: 1; padding: 0 14px 85px; }
+
+    .section-header-row { 
+      display: flex; 
+      align-items: center; 
+      gap: 8px;
+      margin: 14px 0 10px; 
+    }
+
+    .section-tag-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .icon-green { background: #10b981; color: #000; }
+    .icon-pink { background: #ec4899; color: #fff; }
+
+    .section-title-text { font-size: 15px; font-weight: 900; color: #fff; flex: 1; }
+    .section-meta-link { font-size: 11px; font-weight: 700; color: var(--text-gray); }
+
+    .games-3col-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .game-rect-card {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .game-poster-box {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: var(--radius-rect);
+      overflow: hidden;
+      background: var(--panel-dark);
+      border: 1px solid var(--border-color);
+      margin-bottom: 6px;
+    }
+
+    .game-poster-img { width: 100%; height: 100%; object-fit: cover; }
+
+    .provider-tag {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--text-gray);
+      margin-bottom: 2px;
+    }
+
+    .provider-orange-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #f97316;
+    }
+
+    .game-card-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Support Floating Button */
+    .floating-chat-btn {
+      position: fixed; 
+      bottom: 70px; 
+      right: 14px; 
+      width: 46px; 
+      height: 46px; 
+      border-radius: 50%; 
+      background: var(--accent-blue-bright); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      box-shadow: 0 4px 16px rgba(24, 128, 240, 0.4); 
+      z-index: 40; 
+      cursor: pointer;
+    }
+
+    .floating-chat-btn svg { width: 22px; height: 22px; fill: #fff; }
+
+    /* Dock Bottom Bar */
+    .bottom-nav-dock {
+      position: fixed; 
+      bottom: 0; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      width: 100%; 
+      max-width: 440px; 
+      background: rgba(15, 23, 42, 0.96); 
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border-color); 
+      display: flex; 
+      justify-content: space-around; 
+      align-items: center; 
+      padding: 8px 0; 
+      z-index: 50;
+    }
+
+    .nav-tab-btn {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 3px; 
+      font-size: 10px; 
+      font-weight: 800; 
+      color: var(--text-gray); 
+      cursor: pointer; 
+      border: none; 
+      background: none; 
+      flex: 1;
+    }
+
+    .nav-tab-btn.active { color: var(--accent-blue-bright); }
+    .nav-tab-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+    /* 100% FULLSCREEN IFRAME VIEWPORT (NO TOPBAR, NO BALANCE, EDGE-TO-EDGE) */
+    .fullscreen-viewport {
+      display: none; 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000; 
+      z-index: 999; 
+    }
+
+    /* Floating Arrow Back Button */
+    .btn-floating-back-arrow {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 1000;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-floating-back-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+    }
+
+    .viewport-iframe { 
+      width: 100%; 
+      height: 100%; 
+      border: none; 
+      display: block;
+    }
+
+    /* Modals & Forms */
+    .app-modal-overlay {
+      display: none; 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0, 0, 0, 0.85); 
+      backdrop-filter: blur(8px); 
+      z-index: 1100; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 16px;
+    }
+
+    .app-modal-card {
+      width: 100%; 
+      max-width: 390px; 
+      background: var(--panel-dark); 
+      border: 1px solid var(--border-color); 
+      border-radius: 12px; 
+      padding: 20px; 
+      display: flex; 
+      flex-direction: column;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-head { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 16px; 
+      font-size: 15px; 
+      font-weight: 900; 
+      color: #fff; 
+    }
+
+    .btn-close-modal { 
+      font-size: 20px; 
+      cursor: pointer; 
+      color: var(--text-gray); 
+      background: none; 
+      border: none; 
+    }
+
+    .form-group-rect {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-gray);
+      text-transform: uppercase;
+    }
+
+    .modal-input-rect { 
+      width: 100%; 
+      padding: 12px 14px; 
+      background: var(--bg-dark); 
+      border: 1px solid var(--border-color); 
+      border-radius: var(--radius-rect); 
+      color: #fff; 
+      font-size: 13px; 
+      font-weight: 700; 
+      outline: none; 
+    }
+
+    .btn-modal-action-rect { 
+      width: 100%; 
+      background: var(--accent-blue-bright); 
+      color: #fff; 
+      font-size: 13px; 
+      font-weight: 900; 
+      border: none; 
+      border-radius: var(--radius-rect); 
+      padding: 12px; 
+      cursor: pointer; 
+    }
+
+    /* Agent Cards Styling */
+    .agent-card-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-rect);
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .agent-name-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--accent-green-bright);
+    }
+
+    .agent-detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .agent-detail-val {
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .agent-tg-btn {
+      background: #229ED9;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-rect);
+      padding: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 4px;
+    }
+
+    #toastBox { 
+      position: fixed; 
+      top: 15px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      z-index: 9999; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+      width: 90%; 
+      max-width: 360px; 
+      pointer-events: none; 
+    }
+
+    .toast-item { 
+      background: var(--panel-dark); 
+      border: 1px solid var(--accent-blue-bright); 
+      color: #fff; 
+      padding: 10px 14px; 
+      border-radius: var(--radius-rect); 
+      font-size: 12px; 
+      font-weight: bold; 
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <div id="toastBox"></div>
+
+  <!-- Header -->
+  <header class="top-auth-header">
+    <img src="https://kommodo.ai/i/5dOhfXdcnPqaVouirw6o" alt="Hulu Bet Logo" class="header-logo-img">
+    <div class="auth-btn-group">
+      <button class="btn-auth-rect btn-login" onclick="openWalletView()">Login</button>
+      <button class="btn-auth-rect btn-register" onclick="openWalletView()">Registration</button>
+    </div>
+  </header>
+
+  <!-- Navigation Categories -->
+  <div class="subnav-pills-bar">
+    <button class="subnav-pill active" onclick="filterCategory('all', this)">Home</button>
+    <button class="subnav-pill" onclick="filterCategory('popular', this)">Casino</button>
+    <button class="subnav-pill" onclick="filterCategory('hot', this)">Live games</button>
+    <button class="subnav-pill" onclick="filterCategory('crash', this)">LuckyJet</button>
+    <div class="search-pill-btn" onclick="toggleSearchDrawer()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+  </div>
+
+  <!-- Search Input Bar -->
+  <div class="search-drawer" id="searchDrawer">
+    <div class="search-input-rect">
+      <input type="text" id="gameSearchInput" placeholder="Search games..." oninput="searchGames(this.value)">
+    </div>
+  </div>
+
+  <!-- Balance Strip -->
+  <div class="wallet-strip">
+    <div class="bal-chip" onclick="toggleBalanceEye()">
+      <span>💰 Balance:</span>
+      <span id="headerBalText">1000.54 ETB</span>
+    </div>
+    <button class="btn-top-dep" onclick="openModal('agentsModal')">Deposit / Agents</button>
+  </div>
+
+  <!-- Banners Slider Carousel -->
+  <div class="banner-carousel-box">
+    <div class="banner-slide">
+      <img src="https://i.pinimg.com/736x/d1/1b/58/d11b5872861840ffceacd57808616b85.jpg" alt="Banner Ad 1">
+    </div>
+    <div class="banner-slide">
+      <img src="https://i.pinimg.com/736x/c2/61/11/c26111a4edd6109cc141f1915efe613b.jpg" alt="Banner Ad 2">
+    </div>
+    <div class="banner-slide">
+      <img src="https://i.pinimg.com/736x/5e/9a/0e/5e9a0ef1e136d3e46c3e6d3d471b8c09.jpg" alt="Banner Ad 3">
+    </div>
+  </div>
+
+  <!-- Quick Promo Cards -->
+  <div class="dual-promo-grid">
+    <div class="promo-action-card card-yellow" onclick="openModal('referralModal')">
+      <div class="promo-card-title">Free money</div>
+      <div class="promo-card-sub">Free cash!</div>
+    </div>
+    <div class="promo-action-card card-purple" onclick="openModal('agentsModal')">
+      <div class="promo-card-title">Official Agents</div>
+      <div class="promo-card-sub">Deposit & Withdraw</div>
+    </div>
+  </div>
+
+  <!-- Main Game List -->
+  <main class="main-lobby-body">
+    <!-- BEST GAMES SECTION -->
+    <div class="game-section-group" id="groupHot">
+      <div class="section-header-row">
+        <div class="section-tag-icon icon-green">👑</div>
+        <div class="section-title-text">Best games</div>
+        <div class="section-meta-link">All games</div>
+      </div>
+
+      <div class="games-3col-grid">
+        <!-- Jet X -->
+        <div class="game-rect-card" data-title="Jet X Crash Lucky" onclick="launchFullScreenGame('https://hulubetsupport.github.io/Jet-x/')">
+          <div class="game-poster-box">
+            <img src="https://kommodo.ai/i/yXwzY2iSqaCkWleXosmT" class="game-poster-img" alt="Jet X">
+          </div>
+          <div class="provider-tag"><span class="provider-orange-dot"></span> Hulu Bet</div>
+          <div class="game-card-title">Jet X</div>
+        </div>
+
+        <!-- Chicken Road 2 -->
+        <div class="game-rect-card" data-title="Chicken Road 2" onclick="launchFullScreenGame('https://hulubetsupport.github.io/Chekn-road/')">
+          <div class="game-poster-box">
+            <img src="https://kommodo.ai/i/xnuL3aCRbmZTcWWHfH8w" class="game-poster-img" alt="Chicken Road 2">
+          </div>
+          <div class="provider-tag"><span class="provider-orange-dot"></span> Hulu Bet</div>
+          <div class="game-card-title">Chicken Road 2</div>
+        </div>
+
+        <!-- Avia Master -->
+        <div class="game-rect-card" data-title="Avia Master" onclick="launchFullScreenGame('https://hulubetsupport.github.io/Avia-master/')">
+          <div class="game-poster-box">
+            <img src="https://kommodo.ai/i/hU5zF2QR35GxZGnHqd4y" class="game-poster-img" alt="Avia Master">
+          </div>
+          <div class="provider-tag"><span class="provider-orange-dot"></span> BGaming</div>
+          <div class="game-card-title">Avia Master</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASINO GAMES SECTION -->
+    <div class="game-section-group" id="groupPopular" style="margin-top: 16px;">
+      <div class="section-header-row">
+        <div class="section-tag-icon icon-pink">🎰</div>
+        <div class="section-title-text">Casino</div>
+        <div class="section-meta-link">All games</div>
+      </div>
+
+      <div class="games-3col-grid">
+        <!-- Aviator -->
+        <div class="game-rect-card" data-title="Aviator Spribe" onclick="launchFullScreenGame('https://hulubetsupport.github.io/Aveiter/')">
+          <div class="game-poster-box">
+            <img src="https://kommodo.ai/i/W1MSVJbMIFmHkyAGRqxF" class="game-poster-img" alt="Aviator">
+          </div>
+          <div class="provider-tag"><span class="provider-orange-dot"></span> Spribe</div>
+          <div class="game-card-title">Aviator</div>
+        </div>
+
+        <!-- Slot 777 -->
+        <div class="game-rect-card" data-title="Slot 777" onclick="launchFullScreenGame('https://hulubetsupport.github.io/Slot-777-/')">
+          <div class="game-poster-box">
+            <img src="https://kommodo.ai/i/Nxg92wDfbTPLrkL5YLvT" class="game-poster-img" alt="Slot 777">
+          </div>
+          <div class="provider-tag"><span class="provider-orange-dot"></span> Slots</div>
+          <div class="game-card-title">Slot 777</div>
+        </div>
+
+        <!-- Keno Fast -->
+        <div class="game-rect-card" data-title="Keno Fast" onclick="launchFullScreenGame('https://hulubetsupport.github.io/Keno-fast/')">
+          <div class="game-poster-box">
+            <img src="https://kommodo.ai/i/Au350afSAyw767TBWsZb" class="game-poster-img" alt="Keno Fast">
+          </div>
+          <div class="provider-tag"><span class="provider-orange-dot"></span> Fast Keno</div>
+          <div class="game-card-title">Fast Keno</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Support Button -->
+  <div class="floating-chat-btn" onclick="openModal('agentsModal')">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+  </div>
+
+  <!-- Bottom Navigation Dock -->
+  <nav class="bottom-nav-dock">
+    <button class="nav-tab-btn active" onclick="location.reload()">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-tab-btn" onclick="openModal('referralModal')">
+      <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.65-.5-.65C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg>
+      <span>Free Money</span>
+    </button>
+    <button class="nav-tab-btn" onclick="openModal('agentsModal')">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      <span>Agents</span>
+    </button>
+    <button class="nav-tab-btn" onclick="openModal('profileModal')">
+      <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      <span>Menu</span>
+    </button>
+  </nav>
+</div>
+
+<!-- 100% FULLSCREEN IFRAME VIEWPORT (NO BALANCE, TOP & BOTTOM FULL SCREEN) -->
+<div class="fullscreen-viewport" id="mainIframeViewport">
+  <!-- Top Left Back Arrow Button -->
+  <button class="btn-floating-back-arrow" onclick="closeFullScreenGame()" title="Back to Lobby">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+      <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <iframe id="gameContainerIframe" class="viewport-iframe" src=""></iframe>
+</div>
+
+<!-- OFFICIAL AGENTS MODAL -->
+<div class="app-modal-overlay" id="agentsModal">
+  <div class="app-modal-card">
+    <div class="modal-head">
+      <span>👨‍💼 Official Agents</span>
+      <button class="btn-close-modal" onclick="closeModal('agentsModal')">✕</button>
+    </div>
+
+    <!-- Agent 1 -->
+    <div class="agent-card-box">
+      <div class="agent-name-title">Agent 1: Aymen Kemal</div>
+      <div class="agent-detail-row">
+        <span>Phone:</span>
+        <span class="agent-detail-val" onclick="copyText('0996910607')">0996910607 📋</span>
+      </div>
+      <div class="agent-detail-row">
+        <span>CBE Account:</span>
+        <span class="agent-detail-val" onclick="copyText('1000562339427')">1000562339427 📋</span>
+      </div>
+      <div class="agent-detail-row">
+        <span>Telegram:</span>
+        <span class="agent-detail-val">@Agent1hulubet</span>
+      </div>
+      <a class="agent-tg-btn" href="https://t.me/Agent1hulubet" target="_blank">Contact Agent 1 on TG</a>
+    </div>
+
+    <!-- Agent 2 -->
+    <div class="agent-card-box">
+      <div class="agent-name-title">Agent 2: Nebeyu Mohammed</div>
+      <div class="agent-detail-row">
+        <span>Phone:</span>
+        <span class="agent-detail-val" onclick="copyText('0968260447')">0968260447 📋</span>
+      </div>
+      <div class="agent-detail-row">
+        <span>CBE Account:</span>
+        <span class="agent-detail-val" onclick="copyText('1000415518599')">1000415518599 📋</span>
+      </div>
+      <div class="agent-detail-row">
+        <span>Telegram:</span>
+        <span class="agent-detail-val">@userne68</span>
+      </div>
+      <a class="agent-tg-btn" href="https://t.me/userne68" target="_blank">Contact Agent 2 on TG</a>
+    </div>
+  </div>
+</div>
+
+<!-- Referral Modal -->
+<div class="app-modal-overlay" id="referralModal">
+  <div class="app-modal-card">
+    <div class="modal-head">
+      <span>👥 Free Cash & Referral</span>
+      <button class="btn-close-modal" onclick="closeModal('referralModal')">✕</button>
+    </div>
+    <div class="form-group-rect">
+      <label class="form-label">Referral Link</label>
+      <input type="text" id="referralLinkInput" class="modal-input-rect" readonly value="https://t.me/HuluBetEthio_bot?start=ref_589218392">
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+      <button class="btn-modal-action-rect" onclick="copyReferralLink()">Copy Link</button>
+      <button class="btn-modal-action-rect" style="background:#229ED9;" onclick="shareTelegramRef()">Telegram</button>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="app-modal-overlay" id="profileModal">
+  <div class="app-modal-card">
+    <div class="modal-head">
+      <span>👤 Account Overview</span>
+      <button class="btn-close-modal" onclick="closeModal('profileModal')">✕</button>
+    </div>
+    <div class="form-group-rect">
+      <label class="form-label">Player ID</label>
+      <input type="text" class="modal-input-rect" readonly value="589218392">
+    </div>
+    <div class="form-group-rect">
+      <label class="form-label">Account Balance</label>
+      <input type="text" id="modalBalText" class="modal-input-rect" readonly value="1000.54 ETB">
+    </div>
+    <button class="btn-modal-action-rect" style="background:var(--accent-green);" onclick="openModal('agentsModal'); closeModal('profileModal');">Deposit via Agents</button>
+  </div>
+</div>
+
+<script>
+  // Google Apps Script API Endpoint Integration
+  const SCRIPT_API_URL = "https://script.google.com/macros/s/AKfycbzCI7hG2Xaz7gEEfHmakGmk4Z2kiQ1hcIho6snlemPGMcIz10pMcEBPE5aP9sNNfYLf/exec";
+
+  if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+  }
+
+  function showToast(msg) {
+    const box = document.getElementById("toastBox");
+    const t = document.createElement("div");
+    t.className = "toast-item";
+    t.innerText = msg;
+    box.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
+  }
+
+  function copyText(val) {
+    navigator.clipboard.writeText(val);
+    showToast(`Copied: ${val}`);
+  }
+
+  let balance = parseFloat(localStorage.getItem("global_balance") || "1000.54");
+  let isBalHidden = false;
+
+  function updateBalanceDisplay() {
+    const text = isBalHidden ? "••••••" : `${balance.toFixed(2)} ETB`;
+    document.getElementById("headerBalText").innerText = text;
+    document.getElementById("modalBalText").value = `${balance.toFixed(2)} ETB`;
+    localStorage.setItem("global_balance", balance.toFixed(2));
+  }
+  updateBalanceDisplay();
+
+  function toggleBalanceEye() {
+    isBalHidden = !isBalHidden;
+    updateBalanceDisplay();
+  }
+
+  // Launches game taking 100% full screen with floating back arrow
+  function launchFullScreenGame(url) {
+    document.getElementById("gameContainerIframe").src = url;
+    document.getElementById("mainIframeViewport").style.display = "block";
+  }
+
+  function closeFullScreenGame() {
+    document.getElementById("mainIframeViewport").style.display = "none";
+    document.getElementById("gameContainerIframe").src = "";
+    balance = parseFloat(localStorage.getItem("global_balance") || balance);
+    updateBalanceDisplay();
+  }
+
+  function openWalletView() {
+    launchFullScreenGame('https://hulubetsupport.github.io/Wallet/');
+  }
+
+  function toggleSearchDrawer() {
+    const drawer = document.getElementById("searchDrawer");
+    drawer.style.display = drawer.style.display === "block" ? "none" : "block";
+  }
+
+  function searchGames(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll(".game-rect-card").forEach(c => {
+      const title = c.getAttribute("data-title")?.toLowerCase() || "";
+      c.style.display = title.includes(q) ? "flex" : "none";
+    });
+  }
+
+  function filterCategory(cat, el) {
+    if (el) {
+      document.querySelectorAll(".subnav-pill").forEach(b => b.classList.remove("active"));
+      el.classList.add("active");
+    }
+    if (cat === 'crash') searchGames('jet');
+    else if (cat === 'hot') searchGames('chicken');
+    else if (cat === 'popular') searchGames('slot');
+    else searchGames('');
+  }
+
+  function openModal(id) { document.getElementById(id).style.display = "flex"; }
+  function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+  function copyReferralLink() {
+    navigator.clipboard.writeText(document.getElementById("referralLinkInput").value);
+    showToast("✅ Link copied to clipboard!");
+  }
+
+  function shareTelegramRef() {
+    const link = document.getElementById("referralLinkInput").value;
+    const msg = encodeURIComponent(`🔥 Join Hulu Bet and claim bonus!\n${link}`);
+    window.open(`https://t.me/share/url?url=${link}&text=${msg}`, '_blank');
+  }
+</script>
+</body>
+</html>
