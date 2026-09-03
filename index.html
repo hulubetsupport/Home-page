@@ -117,7 +117,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
 .g-name { font-size: 10px; font-weight: 900; color: #fff; margin-top: 4px; text-align: center; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .g-prov { font-size: 8px; color: var(--gr); text-align: center; font-weight: bold; }
 
-/* 7. SPORTSBOOK MATCHES (Proper Card Styling) */
+/* 7. SPORTSBOOK MATCHES */
 .sports-hero {
   margin: 10px 14px; background: linear-gradient(135deg, #112820 0%, #0c1813 100%);
   border: 1px solid var(--bd); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center;
@@ -208,15 +208,13 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
     </div>
   </header>
 
-  <!-- ========================================================================
-       SCREEN 1: HOME PAGE
-       ======================================================================== -->
+  <!-- 1. HOME PAGE -->
   <div class="screen active" id="s-home">
     <!-- 3 Full Image Auto-Rotating Promo Banners -->
     <div class="carousel" id="carousel">
       <div class="slide active sl1" id="sl-1">
         <div>
-          <div class="sl-tag" data-i18n="tag_bonus">🎁 Welcome Bonus</div>
+          <div class="sl-tag" data-i18n="tag_bonus">Welcome Bonus</div>
           <div class="sl-h1">20 ETB</div>
           <div class="sl-h2" data-i18n="tag_freebet">FREE BET</div>
           <div class="sl-sub" data-i18n="sub_bonus">Register & play instantly!</div>
@@ -227,7 +225,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
 
       <div class="slide sl2" id="sl-2">
         <div>
-          <div class="sl-tag" data-i18n="tag_ref">👥 Referral</div>
+          <div class="sl-tag" data-i18n="tag_ref">Referral</div>
           <div class="sl-h1" data-i18n="tag_earn">EARN</div>
           <div class="sl-h2">50 ETB CASH</div>
           <div class="sl-sub" data-i18n="sub_ref">Invite friends & earn!</div>
@@ -238,7 +236,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
 
       <div class="slide sl3" id="sl-3">
         <div>
-          <div class="sl-tag" data-i18n="tag_jackpot">👑 Jackpot</div>
+          <div class="sl-tag" data-i18n="tag_jackpot">Jackpot</div>
           <div class="sl-h1">ETB 5.6M</div>
           <div class="sl-h2">MEGA JACKPOT</div>
           <div class="sl-sub" data-i18n="sub_jackpot">Play 777 Slot & win big!</div>
@@ -315,9 +313,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
     </div>
   </div>
 
-  <!-- ========================================================================
-       SCREEN 2: SPORTS PAGE (Fixed Live Match Cards)
-       ======================================================================== -->
+  <!-- 2. SPORTS PAGE -->
   <div class="screen" id="s-sport">
     <div class="sports-hero">
       <div>
@@ -364,9 +360,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
     </div>
   </div>
 
-  <!-- ========================================================================
-       SCREEN 3: BET SLIP (Sports Coming Soon Alert)
-       ======================================================================== -->
+  <!-- 3. BET SLIP -->
   <div class="screen" id="s-slip">
     <div style="padding:12px 14px;">
       <div class="sec-hd"><span>Bet Slip</span><span id="sl-badge" style="background:var(--g);color:#000;font-size:10px;font-weight:900;padding:2px 7px;border-radius:8px;display:none">0</span></div>
@@ -382,9 +376,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
     </div>
   </div>
 
-  <!-- ========================================================================
-       SCREEN 4: CASINO (6 Playable + 30 Expanded Catalog)
-       ======================================================================== -->
+  <!-- 4. CASINO SCREEN (6 Playable + 30 Expanded Catalog) -->
   <div class="screen" id="s-casino">
     <div class="sec-hd" style="padding-top:10px;"><span data-i18n="popular_games">Popular Live Games (6 Active)</span></div>
     <div class="g3">
@@ -419,14 +411,11 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
     <div class="g3" id="catalog30Grid"></div>
   </div>
 
-  <!-- ========================================================================
-       SCREEN 5: STRICT DEPOSIT BY AGENT (Form First Flow)
-       ======================================================================== -->
+  <!-- 5. STRICT DEPOSIT BY AGENT -->
   <div class="screen" id="s-dep">
     <div class="dep-wrap">
       <div class="sec-hd" style="padding:0 0 6px;"><span>Deposit by Agent</span></div>
 
-      <!-- 1. Select Agent -->
       <div style="font-size:11px;font-weight:bold;color:var(--text-gray);">1. Select Online Agent:</div>
       <div class="agent-select-card selected" id="agCard-1" onclick="selectDepositAgent('agent1')">
         <div class="agent-meta">
@@ -436,7 +425,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
             <div style="font-size:10px;color:var(--gr);">Telebirr & CBE Verified</div>
           </div>
         </div>
-        <span style="color:var(--g);font-size:10px;font-weight:900;">🟢 Online</span>
+        <span style="color:var(--g);font-size:10px;font-weight:900;">Online</span>
       </div>
 
       <div class="agent-select-card" id="agCard-2" onclick="selectDepositAgent('agent2')">
@@ -447,30 +436,26 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
             <div style="font-size:10px;color:var(--gr);">Telebirr & CBE Verified</div>
           </div>
         </div>
-        <span style="color:var(--g);font-size:10px;font-weight:900;">🟢 Online</span>
+        <span style="color:var(--g);font-size:10px;font-weight:900;">Online</span>
       </div>
 
-      <!-- 2. Deposit Amount -->
       <div style="font-size:11px;font-weight:bold;color:var(--text-gray);margin-top:6px;">2. Enter Deposit Amount (Min: 50 ETB):</div>
-      <input type="number" id="depositFormAmt" class="dep-input-box" value="200" min="50" oninput="validateDepositForm()">
+      <input type="number" id="depositFormAmt" class="dep-input-box" value="200" min="50">
 
-      <!-- 3. Player ID -->
       <div style="font-size:11px;font-weight:bold;color:var(--text-gray);">3. Your Player ID:</div>
       <input type="text" id="depositPlayerId" class="dep-input-box" readonly value="589218392">
 
       <div style="background:rgba(0, 230, 118, 0.05);border:1px dashed var(--g);border-radius:10px;padding:10px;font-size:11px;color:#cde;line-height:1.5;">
-        ℹ️ <b>How it works:</b> Clicking below sends your Player ID & amount to the Agent's Telegram. The Agent will reply with their payment account, you pay & send the screenshot, and the Agent credits your account!
+        How it works: Clicking below sends your Player ID & amount to the Agent. The Agent replies with payment details, you send the screenshot, and your account gets credited!
       </div>
 
       <button class="btn-send-tg-agent" id="btnDepositSubmit" onclick="submitStrictDepositFlow()">
-        <span>📲</span> Send Request to Agent (ቴሌግራም)
+        <span>Send Request to Agent (Telegram)</span>
       </button>
     </div>
   </div>
 
-  <!-- ========================================================================
-       SCREEN 6: PROFILE & WITHDRAWAL (Live Synced with Google Sheets)
-       ======================================================================== -->
+  <!-- 6. PROFILE & WITHDRAWAL -->
   <div class="screen" id="s-prof">
     <div style="padding:12px 14px;">
       <div class="match-live-card" style="margin:0 0 10px;padding:14px;">
@@ -480,7 +465,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
             <div style="font-size:11px;color:var(--text-gray);">ID: <b id="profIdDisplay" style="color:var(--gold);">589218392</b></div>
             <div style="font-size:10px;color:var(--gr);margin-top:2px;">User: <span id="profUsernameDisplay">@player_ethio</span></div>
           </div>
-          <span style="background:rgba(0,230,118,0.15);border:1px solid var(--g);color:var(--g);font-size:10px;font-weight:900;padding:3px 8px;border-radius:10px;">✔ Verified</span>
+          <span style="background:rgba(0,230,118,0.15);border:1px solid var(--g);color:var(--g);font-size:10px;font-weight:900;padding:3px 8px;border-radius:10px;">Verified</span>
         </div>
 
         <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd2);display:flex;justify-content:space-between;align-items:center;">
@@ -498,7 +483,7 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
         <div class="pmi" onclick="shareRef()"><div class="pmi-ico"><i class="fa-solid fa-user-plus"></i></div><span class="pmi-txt" data-i18n="btn_invite">Invite & Earn 50 ETB</span><i class="fa-solid fa-chevron-right" style="color:var(--gr)"></i></div>
         <div class="pmi" onclick="openBetHistoryModal()"><div class="pmi-ico"><i class="fa-solid fa-clock-rotate-left"></i></div><span class="pmi-txt" data-i18n="bet_history">Bet History</span><i class="fa-solid fa-chevron-right" style="color:var(--gr)"></i></div>
         <div class="pmi" onclick="openTxnHistoryModal()"><div class="pmi-ico"><i class="fa-solid fa-receipt"></i></div><span class="pmi-txt" data-i18n="txn_history">Transaction History</span><i class="fa-solid fa-chevron-right" style="color:var(--gr)"></i></div>
-        <div class="pmi" onclick="openSupportModal()"><div class="pmi-ico"><i class="fa-solid fa-headset"></i></div><span class="pmi-txt" data-i18n="support">Help &amp; Support</span><i class="fa-solid fa-chevron-right" style="color:var(--gr)"></i></div>
+        <div class="pmi" onclick="openSupportModal()"><div class="pmi-ico"><i class="fa-solid fa-headset"></i></div><span class="pmi-txt" data-i18n="support">Help & Support</span><i class="fa-solid fa-chevron-right" style="color:var(--gr)"></i></div>
         <div class="pmi" onclick="openAboutModal()"><div class="pmi-ico"><i class="fa-solid fa-circle-info"></i></div><span class="pmi-txt" data-i18n="about">About Hulu Bet</span><i class="fa-solid fa-chevron-right" style="color:var(--gr)"></i></div>
       </div>
     </div>
@@ -524,26 +509,24 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
   <iframe class="g-frame" id="g-frame" src="" allow="fullscreen"></iframe>
 </div>
 
-<!-- ========================================================================
-     MODALS
-     ======================================================================== -->
+<!-- Modals -->
 <div class="m-overlay" id="modalBetHistory" onclick="closeModal('modalBetHistory')">
   <div class="m-card" onclick="event.stopPropagation()">
-    <div class="m-hdr"><span>📜 Casino Bet History</span><button class="m-close" onclick="closeModal('modalBetHistory')">✕</button></div>
+    <div class="m-hdr"><span>Casino Bet History</span><button class="m-close" onclick="closeModal('modalBetHistory')">✕</button></div>
     <div id="betHistoryItemsList"><div style="text-align:center;color:var(--gr);font-size:12px;padding:20px;">Fetching records from server...</div></div>
   </div>
 </div>
 
 <div class="m-overlay" id="modalTxnHistory" onclick="closeModal('modalTxnHistory')">
   <div class="m-card" onclick="event.stopPropagation()">
-    <div class="m-hdr"><span>💳 Transaction History</span><button class="m-close" onclick="closeModal('modalTxnHistory')">✕</button></div>
+    <div class="m-hdr"><span>Transaction History</span><button class="m-close" onclick="closeModal('modalTxnHistory')">✕</button></div>
     <div id="txnHistoryItemsList"><div style="text-align:center;color:var(--gr);font-size:12px;padding:20px;">Fetching transactions...</div></div>
   </div>
 </div>
 
 <div class="m-overlay" id="modalBonus" onclick="closeModal('modalBonus')">
   <div class="m-card" onclick="event.stopPropagation()">
-    <div class="m-hdr"><span>🎁 Bonuses & Promo Codes</span><button class="m-close" onclick="closeModal('modalBonus')">✕</button></div>
+    <div class="m-hdr"><span>Bonuses & Promo Codes</span><button class="m-close" onclick="closeModal('modalBonus')">✕</button></div>
     <div class="m-item-row" style="background:#0a1a12;border-color:var(--g)">
       <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:900;"><span>Welcome Free Bet</span><span style="color:var(--g)">20.00 ETB</span></div>
       <div style="font-size:10px;color:var(--gr);">Status: Active (Complete 50 ETB 1st deposit to withdraw)</div>
@@ -556,13 +539,13 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
 
 <div class="m-overlay" id="modalSupport" onclick="closeModal('modalSupport')">
   <div class="m-card" onclick="event.stopPropagation()">
-    <div class="m-hdr"><span>🎧 24/7 Agent Support</span><button class="m-close" onclick="closeModal('modalSupport')">✕</button></div>
+    <div class="m-hdr"><span>24/7 Agent Support</span><button class="m-close" onclick="closeModal('modalSupport')">✕</button></div>
     <div class="m-item-row" onclick="window.open('https://t.me/agent_abebe_keno','_blank')" style="cursor:pointer">
-      <div style="display:flex;justify-content:space-between;font-weight:900;font-size:13px;"><span>Agent 1 (Abebe)</span><span style="color:var(--g)">🟢 Online</span></div>
-      <div style="font-size:10px;color:var(--gr);">Instant Deposits &amp; Cashouts via Telebirr/CBE</div>
+      <div style="display:flex;justify-content:space-between;font-weight:900;font-size:13px;"><span>Agent 1 (Abebe)</span><span style="color:var(--g)">Online</span></div>
+      <div style="font-size:10px;color:var(--gr);">Instant Deposits & Cashouts via Telebirr/CBE</div>
     </div>
     <div class="m-item-row" onclick="window.open('https://t.me/agent_mekdes_keno','_blank')" style="cursor:pointer">
-      <div style="display:flex;justify-content:space-between;font-weight:900;font-size:13px;"><span>Agent 2 (Mekdes)</span><span style="color:var(--g)">🟢 Online</span></div>
+      <div style="display:flex;justify-content:space-between;font-weight:900;font-size:13px;"><span>Agent 2 (Mekdes)</span><span style="color:var(--g)">Online</span></div>
       <div style="font-size:10px;color:var(--gr);">24/7 Fast Payout Verification</div>
     </div>
   </div>
@@ -570,11 +553,11 @@ html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow-
 
 <div class="m-overlay" id="modalAbout" onclick="closeModal('modalAbout')">
   <div class="m-card" onclick="event.stopPropagation()">
-    <div class="m-hdr"><span>ℹ️ About Hulu Bet</span><button class="m-close" onclick="closeModal('modalAbout')">✕</button></div>
+    <div class="m-hdr"><span>About Hulu Bet</span><button class="m-close" onclick="closeModal('modalAbout')">✕</button></div>
     <div style="font-size:11px;color:#cde;line-height:1.6;">
       <p><b>Hulu Bet Ethiopia</b> is the premier licensed online gaming platform offering Spribe Aviator, Fast Keno, SmartSoft JetX, Chicken Road 2, and 777 Slots.</p>
-      <p style="margin-top:8px;">🛡️ <b>Provably Fair:</b> Verified SHA-256 cryptographic algorithms ensure uncompromised transparency on every game turn.</p>
-      <p style="margin-top:8px;color:var(--gr)">Version 3.2.0 • 2026 Production Build</p>
+      <p style="margin-top:8px;">Provably Fair: Verified SHA-256 cryptographic algorithms ensure uncompromised transparency on every game turn.</p>
+      <p style="margin-top:8px;color:var(--gr)">Version 3.3.0 • 2026 Production Build</p>
     </div>
   </div>
 </div>
@@ -626,9 +609,9 @@ document.getElementById('catalog30Grid').innerHTML = CATALOG_30_GAMES.map(g => `
 // BILINGUAL ENGINE
 const I18N = {
   en: {
-    tag_bonus: "🎁 Welcome Bonus", tag_freebet: "FREE BET", sub_bonus: "Register & play instantly!", btn_claim: "Claim Now",
-    tag_ref: "👥 Referral", tag_earn: "EARN", sub_ref: "Invite friends & earn!", btn_invite: "Invite Friends",
-    tag_jackpot: "👑 Jackpot", sub_jackpot: "Play 777 Slot & win big!", btn_play: "Play Now",
+    tag_bonus: "Welcome Bonus", tag_freebet: "FREE BET", sub_bonus: "Register & play instantly!", btn_claim: "Claim Now",
+    tag_ref: "Referral", tag_earn: "EARN", sub_ref: "Invite friends & earn!", btn_invite: "Invite Friends",
+    tag_jackpot: "Jackpot", sub_jackpot: "Play 777 Slot & win big!", btn_play: "Play Now",
     recent_wins: "RECENT BIG WINS", nav_sports: "Sports", nav_live: "Live", nav_casino: "Casino",
     nav_live_casino: "Live Casino", nav_virtuals: "Virtuals", top_leagues: "Top Leagues", see_all: "See All",
     popular_games: "Popular Live Games (6 Active)", upcoming_games: "30 Upcoming Casino Hits",
@@ -638,9 +621,9 @@ const I18N = {
     dock_casino: "Casino", dock_slip: "Bet Slip", dock_profile: "Profile"
   },
   am: {
-    tag_bonus: "🎁 የመመዝገቢያ ቦነስ", tag_freebet: "ነፃ ውርርድ", sub_bonus: "ይመዝገቡ እና ወዲያውኑ ይጫወቱ!", btn_claim: "አሁን ውሰድ",
-    tag_ref: "👥 የጓደኛ ግብዣ", tag_earn: "ያግኙ", sub_ref: "ጓደኞችን ይጋብዙ እና ያግኙ!", btn_invite: "ጓደኛ ጋብዝ",
-    tag_jackpot: "👑 ጃክፖት", sub_jackpot: "777 ስሎትን ይጫወቱ እና ትልቅ ያሸንፉ!", btn_play: "አሁን ይጫወቱ",
+    tag_bonus: "የመመዝገቢያ ቦነስ", tag_freebet: "ነፃ ውርርድ", sub_bonus: "ይመዝገቡ እና ወዲያውኑ ይጫወቱ!", btn_claim: "አሁን ውሰድ",
+    tag_ref: "የጓደኛ ግብዣ", tag_earn: "ያግኙ", sub_ref: "ጓደኞችን ይጋብዙ እና ያግኙ!", btn_invite: "ጓደኛ ጋብዝ",
+    tag_jackpot: "ጃክፖት", sub_jackpot: "777 ስሎትን ይጫወቱ እና ትልቅ ያሸንፉ!", btn_play: "አሁን ይጫወቱ",
     recent_wins: "የቅርብ ጊዜ ትላልቅ አሸናፊዎች", nav_sports: "ስፖርት", nav_live: "ቀጥታ", nav_casino: "ካሲኖ",
     nav_live_casino: "ላይቭ ካሲኖ", nav_virtuals: "ቨርቹዋል", top_leagues: "ዋና ዋና ሊጎች", see_all: "ሁሉንም እይ",
     popular_games: "ተወዳጅ የቀጥታ ጨዋታዎች (6 ንቁ)", upcoming_games: "30 የሚመጡ የካሲኖ ጨዋታዎች",
@@ -655,7 +638,7 @@ let currentLang = localStorage.getItem("app_lang") || "en";
 function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("app_lang", lang);
-  document.getElementById("langFlag").innerText = lang === "am" ? "🇬🇧" : "🇪🇹";
+  document.getElementById("langFlag").innerText = lang === "am" ? "EN" : "AM";
   document.getElementById("langLabel").innerText = lang === "am" ? "EN" : "AM";
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
@@ -664,7 +647,7 @@ function setLanguage(lang) {
 }
 function toggleLanguage() {
   setLanguage(currentLang === "en" ? "am" : "en");
-  toast(`Language switched to ${currentLang === "am" ? "አማርኛ" : "English"}`);
+  toast(`Language: ${currentLang === "am" ? "አማርኛ" : "English"}`);
 }
 setLanguage(currentLang);
 
@@ -762,17 +745,6 @@ function selectDepositAgent(k) {
   document.getElementById(k === 'agent1' ? 'agCard-1' : 'agCard-2').classList.add('selected');
 }
 
-function validateDepositForm() {
-  const amt = Number(document.getElementById('depositFormAmt').value);
-  const btn = document.getElementById('btnDepositSubmit');
-  if (amt >= 50) {
-    btn.style.opacity = '1';
-    btn.style.pointerEvents = 'auto';
-  } else {
-    btn.style.opacity = '0.5';
-  }
-}
-
 function submitStrictDepositFlow() {
   const amt = Number(document.getElementById('depositFormAmt').value);
   if (!amt || amt < 50) return toast('Minimum deposit is 50 ETB!');
@@ -793,7 +765,7 @@ function submitStrictDepositFlow() {
     })
   });
 
-  // 2. Pre-filled Telegram text requesting account details
+  // 2. Pre-filled Telegram text
   const msg = encodeURIComponent(
     `📥 HULU BET DEPOSIT REQUEST\n` +
     `━━━━━━━━━━━━━━\n` +
@@ -856,7 +828,7 @@ function addSlip(match, mkt, odd) {
   if (ei > -1) slip.splice(ei, 1);
   slip.push({ match, mkt, odd });
   renderSlip();
-  toast(`Added to slip: ${mkt} @ ${odd}`);
+  toast(`Added: ${mkt} @ ${odd}`);
 }
 function renderSlip() {
   const cnt = slip.length;
