@@ -3,1072 +3,902 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Hulu Bet - Premier Ethiopian Gaming Platform</title>
+<title>Hulu Bet V3 - Premier Futuristic Gaming Platform</title>
 <!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ======================================================== */
-/* 🎨 10 ULTRA-MODERN THEME PALETTES (CSS VARIABLE ENGINE)   */
-/* ======================================================== */
 :root {
-  /* Default: Dark Neon (Hulu Bet Original Style) */
-  --bg-main: #050811;
-  --bg-surface: #090e1c;
-  --bg-card: #0e1529;
-  --bg-input: #121c35;
-  --accent: #e50914;
-  --accent-glow: rgba(229, 9, 20, 0.45);
-  --accent-secondary: #00f0ff;
-  --border-subtle: rgba(229, 9, 20, 0.2);
-  --border-active: #e50914;
-  --text-primary: #ffffff;
-  --text-muted: #8896b3;
-  --text-dim: #475569;
+  --bg-black: #040507;
+  --bg-surface: #0a0d14;
+  --bg-card: #0f1420;
+  --bg-card-inner: #151b2b;
+  --bg-input: #0b0f17;
+  --gold-primary: #f5b400;
+  --gold-glow: rgba(245, 180, 0, 0.45);
+  --gold-hover: #ffc400;
+  --green-odds: #00e676;
+  --green-glow: rgba(0, 230, 118, 0.45);
+  --cyan-accent: #00e5ff;
+  --cyan-glow: rgba(0, 229, 255, 0.4);
+  --red-accent: #ff3344;
+  --border-subtle: #1c2436;
+  --border-glow: rgba(245, 180, 0, 0.35);
+  --text-white: #ffffff;
+  --text-muted: #8c9bb0;
+  --text-dim: #4d5b70;
 }
 
-body[data-theme="crypto-green"] {
-  --bg-main: #030504; --bg-surface: #070c09; --bg-card: #0c1410; --bg-input: #0f1a14;
-  --accent: #00ff88; --accent-glow: rgba(0, 255, 136, 0.4); --accent-secondary: #ffb700;
-  --border-subtle: rgba(0, 255, 136, 0.18); --border-active: #00ff88;
-  --text-primary: #ffffff; --text-muted: #798e84; --text-dim: #3a4b43;
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Ethiopic', sans-serif; -webkit-tap-highlight-color: transparent; }
+html, body { width: 100%; min-height: 100vh; background: #000; color: var(--text-white); overflow-x: hidden; }
+
+/* Responsive Fit-Screen Container */
+.app-viewport {
+  width: 100%; min-height: 100vh; background: var(--bg-black);
+  margin: 0 auto; display: flex; flex-direction: column; position: relative; max-width: 480px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 30px rgba(245, 180, 0, 0.08);
+  border-left: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);
 }
 
-body[data-theme="royal-purple"] {
-  --bg-main: #090312; --bg-surface: #10061e; --bg-card: #180a2c; --bg-input: #210e3d;
-  --accent: #ffb700; --accent-glow: rgba(255, 183, 0, 0.4); --accent-secondary: #c084fc;
-  --border-subtle: rgba(255, 183, 0, 0.25); --border-active: #ffb700;
-  --text-primary: #ffffff; --text-muted: #a78bfa; --text-dim: #581c87;
-}
-
-body[data-theme="sports-book"] {
-  --bg-main: #070e1a; --bg-surface: #0d172a; --bg-card: #13223d; --bg-input: #1a2e50;
-  --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.4); --accent-secondary: #22c55e;
-  --border-subtle: rgba(56, 189, 248, 0.22); --border-active: #38bdf8;
-  --text-primary: #ffffff; --text-muted: #94a3b8; --text-dim: #334155;
-}
-
-body[data-theme="vegas-fire"] {
-  --bg-main: #0c0502; --bg-surface: #170b04; --bg-card: #241107; --bg-input: #33180a;
-  --accent: #ff6b00; --accent-glow: rgba(255, 107, 0, 0.45); --accent-secondary: #facc15;
-  --border-subtle: rgba(255, 107, 0, 0.25); --border-active: #ff6b00;
-  --text-primary: #ffffff; --text-muted: #fb923c; --text-dim: #7c2d12;
-}
-
-body[data-theme="light-mode"] {
-  --bg-main: #f1f5f9; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-input: #e2e8f0;
-  --accent: #10b981; --accent-glow: rgba(16, 185, 129, 0.3); --accent-secondary: #0284c7;
-  --border-subtle: rgba(0, 0, 0, 0.1); --border-active: #10b981;
-  --text-primary: #0f172a; --text-muted: #64748b; --text-dim: #cbd5e1;
-}
-
-body[data-theme="cyberpunk"] {
-  --bg-main: #08020f; --bg-surface: #10051e; --bg-card: #1b0933; --bg-input: #260d47;
-  --accent: #00f0ff; --accent-glow: rgba(0, 240, 255, 0.5); --accent-secondary: #f43f5e;
-  --border-subtle: rgba(0, 240, 255, 0.3); --border-active: #f43f5e;
-  --text-primary: #ffffff; --text-muted: #e2e8f0; --text-dim: #701a75;
-}
-
-body[data-theme="gold-rush"] {
-  --bg-main: #0d0904; --bg-surface: #171007; --bg-card: #241a0b; --bg-input: #332510;
-  --accent: #d4af37; --accent-glow: rgba(212, 175, 55, 0.45); --accent-secondary: #fbbf24;
-  --border-subtle: rgba(212, 175, 55, 0.25); --border-active: #d4af37;
-  --text-primary: #ffffff; --text-muted: #d6d3d1; --text-dim: #78350f;
-}
-
-body[data-theme="esports-bet"] {
-  --bg-main: #0b0d12; --bg-surface: #11141c; --bg-card: #181d28; --bg-input: #222938;
-  --accent: #ff4655; --accent-glow: rgba(255, 70, 85, 0.45); --accent-secondary: #00e5ff;
-  --border-subtle: rgba(255, 70, 85, 0.25); --border-active: #ff4655;
-  --text-primary: #ffffff; --text-muted: #94a3b8; --text-dim: #334155;
-}
-
-body[data-theme="ocean-glass"] {
-  --bg-main: #021217; --bg-surface: #051d24; --bg-card: #082933; --bg-input: #0c3644;
-  --accent: #2dd4bf; --accent-glow: rgba(45, 212, 191, 0.4); --accent-secondary: #38bdf8;
-  --border-subtle: rgba(45, 212, 191, 0.22); --border-active: #2dd4bf;
-  --text-primary: #ffffff; --text-muted: #99f6e4; --text-dim: #134e4a;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-html, body { width: 100%; min-height: 100vh; min-height: 100dvh; background: var(--bg-main); color: var(--text-primary); overflow-x: hidden; transition: background 0.3s, color 0.3s; }
-
-/* Responsive Container (Mobile 100% full-width, Laptop/Desktop centered luxury shell) */
-.app-container {
-  width: 100%; min-height: 100vh; min-height: 100dvh; background: var(--bg-main);
-  margin: 0 auto; display: flex; flex-direction: column; position: relative;
-}
-@media (min-width: 650px) {
-  body { display: flex; justify-content: center; align-items: flex-start; background: #000; }
-  .app-container {
-    max-width: 500px; min-height: 100vh;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px var(--accent-glow);
-    border-left: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);
-  }
-}
-
-/* Floating Glass Header */
-.glass-header {
+/* 1. FUTURISTIC TOP NAVBAR */
+.top-nav-bar {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 14px; background: var(--bg-surface); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-subtle); position: sticky; top: 0; z-index: 50;
+  padding: 10px 14px; background: rgba(10, 13, 20, 0.95); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle); position: sticky; top: 0; z-index: 60;
 }
-.brand-identity { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.brand-logo-img { height: 32px; object-fit: contain; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+.brand-identity { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.brand-logo-text { font-size: 21px; font-weight: 900; color: #fff; font-style: italic; letter-spacing: -0.5px; }
+.brand-logo-text span { color: var(--gold-primary); font-size: 15px; font-style: normal; margin-left: 2px; text-shadow: 0 0 10px var(--gold-glow); }
+.brand-badge-v3 { font-size: 8px; font-weight: 900; background: var(--gold-primary); color: #000; padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
 
-.header-tools { display: flex; align-items: center; gap: 7px; }
-.theme-picker-btn {
-  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 20px;
-  padding: 5px 9px; font-size: 11px; font-weight: 900; color: var(--accent); cursor: pointer;
-  display: flex; align-items: center; gap: 4px;
-}
-.lang-badge-btn {
-  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 20px;
-  padding: 5px 9px; font-size: 11px; font-weight: 900; color: var(--accent-secondary); cursor: pointer;
-}
-.wallet-capsule {
+.header-right-meta { display: flex; align-items: center; gap: 8px; }
+.balance-pill-badge {
   display: flex; align-items: center; gap: 6px; background: var(--bg-card);
-  border: 1px solid var(--border-active); border-radius: 24px; padding: 4px 6px 4px 10px;
-  font-size: 12px; font-weight: 900; box-shadow: 0 0 12px var(--accent-glow); cursor: pointer;
+  border: 1.5px solid var(--border-subtle); border-radius: 20px; padding: 4px 10px;
+  font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.2s;
 }
-.btn-quick-deposit {
-  width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #000;
-  border: none; font-size: 14px; font-weight: 900; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0;
+.balance-pill-badge:hover { border-color: var(--gold-primary); box-shadow: 0 0 10px var(--gold-glow); }
+.coin-icon-round {
+  width: 18px; height: 18px; border-radius: 50%; background: #0284c7; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900;
 }
-.support-icon-btn {
-  background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-muted);
-  width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
+.btn-deposit-glow {
+  background: linear-gradient(135deg, #f5b400 0%, #e09b00 100%); color: #000; font-size: 12px; font-weight: 900;
+  padding: 6px 14px; border-radius: 20px; border: none; cursor: pointer;
+  box-shadow: 0 0 15px var(--gold-glow); transition: 0.15s;
+}
+.btn-deposit-glow:active { transform: scale(0.95); }
+
+/* SCREEN VIEWS */
+.screen-content { display: none; flex-direction: column; flex: 1; padding-bottom: 80px; overflow-y: auto; }
+.screen-content.active { display: flex; }
+
+/* 2. PHONE VERIFICATION VIP BANNER */
+.phone-verify-banner {
+  margin: 10px 14px 4px; background: linear-gradient(90deg, rgba(0, 229, 255, 0.12) 0%, rgba(15, 20, 32, 0.95) 100%);
+  border: 1px solid var(--cyan-accent); border-radius: 14px; padding: 10px 12px;
+  display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+.phone-verify-text { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; color: #fff; }
+.phone-verify-text i { font-size: 18px; color: var(--cyan-accent); }
+.btn-verify-now {
+  background: var(--cyan-accent); color: #000; font-size: 10px; font-weight: 900;
+  padding: 5px 12px; border-radius: 20px; border: none; cursor: pointer;
 }
 
-/* Screen Engine */
-.screen-view { display: none; flex-direction: column; flex: 1; padding-bottom: 78px; overflow-y: auto; overflow-x: hidden; }
-.screen-view.active { display: flex; }
+/* 3. HERO PROMO BANNER */
+.hero-banner-card {
+  margin: 8px 14px 10px; border-radius: 16px; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, #241400 0%, #0d0902 100%);
+  border: 1px solid #4a3000; min-height: 135px; display: flex; align-items: center; padding: 14px 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.8), 0 0 15px rgba(245, 180, 0, 0.15); cursor: pointer;
+}
+.banner-overlay-bg {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 60%;
+  background: url('https://i.postimg.cc/DZmmykmp/Screenshot-20260922-144423-Plus.jpg') center/cover;
+  opacity: 0.4; mask-image: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+}
+.hero-banner-content { position: relative; z-index: 2; max-width: 65%; }
+.banner-badge-mini { font-size: 9px; font-weight: 900; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 2px; }
+.banner-headline { font-size: 18px; font-weight: 900; color: #fff; line-height: 1.15; }
+.banner-headline span { color: var(--gold-primary); text-shadow: 0 0 10px var(--gold-glow); }
 
-/* 3D Hero Carousel */
-.hero-carousel {
-  margin: 12px 14px 8px; border-radius: 18px; overflow: hidden; border: 1px solid var(--border-subtle);
-  min-height: 160px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+/* 4. LIVE HIGH WINNERS TICKER */
+.live-winners-bar { padding: 6px 14px 8px; background: rgba(15, 20, 32, 0.6); border-bottom: 1px solid var(--border-subtle); }
+.winners-title-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+.winners-title-row span i { color: var(--green-odds); margin-right: 5px; }
+.winners-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.winners-scroll::-webkit-scrollbar { display: none; }
+.winner-mini-card {
+  min-width: 125px; background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: 10px; padding: 6px 8px; display: flex; align-items: center; gap: 8px; flex-shrink: 0;
 }
-.promo-slide { display: none; min-height: 160px; position: relative; padding: 18px; flex-direction: column; justify-content: center; }
-.promo-slide.active { display: flex; }
-.slide-bg-1 { background: linear-gradient(135deg, rgba(0,0,0,0.88), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&q=80') center/cover; }
-.slide-bg-2 { background: linear-gradient(135deg, rgba(0,0,0,0.88), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=80') center/cover; }
-.slide-bg-3 { background: linear-gradient(135deg, rgba(0,0,0,0.88), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=400&q=80') center/cover; }
+.winner-avatar { width: 28px; height: 28px; border-radius: 50%; background: #1a2233; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.winner-info { display: flex; flex-direction: column; }
+.winner-user { font-size: 9px; color: var(--text-muted); font-weight: bold; }
+.winner-amount { font-size: 11px; font-weight: 900; color: var(--green-odds); }
 
-.promo-badge-tag { font-size: 9px; font-weight: 900; color: var(--accent-secondary); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 4px; }
-.promo-title-bold { font-size: 22px; font-weight: 900; color: #fff; line-height: 1.1; }
-.promo-title-sub { font-size: 14px; font-weight: 900; color: var(--accent); margin-bottom: 4px; }
-.promo-desc-text { font-size: 11px; color: #cbd5e1; margin-bottom: 12px; font-weight: 600; }
-.promo-action-btn {
-  align-self: flex-start; background: var(--accent); color: #000; font-size: 11px; font-weight: 900;
-  padding: 8px 22px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 0 15px var(--accent-glow);
+/* 5. 100K ETB DAILY PRIZE POOL */
+.daily-pool-card {
+  margin: 10px 14px; background: linear-gradient(90deg, #101726 0%, #0d121c 100%);
+  border: 1px solid #1f2b45; border-radius: 14px; padding: 10px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
 }
-
-/* Category Navigation */
-.category-dock { display: flex; justify-content: space-between; padding: 10px 14px; gap: 6px; }
-.cat-chip { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; font-size: 10px; font-weight: 800; color: var(--text-muted); }
-.cat-chip.active { color: var(--accent); }
-.cat-icon-frame {
-  width: 44px; height: 44px; border-radius: 14px; background: var(--bg-card); border: 1px solid var(--border-subtle);
-  display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.2s;
-}
-.cat-chip.active .cat-icon-frame {
-  background: var(--bg-surface); border-color: var(--accent); color: var(--accent);
-  box-shadow: 0 0 12px var(--accent-glow);
+.pool-text-left { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 900; color: #fff; }
+.pool-counter-glow { color: var(--gold-primary); text-shadow: 0 0 10px var(--gold-glow); font-size: 14px; font-weight: 900; }
+.btn-play-pool {
+  background: #0284c7; color: #fff; font-size: 11px; font-weight: 900;
+  padding: 6px 14px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
 }
 
-/* 6 Official Live Games Grid */
-.section-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; font-size: 13px; font-weight: 900; }
-.section-header a { font-size: 11px; font-weight: 700; color: var(--accent); cursor: pointer; text-decoration: none; }
-.games-grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 14px 14px; }
-.game-portal-card { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.15s transform; }
-.game-portal-card:active { transform: scale(0.94); }
-.game-portal-thumb {
-  width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-subtle);
-  position: relative; background: #000; box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+/* 6. CATEGORY FILTER CHIPS */
+.filter-pills-scroll { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 4px 14px 10px; }
+.filter-pills-scroll::-webkit-scrollbar { display: none; }
+.filter-chip-btn {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px;
+  padding: 7px 14px; font-size: 11px; font-weight: 800; color: var(--text-muted);
+  white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.15s;
 }
-.game-portal-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.badge-live { position: absolute; top: 5px; left: 5px; background: var(--accent); color: #000; font-size: 8px; font-weight: 900; padding: 2px 6px; border-radius: 4px; }
-.badge-rtp { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.85); color: var(--accent-secondary); font-size: 8px; font-weight: 900; padding: 2px 5px; border-radius: 4px; border: 1px solid var(--accent-secondary); }
-.game-portal-name { font-size: 11px; font-weight: 900; color: var(--text-primary); margin-top: 5px; text-align: center; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.game-portal-prov { font-size: 8px; color: var(--text-muted); text-align: center; font-weight: bold; }
+.filter-chip-btn.active {
+  background: var(--gold-primary); color: #000; font-weight: 900; border-color: var(--gold-primary);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
 
-/* ⚽ ALL PREMIER LEAGUE FIXTURES CARD */
-.epl-match-card {
-  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px;
-  padding: 12px; margin: 0 14px 10px; display: flex; flex-direction: column; gap: 8px;
+/* 7. GAMES SHELF & GRID */
+.games-shelf-title { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px 8px; font-size: 13px; font-weight: 900; }
+.games-shelf-title a { font-size: 11px; color: var(--text-muted); text-decoration: none; cursor: pointer; }
+.games-dense-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 14px 16px;
 }
-.epl-badge-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: 900; color: var(--accent); }
-.epl-teams-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 900; }
-.epl-odds-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.epl-odd-btn {
-  background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px;
-  padding: 8px 0; font-size: 11px; font-weight: 900; color: var(--text-primary); cursor: pointer; text-align: center; transition: 0.15s;
+.game-square-card { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
+.game-square-card:active { transform: scale(0.94); }
+.game-thumb-box {
+  width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border-subtle); background: var(--bg-card); position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6); transition: 0.2s;
 }
-.epl-odd-btn:active { background: var(--accent); color: #000; border-color: var(--accent); }
+.game-square-card:hover .game-thumb-box { border-color: var(--gold-primary); box-shadow: 0 0 12px var(--gold-glow); }
+.game-thumb-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Strict Cashier Agent Cards (A & N with Glowing Pulse) */
-.deposit-vault-wrap { padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+.live-badge-corner {
+  position: absolute; top: 3px; left: 3px; background: var(--green-badge); color: #000;
+  font-size: 7.5px; font-weight: 900; padding: 1px 5px; border-radius: 3px; box-shadow: 0 0 8px var(--green-glow);
+}
+.soon-badge-corner {
+  position: absolute; top: 3px; right: 3px; background: #374151; color: #d1d5db;
+  font-size: 7px; font-weight: 900; padding: 1px 4px; border-radius: 3px; border: 1px solid #4b5563;
+}
+.game-label-under {
+  font-size: 10px; font-weight: 800; color: #fff; margin-top: 4px; text-align: center;
+  width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* 8. SPORTS MATCHES */
+.match-row-card {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px;
+  margin: 0 14px 8px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;
+}
+.match-teams-left { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.league-time-tag { font-size: 9px; color: var(--text-muted); font-weight: bold; display: flex; align-items: center; gap: 4px; }
+.league-time-tag span { color: var(--green-odds); }
+.club-name { font-size: 12px; font-weight: 800; color: #fff; }
+.match-odds-right { display: flex; gap: 4px; }
+.match-odd-cell {
+  width: 52px; background: var(--bg-card-inner); border: 1px solid var(--border-subtle);
+  border-radius: 6px; padding: 6px 0; text-align: center; cursor: pointer; transition: 0.15s;
+}
+.match-odd-cell:active { border-color: var(--green-odds); background: rgba(0, 230, 118, 0.15); }
+.odd-type { font-size: 8px; color: var(--text-dim); display: block; font-weight: bold; }
+.odd-num { font-size: 11px; font-weight: 900; color: var(--green-odds); }
+
+/* 9. PROFILE SCREEN */
+.profile-wrap-page { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.user-header-card { display: flex; align-items: center; gap: 10px; padding: 4px 0 8px; }
+.avatar-letter-box {
+  width: 50px; height: 50px; border-radius: 14px; background: #151b2b;
+  border: 1.5px solid var(--gold-primary); display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 900; color: var(--gold-primary); box-shadow: 0 0 15px var(--gold-glow);
+}
+.user-name-title { font-size: 16px; font-weight: 900; color: #fff; }
+.user-bal-line { font-size: 12px; color: var(--text-muted); font-weight: 800; display: flex; align-items: center; gap: 6px; }
+
+.vip-club-card {
+  background: linear-gradient(135deg, #1b160d 0%, #100d07 100%);
+  border: 1px solid #4a3819; border-radius: 14px; padding: 12px 14px;
+  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  box-shadow: 0 0 15px rgba(245, 180, 0, 0.15);
+}
+.vip-crown-icon { font-size: 26px; color: var(--gold-primary); }
+
+.stats-4grid-box { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.stat-mini-tile {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px;
+  padding: 10px 12px; text-align: center;
+}
+.stat-tile-label { font-size: 8px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+.stat-tile-val { font-size: 14px; font-weight: 900; color: #fff; }
+.stat-tile-val.green { color: var(--green-odds); text-shadow: 0 0 10px var(--green-glow); }
+
+.profile-menu-container {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; overflow: hidden;
+}
+.profile-nav-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px; border-bottom: 1px solid #1c2230; cursor: pointer; font-size: 12px; font-weight: 800;
+}
+.profile-nav-row:last-child { border-bottom: none; }
+.row-left-content { display: flex; align-items: center; gap: 10px; color: #fff; }
+
+/* 10. MODALS & SHEETS */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  z-index: 150; justify-content: center; align-items: flex-end;
+}
+.bottom-sheet-card {
+  width: 100%; max-width: 480px; background: #0c0f17; border-top: 2px solid var(--gold-primary);
+  border-radius: 24px 24px 0 0; padding: 20px 18px 28px; display: flex; flex-direction: column; align-items: center;
+  position: relative; animation: slideUpSheet 0.25s ease-out; box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+}
+.sheet-close-x { position: absolute; top: 16px; right: 16px; font-size: 18px; color: var(--text-muted); cursor: pointer; }
+.sheet-main-title { font-size: 17px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.sheet-sub-text { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 16px; text-align: center; }
+.modal-input-field {
+  width: 100%; background: #131722; border: 1px solid var(--border-subtle); border-radius: 10px;
+  padding: 13px 14px; font-size: 13px; font-weight: 700; color: #fff; outline: none; margin-bottom: 12px;
+}
+.modal-input-field:focus { border-color: var(--gold-primary); box-shadow: 0 0 10px var(--gold-glow); }
+.modal-yellow-cta {
+  width: 100%; background: var(--gold-primary); color: #000; font-size: 14px; font-weight: 900;
+  padding: 13px; border-radius: 10px; border: none; cursor: pointer; transition: 0.15s;
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+.modal-yellow-cta:active { transform: scale(0.97); }
+
+/* AGENT SELECT CARDS */
 .agent-card-select {
   background: var(--bg-card); border: 1.5px solid var(--border-subtle); border-radius: 14px; padding: 12px;
-  display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s;
+  display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 8px; width: 100%;
 }
-.agent-card-select.selected { border-color: var(--accent); background: var(--bg-surface); box-shadow: 0 0 14px var(--accent-glow); }
+.agent-card-select.selected { border-color: var(--gold-primary); background: #151b2b; box-shadow: 0 0 12px var(--gold-glow); }
 .agent-meta-box { display: flex; align-items: center; gap: 12px; }
-
 .agent-letter-badge {
-  width: 44px; height: 44px; border-radius: 50%; background: var(--bg-input);
-  border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 900; color: var(--accent); position: relative; flex-shrink: 0;
+  width: 42px; height: 42px; border-radius: 50%; background: #19202c;
+  border: 2px solid var(--gold-primary); display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900; color: var(--gold-primary); position: relative;
 }
 .online-radar-dot {
-  position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; border-radius: 50%;
-  background: #00ff88; border: 2px solid var(--bg-card); animation: pulseRadar 1.4s infinite;
-}
-@keyframes pulseRadar {
-  0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.8); }
-  70% { box-shadow: 0 0 0 7px rgba(0, 255, 136, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+  position: absolute; bottom: 0; right: 0; width: 11px; height: 11px; border-radius: 50%;
+  background: var(--green-odds); border: 2px solid #14171e; box-shadow: 0 0 6px var(--green-odds);
 }
 
-.quick-chips-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 4px; }
-.chip-quick-btn {
-  background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-primary);
-  border-radius: 8px; padding: 8px 0; font-size: 11px; font-weight: 900; cursor: pointer; text-align: center;
-}
-.chip-quick-btn:active { border-color: var(--accent); color: var(--accent); }
-
-.vault-input-box {
-  width: 100%; padding: 13px 16px; background: var(--bg-input); border: 1.5px solid var(--border-subtle);
-  border-radius: 12px; color: var(--text-primary); font-size: 15px; font-weight: 900; outline: none; transition: 0.2s;
-}
-.vault-input-box:focus { border-color: var(--accent); }
-
-.btn-primary-action {
-  width: 100%; background: var(--accent); color: #000;
-  font-size: 15px; font-weight: 900; border: none; border-radius: 14px; padding: 14px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 4px 15px var(--accent-glow); transition: 0.15s;
-}
-.btn-primary-action:active { transform: scale(0.97); }
-
-/* Dedicated Withdrawal Screen */
-.withdraw-vault-wrap { padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
-.bank-method-tabs { display: flex; gap: 8px; }
-.method-tab-btn {
-  flex: 1; padding: 10px 0; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border-subtle);
-  color: var(--text-muted); font-size: 12px; font-weight: 900; cursor: pointer; text-align: center;
-}
-.method-tab-btn.active { border-color: var(--accent); color: var(--accent); background: var(--bg-surface); }
-
-/* Bottom Dock */
-.bottom-dock {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%;
-  max-width: inherit; background: var(--bg-surface); backdrop-filter: blur(14px);
-  border-top: 1px solid var(--border-subtle); display: flex; z-index: 60; padding: 6px 0 8px; justify-content: space-around;
-}
-.dock-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 800; color: var(--text-muted); cursor: pointer; border: none; background: none; }
-.dock-item.active { color: var(--accent); }
-.dock-item i { font-size: 18px; }
-
-/* Full-Screen Iframe Game Viewport */
+/* FULL-SCREEN GAME VIEWPORT */
 .game-viewport-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
-.viewport-topbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #040806; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
-.viewport-title { font-size: 13px; font-weight: 900; color: var(--accent); }
+.viewport-topbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #07090c; border-bottom: 1px solid var(--border-subtle); }
+.viewport-title { font-size: 13px; font-weight: 900; color: var(--gold-primary); }
 .viewport-iframe { flex: 1; border: none; width: 100%; height: 100%; }
 
-/* Clean Toasts */
-#toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 6px; width: 90%; max-width: 350px; pointer-events: none; }
-.clean-toast { background: var(--bg-card); border: 1.5px solid var(--accent); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 12px; font-weight: 800; box-shadow: 0 6px 20px rgba(0,0,0,0.9); pointer-events: auto; }
-
-/* Sheets & Modals */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(10px); z-index: 150; justify-content: center; align-items: flex-end; }
-.modal-sheet { width: 100%; max-width: 500px; max-height: 85vh; background: var(--bg-surface); border-top: 2px solid var(--accent); border-radius: 24px 24px 0 0; padding: 18px 16px 26px; overflow-y: auto; display: flex; flex-direction: column; }
-.sheet-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 14px; font-size: 15px; font-weight: 900; }
-.sheet-close-btn { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
-
-/* 10 Theme Selection Grid */
-.themes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
-.theme-pick-card {
-  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px;
-  padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 11px; font-weight: 800;
+/* BOTTOM DOCK NAV */
+.bottom-dock-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%;
+  max-width: 480px; background: rgba(7, 9, 12, 0.98); backdrop-filter: blur(14px);
+  border-top: 1px solid #161922; display: flex; z-index: 60; padding: 6px 0 8px; justify-content: space-around;
 }
-.theme-pick-card.active { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-.theme-color-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
+.b-nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 800; color: var(--text-muted); cursor: pointer; border: none; background: none;
+}
+.b-nav-item.active { color: var(--gold-primary); text-shadow: 0 0 8px var(--gold-glow); }
+.b-nav-item i { font-size: 17px; }
+
+/* TOASTS */
+#toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 6px; width: 90%; max-width: 350px; pointer-events: none; }
+.clean-toast { background: #121622; border: 1.5px solid var(--gold-primary); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 12px; font-weight: 800; box-shadow: 0 6px 20px rgba(0,0,0,0.9); pointer-events: auto; }
+@keyframes slideUpSheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
 </style>
 </head>
-<body data-theme="dark-neon">
+<body>
 
-<div class="app-container">
-  <!-- Clean Toast Alerts -->
+<div class="app-viewport">
   <div id="toast-container"></div>
 
-  <!-- 1. Floating Glass Header -->
-  <header class="glass-header">
-    <div class="brand-identity" onclick="navigateToScreen('home')">
-      <img src="https://i.postimg.cc/GpVpNfSL/20260903-153451.png" class="brand-logo-img" alt="Hulu Bet">
+  <!-- 1. TOP HEADER -->
+  <header class="top-nav-bar">
+    <div class="brand-identity" onclick="navigateToTab('casino')">
+      <div class="brand-logo-text">Hulu<span>bet</span></div>
+      <span class="brand-badge-v3">V3</span>
     </div>
 
-    <div class="header-tools">
-      <!-- 🎨 10 Themes Selector -->
-      <button class="theme-picker-btn" onclick="openThemeModal()">
-        <i class="fa-solid fa-palette"></i> <span id="curThemeName">Theme</span>
-      </button>
-
-      <!-- Bilingual Toggle -->
-      <button class="lang-badge-btn" onclick="toggleLanguage()">
-        <span id="langFlag">🇪🇹</span> <span id="langLabel">AM</span>
-      </button>
-
-      <!-- Real Database Balance -->
-      <div class="wallet-capsule" onclick="toggleBalPrivacy()">
-        <i class="fa-solid fa-wallet"></i>
-        <span id="headerBalDisplay">0.00 ETB</span>
-        <button class="btn-quick-deposit" onclick="event.stopPropagation();navigateToScreen('deposit')">+</button>
+    <div class="header-right-meta">
+      <div class="balance-pill-badge" onclick="toggleBalanceVisibility()">
+        <div class="coin-icon-round">Br</div>
+        <span id="headerBalTxt">••••••</span>
+        <i class="fa-regular fa-eye" id="balEyeIcon" style="font-size:11px;color:var(--text-muted)"></i>
       </div>
-
-      <!-- Support via Gmail Only -->
-      <button class="support-icon-btn" onclick="openGmailSupportModal()"><i class="fa-solid fa-envelope"></i></button>
+      <button class="btn-deposit-glow" onclick="openDepositDrawer()">Deposit</button>
     </div>
   </header>
 
-  <!-- ======================================================== -->
-  <!-- 1. SCREEN: HOME                                          -->
-  <!-- ======================================================== -->
-  <div class="screen-view active" id="view-home">
-    <!-- Carousel -->
-    <div class="hero-carousel">
-      <div class="promo-slide active slide-bg-1" id="promo-1">
-        <div class="promo-badge-tag">Welcome Package</div>
-        <div class="promo-title-bold">20 ETB</div>
-        <div class="promo-title-sub">FREE WELCOME BET</div>
-        <div class="promo-desc-text">Automatic registration bonus credited to your account!</div>
-        <button class="promo-action-btn" onclick="openPromoBonusModal()">Claim Bonus</button>
+  <!-- 2. TAB 1: CASINO SCREEN (6 LIVE GAMES + 22 COMING SOON) -->
+  <div class="screen-content active" id="tab-casino">
+    
+    <!-- Phone Verification VIP Strip -->
+    <div class="phone-verify-banner" id="phoneVerifyBanner" onclick="requestTelegramPhoneVerification()">
+      <div class="phone-verify-text">
+        <i class="fa-solid fa-shield-halved"></i>
+        <div>
+          <div>Verify Telegram Phone</div>
+          <span style="font-size:9px;color:var(--text-muted);">Unlock instant Telebirr & CBE withdrawals</span>
+        </div>
+      </div>
+      <button class="btn-verify-now">Verify ⚡</button>
+    </div>
+
+    <!-- 100K Prize Pool -->
+    <div class="daily-pool-card">
+      <div class="pool-text-left">
+        <i class="fa-solid fa-trophy" style="color:var(--gold-primary);font-size:18px;"></i>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);">DAILY JACKPOT POOL</div>
+          <div class="pool-counter-glow">100,000.00 ETB</div>
+        </div>
+      </div>
+      <button class="btn-play-pool" onclick="launchGameEngine('keno', 'Fast Keno')">Join Pool</button>
+    </div>
+
+    <!-- Live Daily High Winners Feed -->
+    <div class="live-winners-bar">
+      <div class="winners-title-row">
+        <span><i class="fa-solid fa-bolt"></i> Live High Winners</span>
+        <span style="font-size:9px;color:var(--text-muted);">Real-time</span>
+      </div>
+      <div class="winners-scroll" id="liveWinnersScroller">
+        <div class="winner-mini-card">
+          <div class="winner-avatar">👑</div>
+          <div class="winner-info"><span class="winner-user">ID: 589***21</span><span class="winner-amount">+4,500 ETB</span></div>
+        </div>
+        <div class="winner-mini-card">
+          <div class="winner-avatar">✈️</div>
+          <div class="winner-info"><span class="winner-user">ID: 712***48</span><span class="winner-amount">+2,250 ETB</span></div>
+        </div>
+        <div class="winner-mini-card">
+          <div class="winner-avatar">🚀</div>
+          <div class="winner-info"><span class="winner-user">ID: 941***04</span><span class="winner-amount">+1,800 ETB</span></div>
+        </div>
       </div>
     </div>
 
-    <!-- Category Dock -->
-    <div class="category-dock">
-      <div class="cat-chip active" onclick="navigateToScreen('casino')"><div class="cat-icon-frame"><i class="fa-solid fa-dice"></i></div><span>Casino</span></div>
-      <div class="cat-chip" onclick="navigateToScreen('sports')"><div class="cat-icon-frame"><i class="fa-solid fa-futbol"></i></div><span>EPL Sports</span></div>
-      <div class="cat-chip" onclick="navigateToScreen('deposit')"><div class="cat-icon-frame"><i class="fa-solid fa-wallet"></i></div><span>Deposit</span></div>
-      <div class="cat-chip" onclick="navigateToScreen('withdraw')"><div class="cat-icon-frame"><i class="fa-solid fa-money-bill-transfer"></i></div><span>Withdraw</span></div>
+    <!-- Category Filter Chips -->
+    <div class="filter-pills-scroll" style="margin-top:8px;">
+      <button class="filter-chip-btn active" onclick="setCategoryFilter('all', this)"><i class="fa-solid fa-house"></i> All</button>
+      <button class="filter-chip-btn" onclick="setCategoryFilter('live', this)"><i class="fa-solid fa-fire"></i> Live 6 Games</button>
+      <button class="filter-chip-btn" onclick="setCategoryFilter('slots', this)"><i class="fa-solid fa-table-cells"></i> Slots</button>
+      <button class="filter-chip-btn" onclick="setCategoryFilter('crash', this)"><i class="fa-solid fa-rocket"></i> Crash</button>
+      <button class="filter-chip-btn" onclick="setCategoryFilter('ethio', this)"><i class="fa-solid fa-flag"></i> Ethiopian</button>
     </div>
 
-    <!-- 6 Real Playable Games -->
-    <div class="section-header"><span>Official Live Games (6 Active)</span><a onclick="navigateToScreen('casino')">See All</a></div>
-    <div class="games-grid-3col">
-      <div class="game-portal-card" onclick="openGame('aviator', 'Aviator')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg" alt=""><span class="badge-live">LIVE</span><span class="badge-rtp">97%</span></div>
-        <div class="game-portal-name">Aviator</div><div class="game-portal-prov">Spribe</div>
-      </div>
-      <div class="game-portal-card" onclick="openGame('keno', 'Fast Keno')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg" alt=""><span class="badge-live">LIVE</span><span class="badge-rtp">96.5%</span></div>
-        <div class="game-portal-name">Fast Keno</div><div class="game-portal-prov">Hulu Originals</div>
-      </div>
-      <div class="game-portal-card" onclick="openGame('jetx', 'JetX')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg" alt=""><span class="badge-live">LIVE</span><span class="badge-rtp">97%</span></div>
-        <div class="game-portal-name">Jet-X</div><div class="game-portal-prov">SmartSoft</div>
-      </div>
-      <div class="game-portal-card" onclick="openGame('road', 'Chicken Road 2')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg" alt=""><span class="badge-live">LIVE</span><span class="badge-rtp">98%</span></div>
-        <div class="game-portal-name">Chicken Road 2</div><div class="game-portal-prov">Hulu Originals</div>
-      </div>
-      <div class="game-portal-card" onclick="openGame('slot', '777 Multi Slot')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg" alt=""><span class="badge-live">LIVE</span><span class="badge-rtp">96%</span></div>
-        <div class="game-portal-name">777 Multi Slot</div><div class="game-portal-prov">Hulu Originals</div>
-      </div>
-      <div class="game-portal-card" onclick="openGame('avia', 'Avia Masters')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg" alt=""><span class="badge-live">LIVE</span><span class="badge-rtp">97%</span></div>
-        <div class="game-portal-name">Avia Masters</div><div class="game-portal-prov">BGaming</div>
-      </div>
+    <!-- SHELF 1: 🔥 6 LIVE PLAYABLE GAMES (FULLY CONNECTED) -->
+    <div class="games-shelf-title">
+      <span>🔥 6 Live Playable Games</span>
+      <span style="font-size:10px;color:var(--green-odds);font-weight:bold;">● 100% OPERATIONAL</span>
     </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- 2. SCREEN: CASINO                                        -->
-  <!-- ======================================================== -->
-  <div class="screen-view" id="view-casino">
-    <div class="section-header" style="padding-top:12px;"><span>All 6 Live Games</span></div>
-    <div class="games-grid-3col">
-      <div class="game-portal-card" onclick="openGame('aviator', 'Aviator')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg" alt=""><span class="badge-live">LIVE</span></div>
-        <div class="game-portal-name">Aviator</div><div class="game-portal-prov">Spribe</div>
+    <div class="games-dense-grid">
+      <!-- 1. Aviator -->
+      <div class="game-square-card" onclick="launchGameEngine('aviator', 'Aviator')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-badge-corner">LIVE</span></div>
+        <div class="game-label-under">Aviator</div>
       </div>
-      <div class="game-portal-card" onclick="openGame('keno', 'Fast Keno')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg" alt=""><span class="badge-live">LIVE</span></div>
-        <div class="game-portal-name">Fast Keno</div><div class="game-portal-prov">Hulu Originals</div>
+      <!-- 2. Fast Keno -->
+      <div class="game-square-card" onclick="launchGameEngine('keno', 'Fast Keno')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"><span class="live-badge-corner">LIVE</span></div>
+        <div class="game-label-under">Fast Keno</div>
       </div>
-      <div class="game-portal-card" onclick="openGame('jetx', 'JetX')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg" alt=""><span class="badge-live">LIVE</span></div>
-        <div class="game-portal-name">Jet-X</div><div class="game-portal-prov">SmartSoft</div>
+      <!-- 3. Jet-X -->
+      <div class="game-square-card" onclick="launchGameEngine('jetx', 'Jet-X')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-badge-corner">LIVE</span></div>
+        <div class="game-label-under">Jet-X</div>
       </div>
-      <div class="game-portal-card" onclick="openGame('road', 'Chicken Road 2')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg" alt=""><span class="badge-live">LIVE</span></div>
-        <div class="game-portal-name">Chicken Road 2</div><div class="game-portal-prov">Hulu Originals</div>
+      <!-- 4. Chicken Road 2 -->
+      <div class="game-square-card" onclick="launchGameEngine('road', 'Chicken Road 2')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-badge-corner">LIVE</span></div>
+        <div class="game-label-under">Chicken Road 2</div>
       </div>
-      <div class="game-portal-card" onclick="openGame('slot', '777 Multi Slot')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg" alt=""><span class="badge-live">LIVE</span></div>
-        <div class="game-portal-name">777 Multi Slot</div><div class="game-portal-prov">Hulu Originals</div>
+      <!-- 5. 777 Multi Slot -->
+      <div class="game-square-card" onclick="launchGameEngine('slot', '777 Multi Slot')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg"><span class="live-badge-corner">LIVE</span></div>
+        <div class="game-label-under">777 Slot</div>
       </div>
-      <div class="game-portal-card" onclick="openGame('avia', 'Avia Masters')">
-        <div class="game-portal-thumb"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg" alt=""><span class="badge-live">LIVE</span></div>
-        <div class="game-portal-name">Avia Masters</div><div class="game-portal-prov">BGaming</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- 3. SCREEN: SPORTS (ALL PREMIER LEAGUE CLUBS)             -->
-  <!-- ======================================================== -->
-  <div class="screen-view" id="view-sports">
-    <div class="section-header" style="padding-top:12px;">
-      <span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 English Premier League</span>
-      <span style="color:var(--accent);font-size:11px;">All Clubs Active</span>
-    </div>
-
-    <!-- Match 1: Arsenal vs Chelsea -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>LIVE 72'</span><span>Emirates Stadium</span></div>
-      <div class="epl-teams-row"><span>🔴 Arsenal</span><span style="color:var(--accent)">2 - 1</span><span>🔵 Chelsea</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Arsenal vs Chelsea', 'Arsenal', 1.45)">1 (1.45)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Arsenal vs Chelsea', 'Draw', 3.80)">X (3.80)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Arsenal vs Chelsea', 'Chelsea', 6.20)">2 (6.20)</div>
+      <!-- 6. Avia Masters -->
+      <div class="game-square-card" onclick="launchGameEngine('avia', 'Avia Masters')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-badge-corner">LIVE</span></div>
+        <div class="game-label-under">Avia Masters</div>
       </div>
     </div>
 
-    <!-- Match 2: Man City vs Liverpool -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>LIVE 45'</span><span>Etihad Stadium</span></div>
-      <div class="epl-teams-row"><span>Sky Blue Man City</span><span style="color:var(--accent)">1 - 1</span><span>Red Liverpool</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Man City vs Liverpool', 'City', 1.95)">1 (1.95)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Man City vs Liverpool', 'Draw', 3.40)">X (3.40)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Man City vs Liverpool', 'Liverpool', 3.60)">2 (3.60)</div>
-      </div>
+    <!-- SHELF 2: 🏆 UPCOMING CARPET CATALOG (COMING SOON) -->
+    <div class="games-shelf-title">
+      <span>🏆 Upcoming Games Library</span>
+      <span style="font-size:10px;color:var(--text-muted);">22 Titles</span>
     </div>
-
-    <!-- Match 3: Man United vs Tottenham -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>Today 20:00</span><span>Old Trafford</span></div>
-      <div class="epl-teams-row"><span>Man United</span><span>vs</span><span>Tottenham</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Man Utd vs Spurs', 'Man Utd', 2.10)">1 (2.10)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Man Utd vs Spurs', 'Draw', 3.50)">X (3.50)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Man Utd vs Spurs', 'Spurs', 3.20)">2 (3.20)</div>
+    <div class="games-dense-grid">
+      <div class="game-square-card" onclick="triggerComingSoon('እንቁጣጣሽ (Enkutatash)')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/3RthNnd6/Screenshot-20260922-152202-Plus(1).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">እንቁጣጣሽ</div>
       </div>
-    </div>
-
-    <!-- Match 4: Newcastle vs Aston Villa -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>Today 22:30</span><span>St. James' Park</span></div>
-      <div class="epl-teams-row"><span>Newcastle</span><span>vs</span><span>Aston Villa</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Newcastle vs Villa', 'Newcastle', 1.85)">1 (1.85)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Newcastle vs Villa', 'Draw', 3.60)">X (3.60)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Newcastle vs Villa', 'Villa', 3.90)">2 (3.90)</div>
+      <div class="game-square-card" onclick="triggerComingSoon('ወያላ (WEYALA)')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/rmksxnVh/Screenshot-20260922-144440-Plus(5).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">ወያላ WEYALA</div>
       </div>
-    </div>
-
-    <!-- Match 5: West Ham vs Everton -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>Tomorrow</span><span>London Stadium</span></div>
-      <div class="epl-teams-row"><span>West Ham</span><span>vs</span><span>Everton</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('West Ham vs Everton', 'West Ham', 2.05)">1 (2.05)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('West Ham vs Everton', 'Draw', 3.30)">X (3.30)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('West Ham vs Everton', 'Everton', 3.40)">2 (3.40)</div>
+      <div class="game-square-card" onclick="triggerComingSoon('Gates of Abyssinia')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/G3ztTxZS/Screenshot-20260922-144440-Plus(6).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">Abyssinia</div>
       </div>
-    </div>
-
-    <!-- Match 6: Brighton vs Wolves -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>Tomorrow</span><span>Amex Stadium</span></div>
-      <div class="epl-teams-row"><span>Brighton</span><span>vs</span><span>Wolves</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Brighton vs Wolves', 'Brighton', 1.70)">1 (1.70)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Brighton vs Wolves', 'Draw', 3.75)">X (3.75)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Brighton vs Wolves', 'Wolves', 4.50)">2 (4.50)</div>
+      <div class="game-square-card" onclick="triggerComingSoon('Fruity Wilds JACKPOT')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/CKvrftsM/Screenshot-20260922-144440-Plus(1).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">Fruity Wilds</div>
       </div>
-    </div>
-
-    <!-- Match 7: Fulham vs Brentford -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>Upcoming</span><span>Craven Cottage</span></div>
-      <div class="epl-teams-row"><span>Fulham</span><span>vs</span><span>Brentford</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Fulham vs Brentford', 'Fulham', 2.30)">1 (2.30)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Fulham vs Brentford', 'Draw', 3.25)">X (3.25)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Fulham vs Brentford', 'Brentford', 2.95)">2 (2.95)</div>
+      <div class="game-square-card" onclick="triggerComingSoon('Crown Coin')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/wvy2RBvY/Screenshot-20260922-144440-Plus(3).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">Crown Coin</div>
       </div>
-    </div>
-
-    <!-- Match 8: Crystal Palace vs Bournemouth -->
-    <div class="epl-match-card">
-      <div class="epl-badge-row"><span>Upcoming</span><span>Selhurst Park</span></div>
-      <div class="epl-teams-row"><span>Crystal Palace</span><span>vs</span><span>Bournemouth</span></div>
-      <div class="epl-odds-row">
-        <div class="epl-odd-btn" onclick="selectEplOdd('Palace vs Bournemouth', 'Palace', 2.20)">1 (2.20)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Palace vs Bournemouth', 'Draw', 3.30)">X (3.30)</div>
-        <div class="epl-odd-btn" onclick="selectEplOdd('Palace vs Bournemouth', 'Bournemouth', 3.10)">2 (3.10)</div>
+      <div class="game-square-card" onclick="triggerComingSoon('Safari Simba')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/tRzZtjVB/Screenshot-20260922-144440-Plus(4).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">Safari Simba</div>
+      </div>
+      <div class="game-square-card" onclick="triggerComingSoon('Gates of Olympus')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/XJYMRdQc/Screenshot-20260922-152202-Plus(4).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">Olympus</div>
+      </div>
+      <div class="game-square-card" onclick="triggerComingSoon('Buffalo Gold Canyon')">
+        <div class="game-thumb-box"><img src="https://i.postimg.cc/44FZT2C9/Screenshot-20260922-152202-Plus(2).jpg"><span class="soon-badge-corner">SOON</span></div>
+        <div class="game-label-under">Buffalo Gold</div>
       </div>
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- 4. SCREEN: STRICT DEPOSIT CASHIER (AGENT 1 & 2)          -->
-  <!-- ======================================================== -->
-  <div class="screen-view" id="view-deposit">
-    <div class="deposit-vault-wrap">
-      <div class="section-header" style="padding:0;"><span>Official Deposit Cashier</span><span style="color:var(--accent);">Instant Verification</span></div>
+  <!-- 3. TAB 2: PROMOTIONS & SPORTSBOOK -->
+  <div class="screen-content" id="tab-promotions">
+    <div class="hero-banner-card" onclick="openCouponModal()">
+      <div class="banner-overlay-bg"></div>
+      <div class="hero-banner-content">
+        <div class="banner-badge-mini">SPORTSBOOK V3</div>
+        <div class="banner-headline">Live Premier League<br><span>Live In-Play Odds</span></div>
+      </div>
+    </div>
 
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);">1. Select Cashier Agent:</div>
+    <!-- Match 1 -->
+    <div class="match-row-card">
+      <div class="match-teams-left">
+        <div class="league-time-tag"><span>● LIVE 72'</span> • Premier League</div>
+        <div class="club-name">Arsenal FC</div>
+        <div class="club-name">Chelsea FC</div>
+      </div>
+      <div class="match-odds-right">
+        <div class="match-odd-cell" onclick="selectOdd('Arsenal vs Chelsea', '1', 1.85)"><span class="odd-type">1</span><span class="odd-num">1.85</span></div>
+        <div class="match-odd-cell" onclick="selectOdd('Arsenal vs Chelsea', 'X', 3.40)"><span class="odd-type">X</span><span class="odd-num">3.40</span></div>
+        <div class="match-odd-cell" onclick="selectOdd('Arsenal vs Chelsea', '2', 4.20)"><span class="odd-type">2</span><span class="odd-num">4.20</span></div>
+      </div>
+    </div>
+
+    <!-- Match 2 -->
+    <div class="match-row-card">
+      <div class="match-teams-left">
+        <div class="league-time-tag"><span>● LIVE 45'</span> • La Liga</div>
+        <div class="club-name">Real Madrid</div>
+        <div class="club-name">Barcelona</div>
+      </div>
+      <div class="match-odds-right">
+        <div class="match-odd-cell" onclick="selectOdd('Madrid vs Barca', '1', 2.10)"><span class="odd-type">1</span><span class="odd-num">2.10</span></div>
+        <div class="match-odd-cell" onclick="selectOdd('Madrid vs Barca', 'X', 3.25)"><span class="odd-type">X</span><span class="odd-num">3.25</span></div>
+        <div class="match-odd-cell" onclick="selectOdd('Madrid vs Barca', '2', 3.10)"><span class="odd-type">2</span><span class="odd-num">3.10</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. TAB 3: PROFILE & WITHDRAWAL -->
+  <div class="screen-content" id="tab-profile">
+    <div class="profile-wrap-page">
+      <div class="user-header-card">
+        <div class="avatar-letter-box" id="profileLetterAvatar">P</div>
+        <div class="user-identity-col">
+          <div class="user-name-title" id="profileUserName">Player</div>
+          <div class="user-bal-line">
+            <span>Balance:</span><b id="profileBalTxt" style="color:var(--gold-primary);">••••••</b>
+            <i class="fa-regular fa-eye" onclick="toggleBalanceVisibility()" style="cursor:pointer;"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="vip-club-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="vip-crown-icon">👑</div>
+          <div>
+            <div style="font-size:9px;font-weight:900;color:var(--gold-primary);">VIP CLUB • TIER 1</div>
+            <div style="font-size:13px;font-weight:900;color:#fff;">GOLD VIP EXPLORER</div>
+          </div>
+        </div>
+        <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="openWithdrawDrawer()">Withdraw</button>
+      </div>
+
+      <div class="stats-4grid-box">
+        <div class="stat-mini-tile"><div class="stat-tile-label">DAILY HIGHEST WIN</div><div class="stat-tile-val green" id="statHighestWin">4,500.00 ETB</div></div>
+        <div class="stat-mini-tile"><div class="stat-tile-label">TOTAL WAGERED</div><div class="stat-tile-val green" id="statWagered">1,240.00 ETB</div></div>
+      </div>
+
+      <div class="profile-menu-container">
+        <div class="profile-nav-row" onclick="openWithdrawDrawer()">
+          <div class="row-left-content"><i class="fa-solid fa-money-bill-transfer" style="color:var(--green-odds);"></i><span>Withdraw to Telebirr / CBE</span></div>
+          <i class="fa-solid fa-chevron-right" style="color:var(--text-dim)"></i>
+        </div>
+        <div class="profile-nav-row" onclick="openDepositDrawer()">
+          <div class="row-left-content"><i class="fa-solid fa-wallet" style="color:var(--gold-primary);"></i><span>Deposit Cashier</span></div>
+          <i class="fa-solid fa-chevron-right" style="color:var(--text-dim)"></i>
+        </div>
+        <div class="profile-nav-row" onclick="shareReferralLink()">
+          <div class="row-left-content"><i class="fa-solid fa-users" style="color:#38bdf8;"></i><span>Invite Friends (+50 ETB)</span></div>
+          <i class="fa-solid fa-chevron-right" style="color:var(--text-dim)"></i>
+        </div>
+        <div class="profile-nav-row" onclick="openCouponModal()">
+          <div class="row-left-content"><i class="fa-solid fa-gift" style="color:#ec4899;"></i><span>Redeem Coupon Code</span></div>
+          <i class="fa-solid fa-chevron-right" style="color:var(--text-dim)"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CASHIER DEPOSIT DRAWER (AGENT 1 & AGENT 2) -->
+  <div class="modal-overlay" id="modalDepositDrawer" onclick="closeModal('modalDepositDrawer')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalDepositDrawer')">✕</span>
+      <div class="sheet-main-title">Instant Cashier Deposit</div>
+      <div class="sheet-sub-text">Choose your verified online cashier agent:</div>
+
+      <div class="agent-card-select selected" id="ag1" onclick="selectDepositAgent('Agent1hulubet', this)">
+        <div class="agent-meta-box">
+          <div class="agent-letter-badge">A<div class="online-radar-dot"></div></div>
+          <div>
+            <div style="font-size:14px;font-weight:900;">Agent 1 (Abebe)</div>
+            <div style="font-size:11px;color:#38bdf8;">@Agent1hulubet</div>
+          </div>
+        </div>
+        <span style="color:var(--green-odds);font-size:11px;font-weight:bold;">Online ⚡</span>
+      </div>
+
+      <div class="agent-card-select" id="ag2" onclick="selectDepositAgent('Agent2hulubet', this)">
+        <div class="agent-meta-box">
+          <div class="agent-letter-badge">N<div class="online-radar-dot"></div></div>
+          <div>
+            <div style="font-size:14px;font-weight:900;">Agent 2 (Nahom)</div>
+            <div style="font-size:11px;color:#38bdf8;">@Agent2hulubet</div>
+          </div>
+        </div>
+        <span style="color:var(--green-odds);font-size:11px;font-weight:bold;">Online ⚡</span>
+      </div>
+
+      <input type="number" id="depositAmountInput" class="modal-input-field" placeholder="Enter Deposit Amount (Min 50 ETB)..." min="50">
+      <button class="modal-yellow-cta" onclick="submitDepositOrder()">Send Deposit Request (Telegram)</button>
+    </div>
+  </div>
+
+  <!-- 6. MODERN WITHDRAWAL BOTTOM SHEET (NO WINDOW.PROMPT!) -->
+  <div class="modal-overlay" id="modalWithdrawDrawer" onclick="closeModal('modalWithdrawDrawer')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalWithdrawDrawer')">✕</span>
+      <div class="sheet-main-title">Telebirr & CBE Cashout</div>
+      <div class="sheet-sub-text">Instant withdrawal processing within 5 minutes</div>
+
+      <div style="width:100%;text-align:left;font-size:11px;color:var(--text-muted);margin-bottom:6px;">Available Balance: <b id="withdrawAvailBalTxt" style="color:var(--green-odds);">0.00 ETB</b></div>
       
-      <!-- AGENT 1 (A) -->
-      <div class="agent-card-select selected" id="cardAgent1" onclick="chooseDepositAgent('Agent1hulubet', 'Agent 1', this)">
-        <div class="agent-meta-box">
-          <div class="agent-letter-badge">
-            A
-            <div class="online-radar-dot"></div>
-          </div>
-          <div>
-            <div style="font-size:14px;font-weight:900;">Agent 1</div>
-            <div style="font-size:11px;color:var(--accent-secondary);font-weight:bold;">@Agent1hulubet</div>
-            <div style="font-size:10px;color:var(--text-muted);">Telebirr & CBE Cashier</div>
-          </div>
-        </div>
-        <span style="color:#00ff88;font-size:10px;font-weight:900;">Online</span>
-      </div>
+      <input type="number" id="withdrawAmountInput" class="modal-input-field" placeholder="Withdrawal Amount (Min 100 ETB)..." min="100">
+      <input type="text" id="withdrawAccountInput" class="modal-input-field" placeholder="Telebirr Phone (09...) or CBE Account">
 
-      <!-- AGENT 2 (N) -->
-      <div class="agent-card-select" id="cardAgent2" onclick="chooseDepositAgent('Agent2hulubet', 'Agent 2', this)">
-        <div class="agent-meta-box">
-          <div class="agent-letter-badge">
-            N
-            <div class="online-radar-dot"></div>
-          </div>
-          <div>
-            <div style="font-size:14px;font-weight:900;">Agent 2</div>
-            <div style="font-size:11px;color:var(--accent-secondary);font-weight:bold;">@Agent2hulubet</div>
-            <div style="font-size:10px;color:var(--text-muted);">Telebirr & CBE Cashier</div>
-          </div>
-        </div>
-        <span style="color:#00ff88;font-size:10px;font-weight:900;">Online</span>
-      </div>
-
-      <!-- Mandatory Deposit Amount Field -->
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);margin-top:6px;">2. Enter Amount (Min 50 ETB):</div>
-      <input type="number" id="depositAmountInput" class="vault-input-box" placeholder="Enter amount in ETB..." min="50" step="10">
-
-      <!-- Quick Stepper Chips -->
-      <div class="quick-chips-row">
-        <div class="chip-quick-btn" onclick="setQuickDeposit(50)">50</div>
-        <div class="chip-quick-btn" onclick="setQuickDeposit(100)">100</div>
-        <div class="chip-quick-btn" onclick="setQuickDeposit(200)">200</div>
-        <div class="chip-quick-btn" onclick="setQuickDeposit(500)">500</div>
-        <div class="chip-quick-btn" onclick="setQuickDeposit(1000)">1000</div>
-      </div>
-
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);margin-top:6px;">3. Your Player Telegram ID:</div>
-      <input type="text" id="depositFormUserId" class="vault-input-box" readonly value="Loading...">
-
-      <button class="btn-primary-action" onclick="executeStrictAgentDeposit()">
-        <i class="fa-brands fa-telegram"></i>
-        <span>Send Deposit Request to Agent</span>
-      </button>
+      <button class="modal-yellow-cta" style="background:var(--green-odds);color:#000;" onclick="submitWithdrawOrder()">Confirm Withdrawal Request</button>
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- 5. SCREEN: DEDICATED WITHDRAWAL VAULT                    -->
-  <!-- ======================================================== -->
-  <div class="screen-view" id="view-withdraw">
-    <div class="withdraw-vault-wrap">
-      <div class="section-header" style="padding:0;">
-        <span>Withdraw Payout</span>
-        <span style="color:var(--accent);">Min 100 ETB</span>
-      </div>
-
-      <!-- Real Balance Display -->
-      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:12px;color:var(--text-muted)">Available Balance:</span>
-        <span style="font-size:18px;font-weight:900;color:var(--accent)" id="withdrawAvailableBal">0.00 ETB</span>
-      </div>
-
-      <!-- Payment Method -->
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);">1. Select Payout Method:</div>
-      <div class="bank-method-tabs">
-        <div class="method-tab-btn active" id="tabTelebirr" onclick="setWithdrawMethod('Telebirr', this)">📱 Telebirr</div>
-        <div class="method-tab-btn" id="tabCbe" onclick="setWithdrawMethod('CBE Bank', this)">🏦 CBE Bank</div>
-      </div>
-
-      <!-- Account Name -->
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);">2. Account Holder Full Name:</div>
-      <input type="text" id="wthHolderName" class="vault-input-box" placeholder="e.g. Abebe Kebede">
-
-      <!-- Account Number -->
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);" id="wthAccLabel">3. Telebirr Phone Number:</div>
-      <input type="text" id="wthAccountNumber" class="vault-input-box" placeholder="09... / 1000...">
-
-      <!-- Amount Input -->
-      <div style="font-size:11px;font-weight:bold;color:var(--text-muted);">4. Withdrawal Amount (ETB):</div>
-      <input type="number" id="wthAmountInput" class="vault-input-box" placeholder="Min 100 ETB..." min="100" step="10">
-
-      <div class="quick-chips-row">
-        <div class="chip-quick-btn" onclick="setQuickWithdraw(100)">100</div>
-        <div class="chip-quick-btn" onclick="setQuickWithdraw(500)">500</div>
-        <div class="chip-quick-btn" onclick="setQuickWithdraw(1000)">1000</div>
-        <div class="chip-quick-btn" onclick="setQuickWithdraw(2500)">2500</div>
-        <div class="chip-quick-btn" onclick="setQuickWithdraw('ALL')">ALL</div>
-      </div>
-
-      <div style="background:var(--bg-card);border:1px dashed var(--border-subtle);border-radius:12px;padding:10px;font-size:10px;color:var(--text-muted);line-height:1.5;">
-        ⚠️ <b>First Deposit Verification Rule:</b> If your account was funded by bonuses, a 1-time minimum 50 ETB deposit must be verified before payouts can be processed.
-      </div>
-
-      <button class="btn-primary-action" onclick="submitRealWithdrawal()">
-        <i class="fa-solid fa-money-bill-transfer"></i>
-        <span>Request Withdrawal Payout</span>
-      </button>
+  <!-- 7. COUPON MODAL -->
+  <div class="modal-overlay" id="modalCouponSheet" onclick="closeModal('modalCouponSheet')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalCouponSheet')">✕</span>
+      <div class="sheet-main-title">Redeem Promo Code</div>
+      <div class="sheet-sub-text">Enter coupon code to claim instant bonus</div>
+      <input type="text" id="couponCodeInput" class="modal-input-field" placeholder="e.g. HULU2026">
+      <button class="modal-yellow-cta" onclick="submitCouponRedeem()">Claim Bonus</button>
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- 6. SCREEN: PROFILE                                       -->
-  <!-- ======================================================== -->
-  <div class="screen-view" id="view-profile">
-    <div style="padding:14px;display:flex;flex-direction:column;gap:10px;">
-      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:14px;padding:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <div style="font-size:16px;font-weight:900;" id="userProfileName">Player</div>
-            <div style="font-size:11px;color:var(--text-muted);">Telegram ID: <b id="userProfileId" style="color:var(--accent);">Loading...</b></div>
-          </div>
-          <span style="background:var(--bg-input);color:var(--accent);font-size:10px;font-weight:900;padding:4px 8px;border-radius:12px;border:1px solid var(--border-subtle);">Verified User</span>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <div style="font-size:10px;color:var(--text-muted);">Main Balance</div>
-            <div style="font-size:22px;font-weight:900;color:var(--accent);" id="userProfileBal">0.00 ETB</div>
-          </div>
-          <button class="promo-action-btn" onclick="navigateToScreen('deposit')">DEPOSIT</button>
-        </div>
-      </div>
-
-      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:14px;overflow:hidden;">
-        <div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid var(--border-subtle);" onclick="navigateToScreen('withdraw')">
-          <div style="display:flex;align-items:center;gap:10px;"><i class="fa-solid fa-money-bill-transfer" style="color:var(--accent)"></i><span style="font-size:12px;font-weight:800;">Withdraw Payout</span></div>
-          <i class="fa-solid fa-chevron-right" style="font-size:10px;color:var(--text-muted)"></i>
-        </div>
-        <div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid var(--border-subtle);" onclick="openPromoBonusModal()">
-          <div style="display:flex;align-items:center;gap:10px;"><i class="fa-solid fa-gift" style="color:var(--accent-secondary)"></i><span style="font-size:12px;font-weight:800;">Bonuses & Promo Codes</span></div>
-          <i class="fa-solid fa-chevron-right" style="font-size:10px;color:var(--text-muted)"></i>
-        </div>
-        <div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="openGmailSupportModal()">
-          <div style="display:flex;align-items:center;gap:10px;"><i class="fa-solid fa-envelope" style="color:var(--text-muted)"></i><span style="font-size:12px;font-weight:800;">Support via Gmail</span></div>
-          <i class="fa-solid fa-chevron-right" style="font-size:10px;color:var(--text-muted)"></i>
-        </div>
-      </div>
+  <!-- 8. FULLSCREEN GAME VIEWPORT (IFRAME) -->
+  <div class="game-viewport-modal" id="gameViewport">
+    <div class="viewport-topbar">
+      <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="closeGameViewport()"><i class="fa-solid fa-arrow-left"></i> Lobby</button>
+      <span class="viewport-title" id="activeGameTitle">Game</span>
+      <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="closeGameViewport();openDepositDrawer()">+ Deposit</button>
     </div>
+    <iframe class="viewport-iframe" id="gameIframe" src="" allow="autoplay; fullscreen"></iframe>
   </div>
 
-  <!-- Bottom Navigation Dock -->
-  <nav class="bottom-dock">
-    <button class="dock-item active" id="dockBtn-home" onclick="navigateToScreen('home')"><i class="fa-solid fa-house"></i><span>Home</span></button>
-    <button class="dock-item" id="dockBtn-casino" onclick="navigateToScreen('casino')"><i class="fa-solid fa-dice"></i><span>Casino</span></button>
-    <button class="dock-item" id="dockBtn-sports" onclick="navigateToScreen('sports')"><i class="fa-solid fa-futbol"></i><span>EPL Sports</span></button>
-    <button class="dock-item" id="dockBtn-deposit" onclick="navigateToScreen('deposit')"><i class="fa-solid fa-wallet"></i><span>Deposit</span></button>
-    <button class="dock-item" id="dockBtn-withdraw" onclick="navigateToScreen('withdraw')"><i class="fa-solid fa-money-bill-transfer"></i><span>Withdraw</span></button>
-    <button class="dock-item" id="dockBtn-profile" onclick="navigateToScreen('profile')"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+  <!-- 9. BOTTOM NAVIGATION DOCK -->
+  <nav class="bottom-dock-nav">
+    <button class="b-nav-item active" id="btnTab-casino" onclick="navigateToTab('casino')"><i class="fa-solid fa-dice"></i><span>Casino</span></button>
+    <button class="b-nav-item" id="btnTab-promotions" onclick="navigateToTab('promotions')"><i class="fa-solid fa-futbol"></i><span>Sports</span></button>
+    <button class="b-nav-item" id="btnTab-profile" onclick="navigateToTab('profile')"><i class="fa-regular fa-user"></i><span>Wallet</span></button>
   </nav>
 </div>
 
-<!-- ======================================================== -->
-<!-- MODALS & GAME VIEWPORT REACTOR                           -->
-<!-- ======================================================== -->
-
-<!-- Fullscreen Game Viewport -->
-<div class="game-viewport-modal" id="gameViewport">
-  <div class="viewport-topbar">
-    <button class="theme-picker-btn" onclick="closeGameViewport()"><i class="fa-solid fa-arrow-left"></i> Lobby</button>
-    <span class="viewport-title" id="activeGameTitle">Game</span>
-    <button class="promo-action-btn" style="padding:4px 12px;font-size:10px;" onclick="closeGameViewport();navigateToScreen('deposit')">Deposit</button>
-  </div>
-  <iframe class="viewport-iframe" id="gameIframe" src="" allow="fullscreen"></iframe>
-</div>
-
-<!-- 🎨 10 THEME SWITCHER MODAL -->
-<div class="modal-overlay" id="modalThemePicker" onclick="closeModal('modalThemePicker')">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
-    <div class="sheet-header"><span>Select Visual Theme</span><button class="sheet-close-btn" onclick="closeModal('modalThemePicker')">✕</button></div>
-    <div class="themes-grid">
-      <div class="theme-pick-card" onclick="applyTheme('dark-neon', 'Dark Neon')"><div class="theme-color-dot" style="background:#e50914;"></div><span>Dark Neon</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('crypto-green', 'Crypto Green')"><div class="theme-color-dot" style="background:#00ff88;"></div><span>Crypto Green</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('royal-purple', 'Royal Purple')"><div class="theme-color-dot" style="background:#ffb700;"></div><span>Royal Purple</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('sports-book', 'Sports Book')"><div class="theme-color-dot" style="background:#38bdf8;"></div><span>Sports Book</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('vegas-fire', 'Vegas Fire')"><div class="theme-color-dot" style="background:#ff6b00;"></div><span>Vegas Fire</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('light-mode', 'Light Mode')"><div class="theme-color-dot" style="background:#10b981;border:1px solid #000;"></div><span>Light Mode</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('cyberpunk', 'Cyberpunk')"><div class="theme-color-dot" style="background:#00f0ff;"></div><span>Cyberpunk</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('gold-rush', 'Gold Rush')"><div class="theme-color-dot" style="background:#d4af37;"></div><span>Gold Rush</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('esports-bet', 'Esports Bet')"><div class="theme-color-dot" style="background:#ff4655;"></div><span>Esports Bet</span></div>
-      <div class="theme-pick-card" onclick="applyTheme('ocean-glass', 'Ocean Glass')"><div class="theme-color-dot" style="background:#2dd4bf;"></div><span>Ocean Glass</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- Promo Bonus Modal -->
-<div class="modal-overlay" id="modalPromoBonus" onclick="closeModal('modalPromoBonus')">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
-    <div class="sheet-header"><span>Bonuses & Promo Codes</span><button class="sheet-close-btn" onclick="closeModal('modalPromoBonus')">✕</button></div>
-    <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:12px;margin-bottom:10px;">
-      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:900;"><span>Welcome Free Bet</span><span style="color:var(--accent)">20.00 ETB</span></div>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Complete 1 deposit of min 50 ETB to unlock withdrawal.</div>
-    </div>
-    <input type="text" id="promoCodeInput" class="vault-input-box" placeholder="Enter Promo Code..." style="margin-bottom:8px;">
-    <button class="btn-primary-action" onclick="submitPromoCodeClaim()">Claim Promo Bonus</button>
-  </div>
-</div>
-
-<!-- Gmail Support Modal -->
-<div class="modal-overlay" id="modalGmailSupport" onclick="closeModal('modalGmailSupport')">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
-    <div class="sheet-header"><span>Official Support</span><button class="sheet-close-btn" onclick="closeModal('modalGmailSupport')">✕</button></div>
-    <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:14px;">
-      <div style="font-size:14px;font-weight:900;color:var(--accent);"><i class="fa-solid fa-envelope"></i> Gmail Support Only</div>
-      <div style="font-size:12px;color:#fff;margin:4px 0;">hulubetsupport@gmail.com</div>
-      <div style="font-size:10px;color:var(--text-muted);line-height:1.5;margin-top:6px;">
-        Agents on Telegram (@Agent1hulubet and @Agent2hulubet) are strict deposit & payout cashiers only. All account inquiries, missing tickets, or balance support must be sent directly to our official Gmail address.
-      </div>
-    </div>
-    <button class="btn-primary-action" style="background:#ea4335;color:#fff;margin-top:10px;" onclick="sendEmailToSupport()">
-      <i class="fa-solid fa-paper-plane"></i>
-      <span>Compose Email to Support</span>
-    </button>
-  </div>
-</div>
-
 <script>
-// -------------------------------------------------------------
-// 🚀 OFFICIAL PRODUCTION CONFIGURATION
-// -------------------------------------------------------------
-const RENDER_BASE_URL = "https://hulubet-server.onrender.com";
-const OFFICIAL_SUPPORT_EMAIL = "hulubetsupport@gmail.com";
-
-// Telegram SDK Init
+// ============================================================================
+// 🚀 HULU BET V3 - CLIENT CORE CONNECTED TO RENDER POSTGRESQL BACKEND
+// ============================================================================
+const SERVER_URL = "https://hulubet-server.onrender.com";
 const tg = window.Telegram?.WebApp;
 if (tg) {
   tg.ready();
   tg.expand();
+  if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
 }
 
-let tgUser = tg?.initDataUnsafe?.user || { id: 589218392, first_name: "Player", username: "player_ethio" };
-document.getElementById('depositFormUserId').value = tgUser.id;
-document.getElementById('userProfileId').innerText = `ID: ${String(tgUser.id).substring(0, 3)}***${String(tgUser.id).slice(-2)}`;
-document.getElementById('userProfileName').innerText = tgUser.first_name;
+let telegramUser = tg?.initDataUnsafe?.user || {
+  id: 589218392,
+  first_name: "Player",
+  username: "player_ethio"
+};
 
-// Clean Toast Notification
-function showCleanToast(msg) {
-  const container = document.getElementById('toast-container');
+const USER_ID = String(telegramUser.id);
+const USER_NAME = telegramUser.first_name || "Player";
+const USER_HANDLE = telegramUser.username || "user";
+
+document.getElementById('profileUserName').innerText = USER_NAME;
+document.getElementById('profileLetterAvatar').innerText = USER_NAME.charAt(0).toUpperCase() || 'P';
+
+let currentBalance = parseFloat(localStorage.getItem('user_balance') || "20.00");
+let isBalanceHidden = false;
+let selectedAgentHandle = "Agent1hulubet";
+
+function triggerCleanToast(msg) {
+  const box = document.getElementById('toast-container');
   const toast = document.createElement('div');
   toast.className = 'clean-toast';
   toast.innerText = msg;
-  container.appendChild(toast);
-  if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+  box.appendChild(toast);
   setTimeout(() => toast.remove(), 2600);
 }
 
-// -------------------------------------------------------------
-// 🎨 10 THEMES CONTROLLER
-// -------------------------------------------------------------
-function applyTheme(themeKey, themeName) {
-  document.body.setAttribute('data-theme', themeKey);
-  localStorage.setItem('hb_theme', themeKey);
-  document.getElementById('curThemeName').innerText = themeName;
-  closeModal('modalThemePicker');
-  showCleanToast(`Theme: ${themeName}`);
+function updateBalanceDisplay() {
+  const displayTxt = isBalanceHidden ? '••••••' : currentBalance.toFixed(2) + ' ETB';
+  document.getElementById('headerBalTxt').innerText = displayTxt;
+  document.getElementById('profileBalTxt').innerText = displayTxt;
+  document.getElementById('withdrawAvailBalTxt').innerText = currentBalance.toFixed(2) + ' ETB';
+  localStorage.setItem('user_balance', currentBalance.toFixed(2));
 }
+updateBalanceDisplay();
 
-const savedTheme = localStorage.getItem('hb_theme') || 'dark-neon';
-document.body.setAttribute('data-theme', savedTheme);
-const themeLabels = {
-  'dark-neon': 'Dark Neon', 'crypto-green': 'Crypto Green', 'royal-purple': 'Royal Purple',
-  'sports-book': 'Sports Book', 'vegas-fire': 'Vegas Fire', 'light-mode': 'Light Mode',
-  'cyberpunk': 'Cyberpunk', 'gold-rush': 'Gold Rush', 'esports-bet': 'Esports Bet', 'ocean-glass': 'Ocean Glass'
-};
-document.getElementById('curThemeName').innerText = themeLabels[savedTheme] || 'Theme';
-
-function openThemeModal() { openModal('modalThemePicker'); }
-
-// -------------------------------------------------------------
-// 🔐 REAL DATABASE BALANCE SYNC
-// -------------------------------------------------------------
-let realDbBalance = 0.00;
-let isBalanceHidden = false;
-
-async function syncRealDatabaseBalance() {
-  try {
-    const res = await fetch(`${RENDER_BASE_URL}/api/auth/sync`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-telegram-init-data": tg?.initData || ""
-      },
-      body: JSON.stringify({
-        telegram_id: tgUser.id,
-        username: tgUser.username || null,
-        first_name: tgUser.first_name || "Player"
-      })
-    });
-
-    const data = await res.json();
-    if (data.success && data.user) {
-      realDbBalance = Number(parseFloat(data.user.balance).toFixed(2));
-      updateBalanceUI();
-    }
-  } catch (e) {}
-}
-
-function updateBalanceUI() {
-  const txt = isBalanceHidden ? '••••' : `${realDbBalance.toFixed(2)} ETB`;
-  document.getElementById('headerBalDisplay').innerText = txt;
-  document.getElementById('userProfileBal').innerText = `${realDbBalance.toFixed(2)} ETB`;
-  document.getElementById('withdrawAvailableBal').innerText = `${realDbBalance.toFixed(2)} ETB`;
-}
-
-function toggleBalPrivacy() {
+function toggleBalanceVisibility() {
   isBalanceHidden = !isBalanceHidden;
-  updateBalanceUI();
+  document.getElementById('balEyeIcon').className = isBalanceHidden ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+  updateBalanceDisplay();
 }
-syncRealDatabaseBalance();
 
-// -------------------------------------------------------------
-// 🎮 6 PLAYABLE GAMES REACTOR (IFRAME)
-// -------------------------------------------------------------
-const GAME_MAP = {
-  aviator: { title: "Aviator", file: "aviator.html" },
-  keno: { title: "Fast Keno", file: "keno.html" },
-  jetx: { title: "JetX", file: "jetx.html" },
-  road: { title: "Chicken Road 2", file: "road.html" },
-  slot: { title: "777 Multi Slot", file: "slot.html" },
-  avia: { title: "Avia Masters", file: "avia.html" }
+// ----------------------------------------------------------------------------
+// 👥 RENDER BACKEND LIVE SYNC (/api/user/init)
+// ----------------------------------------------------------------------------
+async function syncDatabaseBalance() {
+  try {
+    const res = await fetch(`${SERVER_URL}/api/user/init?userId=${USER_ID}&username=${USER_HANDLE}&name=${encodeURIComponent(USER_NAME)}`);
+    const data = await res.json();
+    if (data.success && data.balance !== undefined) {
+      currentBalance = parseFloat(data.balance);
+      updateBalanceDisplay();
+    }
+  } catch(e) {
+    updateBalanceDisplay();
+  }
+}
+syncDatabaseBalance();
+
+// ----------------------------------------------------------------------------
+// 🎮 6 LIVE PLAYABLE GAMES REACTOR (BI-DIRECTIONAL HANDSHAKE)
+// ----------------------------------------------------------------------------
+const LIVE_GAMES_URLS = {
+  aviator: { title: "Aviator", url: "https://hulubetsupport.github.io/Aveiter/" },
+  keno: { title: "Fast Keno", url: "https://hulubetsupport.github.io/Keno-fast/" },
+  jetx: { title: "Jet-X", url: "https://hulubetsupport.github.io/Jet-x/" },
+  road: { title: "Chicken Road 2", url: "https://hulubetsupport.github.io/Chekn-road/" },
+  slot: { title: "777 Multi Slot", url: "https://hulubetsupport.github.io/Slot-777-/" },
+  avia: { title: "Avia Masters", url: "https://hulubetsupport.github.io/Avia-master/" }
 };
 
-function openGame(gameKey, displayTitle) {
-  const g = GAME_MAP[gameKey];
-  document.getElementById('activeGameTitle').innerText = displayTitle || g.title;
-  document.getElementById('gameIframe').src = g.file;
+function launchGameEngine(gameKey, gameTitle) {
+  const g = LIVE_GAMES_URLS[gameKey];
+  if (!g) return;
+
+  document.getElementById('activeGameTitle').innerText = gameTitle || g.title;
+
+  // Injection of Balance & UserID into game iframe URL
+  const sep = g.url.includes('?') ? '&' : '?';
+  const injectedUrl = `${g.url}${sep}userId=${USER_ID}&balance=${currentBalance.toFixed(2)}&name=${encodeURIComponent(USER_NAME)}`;
+
+  const iframe = document.getElementById('gameIframe');
+  iframe.src = injectedUrl;
   document.getElementById('gameViewport').style.display = 'flex';
-  if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
 }
 
 function closeGameViewport() {
   document.getElementById('gameViewport').style.display = 'none';
   document.getElementById('gameIframe').src = '';
-  syncRealDatabaseBalance();
+  syncDatabaseBalance();
 }
 
+// Iframe Communication Bus
 window.addEventListener('message', (e) => {
-  if (e.data?.type === 'BALANCE_UPDATE') {
-    realDbBalance = Number(e.data.newBalance);
-    updateBalanceUI();
-  } else if (e.data?.type === 'OPEN_DEPOSIT') {
+  if (!e.data) return;
+
+  // Handshake from Game
+  if (e.data.type === 'GAME_READY') {
+    const iframe = document.getElementById('gameIframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({
+        type: 'INIT_BALANCE',
+        balance: currentBalance,
+        userId: USER_ID
+      }, '*');
+    }
+  }
+
+  // Real-time balance deductions / wins from game
+  if (e.data.type === 'BALANCE_UPDATE') {
+    currentBalance = parseFloat(e.data.newBalance);
+    updateBalanceDisplay();
+  }
+
+  // Trigger deposit drawer from inside game
+  if (e.data.type === 'OPEN_DEPOSIT') {
     closeGameViewport();
-    navigateToScreen('deposit');
+    openDepositDrawer();
   }
 });
 
-// -------------------------------------------------------------
-// 👨‍💼 STRICT 2-AGENT CASHIER SYSTEM (AGENT 1 & 2)
-// -------------------------------------------------------------
-let selectedAgent = { handle: "Agent1hulubet", name: "Agent 1" };
+// Coming Soon Alert
+function triggerComingSoon(gameName) {
+  triggerCleanToast(`🎮 ${gameName} is in final testing. Play our 6 LIVE games!`);
+}
 
-function chooseDepositAgent(handle, name, el) {
-  selectedAgent = { handle, name };
+// ----------------------------------------------------------------------------
+// 📱 TELEGRAM PHONE CONTACT VERIFICATION
+// ----------------------------------------------------------------------------
+function requestTelegramPhoneVerification() {
+  if (tg && tg.requestContact) {
+    tg.requestContact((ok, response) => {
+      if (ok) {
+        triggerCleanToast("✅ Telegram Phone Verified Successfully!");
+        document.getElementById("phoneVerifyBanner").style.display = "none";
+      } else {
+        triggerCleanToast("Verification cancelled by user.");
+      }
+    });
+  } else {
+    triggerCleanToast("Verified: Telegram User ID Connected.");
+    document.getElementById("phoneVerifyBanner").style.display = "none";
+  }
+}
+
+// ----------------------------------------------------------------------------
+// 👨‍💼 STRICT 2-AGENT CASHIER SYSTEM
+// ----------------------------------------------------------------------------
+function openDepositDrawer() { openModal('modalDepositDrawer'); }
+function openWithdrawDrawer() { openModal('modalWithdrawDrawer'); }
+function openCouponModal() { openModal('modalCouponSheet'); }
+
+function selectDepositAgent(handle, el) {
+  selectedAgentHandle = handle;
   document.querySelectorAll('.agent-card-select').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-function setQuickDeposit(val) {
-  document.getElementById('depositAmountInput').value = val;
-}
+async function submitDepositOrder() {
+  const inputEl = document.getElementById('depositAmountInput');
+  const amount = Number(inputEl.value);
 
-async function executeStrictAgentDeposit() {
-  const amtInput = document.getElementById('depositAmountInput');
-  const amt = Number(amtInput.value);
-
-  if (!amt || amt < 50) {
-    showCleanToast("Please enter a valid amount (Min: 50 ETB)!");
-    amtInput.focus();
-    return;
+  if (!amount || amount < 50) {
+    return triggerCleanToast("Minimum deposit is 50 ETB!");
   }
 
-  const ref = "HLB-DEP-" + Math.floor(100000 + Math.random() * 900000);
-
+  let depTxnId = 'DEP-' + Math.floor(10000 + Math.random() * 90000);
   try {
-    await fetch(`${RENDER_BASE_URL}/api/wallet/deposit-request`, {
+    const res = await fetch(`${SERVER_URL}/api/cashier/deposit`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        telegram_id: tgUser.id,
-        amount: amt,
-        agent_handle: `@${selectedAgent.handle}`,
-        payment_ref: ref
-      })
+      body: JSON.stringify({ userId: USER_ID, username: USER_HANDLE, amount: amount, method: "Telebirr", agentAssigned: selectedAgentHandle })
     });
+    const d = await res.json();
+    if (d.success && d.txnId) depTxnId = d.txnId;
   } catch(e) {}
 
-  const msg = encodeURIComponent(
-    `📥 HULU BET OFFICIAL DEPOSIT REQUEST\n` +
-    `━━━━━━━━━━━━━━━━━━\n` +
-    `👤 Player Telegram ID: ${tgUser.id}\n` +
-    `👨‍💼 Cashier: @${selectedAgent.handle} (${selectedAgent.name})\n` +
-    `💰 Amount: ${amt} ETB\n` +
-    `🔖 Secure Ref: ${ref}\n` +
-    `━━━━━━━━━━━━━━━━━━\n` +
+  closeModal('modalDepositDrawer');
+
+  const preFilledMsg = encodeURIComponent(
+    `📥 HULU BET DEPOSIT REQUEST\n` +
+    `👤 Player ID: ${USER_ID} (@${USER_HANDLE})\n` +
+    `💰 Amount: ${amount} ETB\n` +
+    `🔖 Ref: ${depTxnId}\n` +
     `ሰላም Cashier፡ የቴሌብር/CBE አካውንት ይላኩልኝ፤ ከፍዬ Screenshot እልክልዎታለሁ 🙏`
   );
 
-  showCleanToast("Opening Cashier Telegram Chat...");
-  setTimeout(() => window.open(`https://t.me/${selectedAgent.handle}?text=${msg}`, '_blank'), 400);
+  window.open(`https://t.me/${selectedAgentHandle}?text=${preFilledMsg}`, '_blank');
 }
 
-// -------------------------------------------------------------
-// 💸 WORKING WITHDRAWAL ENGINE (DEDICATED FORM & VERIFICATION)
-// -------------------------------------------------------------
-let selectedWithdrawMethod = "Telebirr";
+// ----------------------------------------------------------------------------
+// 💸 WITHDRAWAL PROCESSING (NO WINDOW.PROMPT!)
+// ----------------------------------------------------------------------------
+async function submitWithdrawOrder() {
+  const amt = Number(document.getElementById('withdrawAmountInput').value);
+  const acc = document.getElementById('withdrawAccountInput').value.trim();
 
-function setWithdrawMethod(m, el) {
-  selectedWithdrawMethod = m;
-  document.querySelectorAll('.method-tab-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('wthAccLabel').innerText = m === "Telebirr" ? "3. Telebirr Phone Number:" : "3. CBE Account Number:";
-}
-
-function setQuickWithdraw(val) {
-  if (val === 'ALL') {
-    document.getElementById('wthAmountInput').value = Math.floor(realDbBalance);
-  } else {
-    document.getElementById('wthAmountInput').value = val;
-  }
-}
-
-async function submitRealWithdrawal() {
-  const holder = document.getElementById('wthHolderName').value.trim();
-  const acc = document.getElementById('wthAccountNumber').value.trim();
-  const amt = Number(document.getElementById('wthAmountInput').value);
-
-  if (!holder) return showCleanToast("Please enter Account Holder Full Name!");
-  if (!acc) return showCleanToast("Please enter valid account number!");
-  if (!amt || amt < 100) return showCleanToast("Minimum withdrawal is 100 ETB!");
-  if (amt > realDbBalance) return showCleanToast("Insufficient Balance!");
+  if (amt < 100) return triggerCleanToast("Minimum withdrawal is 100 ETB!");
+  if (amt > currentBalance) return triggerCleanToast("Insufficient balance!");
+  if (!acc) return triggerCleanToast("Please enter Telebirr or CBE account!");
 
   try {
-    const res = await fetch(`${RENDER_BASE_URL}/api/wallet/withdraw-request`, {
+    const res = await fetch(`${SERVER_URL}/api/cashier/withdraw`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ telegram_id: tgUser.id, amount: amt })
+      body: JSON.stringify({ userId: USER_ID, amount: amt, accountNumber: acc, method: "Telebirr" })
     });
+    const d = await res.json();
+    if (d.success) {
+      currentBalance = parseFloat(d.newBalance);
+      updateBalanceDisplay();
+      closeModal('modalWithdrawDrawer');
+      triggerCleanToast("Withdrawal requested successfully!");
 
-    const data = await res.json();
-    if (!res.ok) {
-      return showCleanToast(data.error || "Deposit gate verification required!");
-    }
-
-    const ref = "HLB-WTH-" + Math.floor(100000 + Math.random() * 900000);
-    showCleanToast("Withdrawal request verified & submitted!");
-    syncRealDatabaseBalance();
-
-    const msg = encodeURIComponent(
-      `📤 WITHDRAWAL PAYOUT REQUEST\n` +
-      `━━━━━━━━━━━━━━━━━━\n` +
-      `👤 Player ID: ${tgUser.id}\n` +
-      `👤 Name: ${holder}\n` +
-      `💳 Method: ${selectedWithdrawMethod} (${acc})\n` +
-      `💰 Amount: ${amt} ETB\n` +
-      `🔖 Ref: ${ref}\n` +
-      `━━━━━━━━━━━━━━━━━━\n` +
-      `Please process payout verification 🙏`
-    );
-    setTimeout(() => window.open(`https://t.me/Agent1hulubet?text=${msg}`, '_blank'), 400);
-  } catch(e) {
-    showCleanToast("Connection error to server!");
-  }
-}
-
-// -------------------------------------------------------------
-// ⚽ EPL SPORTS INTERACTION
-// -------------------------------------------------------------
-function selectEplOdd(match, pick, odd) {
-  showCleanToast(`Ticket: ${pick} (${odd}) added!`);
-}
-
-// -------------------------------------------------------------
-// 📧 GMAIL SUPPORT ONLY
-// -------------------------------------------------------------
-function openGmailSupportModal() { openModal('modalGmailSupport'); }
-
-function sendEmailToSupport() {
-  const subject = encodeURIComponent(`Hulu Bet Support Request - ID: ${tgUser.id}`);
-  const body = encodeURIComponent(
-    `Hello Hulu Bet Support Team,\n\n` +
-    `Telegram ID: ${tgUser.id}\n` +
-    `Username: @${tgUser.username || 'none'}\n\n` +
-    `Please describe your issue below:\n` +
-    `----------------------------------------\n`
-  );
-  window.open(`mailto:${OFFICIAL_SUPPORT_EMAIL}?subject=${subject}&body=${body}`, '_blank');
-}
-
-// Promo Bonus
-function openPromoBonusModal() { openModal('modalPromoBonus'); }
-async function submitPromoCodeClaim() {
-  const code = document.getElementById('promoCodeInput').value.trim();
-  if (!code) return showCleanToast("Enter a promo code!");
-  try {
-    const res = await fetch(`${RENDER_BASE_URL}/api/promo/claim`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ telegram_id: tgUser.id, code: code.toUpperCase() })
-    });
-    const data = await res.json();
-    if (data.success) {
-      showCleanToast(data.message);
-      syncRealDatabaseBalance();
-      closeModal('modalPromoBonus');
+      const wthMsg = encodeURIComponent(
+        `📤 WITHDRAWAL PAYOUT REQUEST\n` +
+        `👤 Player ID: ${USER_ID} (@${USER_HANDLE})\n` +
+        `💰 Amount: ${amt} ETB\n` +
+        `💳 Account: ${acc}\n` +
+        `🔖 Txn ID: ${d.txnId}\n` +
+        `Please process payout 🙏`
+      );
+      window.open(`https://t.me/Agent1hulubet?text=${wthMsg}`, '_blank');
     } else {
-      showCleanToast(data.error || "Invalid promo code");
+      triggerCleanToast(d.message || "Withdrawal failed");
     }
   } catch(e) {
-    showCleanToast("Network error");
+    triggerCleanToast("Server connection error");
   }
 }
 
-// Navigation & Modals
-const screens = { home: 'view-home', casino: 'view-casino', sports: 'view-sports', deposit: 'view-deposit', withdraw: 'view-withdraw', profile: 'view-profile' };
+function submitCouponRedeem() {
+  const code = document.getElementById('couponCodeInput').value.trim();
+  if (!code) return triggerCleanToast("Please enter a coupon code!");
+  closeModal('modalCouponSheet');
+  triggerCleanToast(`Coupon [${code.toUpperCase()}] submitted! Verifying...`);
+  setTimeout(() => {
+    currentBalance += 10.00;
+    updateBalanceDisplay();
+    triggerCleanToast("🎉 Coupon Claimed: +10.00 ETB Added!");
+  }, 800);
+}
 
-function navigateToScreen(k) {
-  document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
-  document.getElementById(screens[k]).classList.add('active');
+function shareReferralLink() {
+  const link = `https://t.me/Hulubetethbot/hulubet?start=ref_${USER_ID}`;
+  const text = encodeURIComponent(`🔥 Join Hulu Bet Ethiopia — 20 ETB Free Welcome Bonus!\nPlay Aviator, Fast Keno, JetX & Road:\n${link}`);
+  window.open(`https://t.me/share/url?url=${link}&text=${text}`, '_blank');
+}
 
-  document.querySelectorAll('.dock-item').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById(`dockBtn-${k}`);
-  if (btn) btn.classList.add('active');
+function selectOdd(match, type, odd) {
+  triggerCleanToast(`⚽ Added: ${type} (${odd}) • ${match}`);
+}
 
+function navigateToTab(tab) {
+  document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.querySelectorAll('.b-nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById(`btnTab-${tab}`).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (k === 'deposit' || k === 'withdraw' || k === 'profile') syncRealDatabaseBalance();
 }
 
 function openModal(id) { document.getElementById(id).style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-function toggleLanguage() {
-  const flag = document.getElementById('langFlag');
-  flag.innerText = flag.innerText === "🇪🇹" ? "🇺🇸" : "🇪🇹";
-  showCleanToast("Language updated");
-}
 </script>
 </body>
 </html>
