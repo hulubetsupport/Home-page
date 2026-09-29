@@ -3,123 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Hulu Bet V3 - Premier Futuristic Platform</title>
-<!-- Telegram WebApp SDK -->
+<title>Hulu Bet V3</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root {
-  --bg-black: #040507;
-  --bg-surface: #0a0d14;
-  --bg-card: #0f1420;
-  --bg-card-inner: #151b2b;
-  --bg-input: #0b0f17;
-  --gold-primary: #f5b400;
-  --gold-glow: rgba(245, 180, 0, 0.45);
-  --green-odds: #00e676;
-  --green-glow: rgba(0, 230, 118, 0.45);
-  --cyan-accent: #00e5ff;
-  --red-accent: #ff3344;
-  --border-subtle: #1c2436;
-  --text-white: #ffffff;
-  --text-muted: #8c9bb0;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-html, body { width: 100%; min-height: 100vh; background: #000; color: var(--text-white); overflow-x: hidden; }
-
-.app-viewport {
-  width: 100%; min-height: 100vh; background: var(--bg-black);
-  margin: 0 auto; display: flex; flex-direction: column; position: relative; max-width: 480px;
-  border-left: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle);
-}
-
-/* TOP NAVBAR */
-.top-nav-bar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 14px; background: rgba(10, 13, 20, 0.95); backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-subtle); position: sticky; top: 0; z-index: 60;
-}
-.brand-identity { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-.brand-logo-text { font-size: 21px; font-weight: 900; color: #fff; font-style: italic; }
-.brand-logo-text span { color: var(--gold-primary); font-size: 15px; font-style: normal; text-shadow: 0 0 10px var(--gold-glow); }
-.header-right-meta { display: flex; align-items: center; gap: 8px; }
-.balance-pill-badge {
-  display: flex; align-items: center; gap: 6px; background: var(--bg-card);
-  border: 1.5px solid var(--border-subtle); border-radius: 20px; padding: 4px 10px;
-  font-size: 12px; font-weight: 800; cursor: pointer;
-}
-.coin-icon-round { width: 18px; height: 18px; border-radius: 50%; background: #0284c7; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; }
-.btn-deposit-glow {
-  background: linear-gradient(135deg, #f5b400 0%, #e09b00 100%); color: #000; font-size: 12px; font-weight: 900;
-  padding: 6px 14px; border-radius: 20px; border: none; cursor: pointer; box-shadow: 0 0 15px var(--gold-glow);
-}
-
-/* SCREEN VIEWS */
-.screen-content { display: none; flex-direction: column; flex: 1; padding-bottom: 80px; overflow-y: auto; }
-.screen-content.active { display: flex; }
-
-/* 100K PRIZE POOL */
-.daily-pool-card {
-  margin: 10px 14px; background: linear-gradient(90deg, #101726 0%, #0d121c 100%);
-  border: 1px solid #1f2b45; border-radius: 14px; padding: 12px 14px;
-  display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
-}
-.pool-text-left { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 900; color: #fff; }
-.pool-counter-glow { color: var(--gold-primary); text-shadow: 0 0 10px var(--gold-glow); font-size: 15px; font-weight: 900; }
-.btn-play-pool { background: #0284c7; color: #fff; font-size: 11px; font-weight: 900; padding: 6px 14px; border-radius: 20px; border: none; cursor: pointer; }
-
-/* GAMES SHELF & GRID */
-.games-shelf-title { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px 8px; font-size: 13px; font-weight: 900; }
-.games-dense-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 14px 16px; }
-.game-square-card { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
-.game-square-card:active { transform: scale(0.94); }
-.game-thumb-box {
-  width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden;
-  border: 1px solid var(--border-subtle); background: var(--bg-card); position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-}
-.game-thumb-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.live-badge-corner { position: absolute; top: 3px; left: 3px; background: var(--green-odds); color: #000; font-size: 7.5px; font-weight: 900; padding: 1px 5px; border-radius: 3px; }
-.game-label-under { font-size: 10px; font-weight: 800; color: #fff; margin-top: 4px; text-align: center; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-/* FULLSCREEN GAME VIEWPORT (SOFT-HIDE READY) */
-.game-viewport-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
-.viewport-topbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #07090c; border-bottom: 1px solid var(--border-subtle); flex-shrink: 0; }
-.viewport-title { font-size: 13px; font-weight: 900; color: var(--gold-primary); }
-.viewport-iframe { flex: 1; border: none; width: 100%; height: 100%; }
-
-/* MODALS */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 150; justify-content: center; align-items: flex-end; }
-.bottom-sheet-card {
-  width: 100%; max-width: 480px; background: #0c0f17; border-top: 2px solid var(--gold-primary);
-  border-radius: 24px 24px 0 0; padding: 20px 18px 28px; display: flex; flex-direction: column; align-items: center; position: relative;
-}
-.sheet-close-x { position: absolute; top: 16px; right: 16px; font-size: 18px; color: var(--text-muted); cursor: pointer; }
-.modal-input-field { width: 100%; background: #131722; border: 1px solid var(--border-subtle); border-radius: 10px; padding: 13px; font-size: 13px; font-weight: 700; color: #fff; outline: none; margin-bottom: 10px; }
-.modal-yellow-cta { width: 100%; background: var(--gold-primary); color: #000; font-size: 14px; font-weight: 900; padding: 13px; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 0 15px var(--gold-glow); }
-
-/* BOTTOM DOCK NAV */
-.bottom-dock-nav {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%;
-  max-width: 480px; background: rgba(7, 9, 12, 0.98); backdrop-filter: blur(14px);
-  border-top: 1px solid #161922; display: flex; z-index: 60; padding: 6px 0 8px; justify-content: space-around;
-}
-.b-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 800; color: var(--text-muted); cursor: pointer; border: none; background: none; }
-.b-nav-item.active { color: var(--gold-primary); }
-
-#toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 6px; width: 90%; max-width: 350px; pointer-events: none; }
-.clean-toast { background: #121622; border: 1.5px solid var(--gold-primary); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 12px; font-weight: 800; }
+:root{--bg-black:#040507;--bg-surface:#0a0d14;--bg-card:#0f1420;--gold-primary:#f5b400;--gold-glow:rgba(245,180,0,.45);--green-odds:#00e676;--red-accent:#ff3344;--border-subtle:#1c2436;--text-white:#fff;--text-muted:#8c9bb0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100vh;background:#000;color:var(--text-white);overflow-x:hidden}
+.app-viewport{width:100%;min-height:100vh;background:var(--bg-black);margin:0 auto;display:flex;flex-direction:column;position:relative;max-width:480px;border-left:1px solid var(--border-subtle);border-right:1px solid var(--border-subtle)}
+.top-nav-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(10,13,20,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-subtle);position:sticky;top:0;z-index:60}
+.brand-logo-text{font-size:21px;font-weight:900;color:#fff;font-style:italic;cursor:pointer}
+.brand-logo-text span{color:var(--gold-primary);font-size:15px;font-style:normal;text-shadow:0 0 10px var(--gold-glow)}
+.header-right-meta{display:flex;align-items:center;gap:8px}
+.balance-pill-badge{display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1.5px solid var(--border-subtle);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:800;cursor:pointer}
+.coin-icon-round{width:18px;height:18px;border-radius:50%;background:#0284c7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900}
+.btn-deposit-glow{background:linear-gradient(135deg,#f5b400,#e09b00);color:#000;font-size:12px;font-weight:900;padding:6px 14px;border-radius:20px;border:none;cursor:pointer;box-shadow:0 0 15px var(--gold-glow)}
+.screen-content{display:none;flex-direction:column;flex:1;padding-bottom:80px;overflow-y:auto}
+.screen-content.active{display:flex}
+.info-card{margin:10px 14px;background:linear-gradient(90deg,#101726,#0d121c);border:1px solid #1f2b45;border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 15px rgba(2,132,199,.2)}
+.info-left{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:900}
+.info-glow{color:var(--gold-primary);text-shadow:0 0 10px var(--gold-glow);font-size:15px;font-weight:900}
+.btn-play-pool{background:#0284c7;color:#fff;font-size:11px;font-weight:900;padding:6px 14px;border-radius:20px;border:none;cursor:pointer}
+.games-shelf-title{display:flex;justify-content:space-between;align-items:center;padding:10px 14px 8px;font-size:13px;font-weight:900}
+.games-dense-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 16px}
+.game-square-card{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.game-square-card:active{transform:scale(.94)}
+.game-thumb-box{width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid var(--border-subtle);background:var(--bg-card);position:relative;box-shadow:0 4px 12px rgba(0,0,0,.6)}
+.game-thumb-box img{width:100%;height:100%;object-fit:cover;display:block}
+.live-badge-corner{position:absolute;top:3px;left:3px;background:var(--green-odds);color:#000;font-size:7.5px;font-weight:900;padding:1px 5px;border-radius:3px}
+.game-label-under{font-size:10px;font-weight:800;color:#fff;margin-top:4px;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game-viewport-modal{display:none;position:fixed;inset:0;background:#000;z-index:100;flex-direction:column}
+.viewport-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#07090c;border-bottom:1px solid var(--border-subtle);flex-shrink:0}
+.viewport-title{font-size:13px;font-weight:900;color:var(--gold-primary)}
+.viewport-iframe{flex:1;border:none;width:100%;height:100%}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:150;justify-content:center;align-items:flex-end}
+.bottom-sheet-card{width:100%;max-width:480px;background:#0c0f17;border-top:2px solid var(--gold-primary);border-radius:24px 24px 0 0;padding:20px 18px 28px;display:flex;flex-direction:column;align-items:center;position:relative}
+.sheet-close-x{position:absolute;top:16px;right:16px;font-size:18px;color:var(--text-muted);cursor:pointer}
+.modal-input-field{width:100%;background:#131722;border:1px solid var(--border-subtle);border-radius:10px;padding:13px;font-size:16px;font-weight:700;color:#fff;outline:none;margin-bottom:10px}
+.modal-yellow-cta{width:100%;background:var(--gold-primary);color:#000;font-size:14px;font-weight:900;padding:13px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 0 15px var(--gold-glow)}
+.modal-yellow-cta:disabled{opacity:.5}
+.sheet-note{font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center}
+.bottom-dock-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(7,9,12,.98);backdrop-filter:blur(14px);border-top:1px solid #161922;display:flex;z-index:60;padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+.b-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:800;color:var(--text-muted);cursor:pointer;border:none;background:none}
+.b-nav-item.active{color:var(--gold-primary)}
+#toast-container{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:6px;width:90%;max-width:350px;pointer-events:none}
+.clean-toast{background:#121622;border:1.5px solid var(--gold-primary);color:#fff;padding:12px 16px;border-radius:12px;font-size:12px;font-weight:800}
+#noSession{display:none;position:fixed;inset:0;z-index:9000;background:#040507;color:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;flex-direction:column;gap:10px}
 </style>
 </head>
 <body>
+<div id="noSession"><div style="font-size:40px">🦁</div><h3>Open Hulu Bet from Telegram</h3><p style="color:var(--text-muted);font-size:13px">Your account is secured by Telegram. Please open this app from <b>@Hulubetethbot</b>.</p></div>
 
 <div class="app-viewport">
   <div id="toast-container"></div>
-
-  <!-- TOP HEADER -->
   <header class="top-nav-bar">
-    <div class="brand-identity" onclick="navigateToTab('casino')">
-      <div class="brand-logo-text">Hulu<span>bet</span></div>
-    </div>
+    <div class="brand-logo-text" onclick="navigateToTab('casino')">Hulu<span>bet</span></div>
     <div class="header-right-meta">
       <div class="balance-pill-badge" onclick="toggleBalanceVisibility()">
         <div class="coin-icon-round">Br</div>
@@ -130,93 +68,55 @@ html, body { width: 100%; min-height: 100vh; background: #000; color: var(--text
     </div>
   </header>
 
-  <!-- TAB: CASINO LOBBY -->
   <div class="screen-content active" id="tab-casino">
-    <!-- 100K Pool -->
-    <div class="daily-pool-card">
-      <div class="pool-text-left">
+    <div class="info-card">
+      <div class="info-left">
         <i class="fa-solid fa-trophy" style="color:var(--gold-primary);font-size:22px;"></i>
-        <div>
-          <div style="font-size:10px;color:var(--text-muted);">DAILY JACKPOT POOL</div>
-          <div class="pool-counter-glow">100,000.00 ETB</div>
-        </div>
+        <div><div style="font-size:10px;color:var(--text-muted);">MAX WIN PER BET</div><div class="info-glow">Up to 20,000 ETB</div></div>
       </div>
-      <button class="btn-play-pool" onclick="launchGameEngine('keno', 'Fast Keno')">Play Now</button>
+      <button class="btn-play-pool" onclick="launchGameEngine('keno','Fast Keno')">Play Keno</button>
     </div>
-
-    <!-- 6 Live Games -->
-    <div class="games-shelf-title">
-      <span>🔥 6 Live Playable Games</span>
-      <span style="font-size:10px;color:var(--green-odds);font-weight:bold;">● 100% OPERATIONAL</span>
-    </div>
+    <div class="games-shelf-title"><span>🔥 Games</span><span style="font-size:10px;color:var(--green-odds);font-weight:bold;">● LIVE</span></div>
     <div class="games-dense-grid">
-      <!-- 1. Aviator -->
-      <div class="game-square-card" onclick="launchGameEngine('aviator', 'Aviator')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-label-under">Aviator</div>
-      </div>
-      <!-- 2. Fast Keno -->
-      <div class="game-square-card" onclick="launchGameEngine('keno', 'Fast Keno')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-label-under">Fast Keno</div>
-      </div>
-      <!-- 3. Jet-X -->
-      <div class="game-square-card" onclick="launchGameEngine('jetx', 'Jet-X')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-label-under">Jet-X</div>
-      </div>
-      <!-- 4. Chicken Road 2 -->
-      <div class="game-square-card" onclick="launchGameEngine('road', 'Chicken Road 2')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-label-under">Chicken Road 2</div>
-      </div>
-      <!-- 5. 777 Multi Slot -->
-      <div class="game-square-card" onclick="launchGameEngine('slot', '777 Multi Slot')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-label-under">777 Slot</div>
-      </div>
-      <!-- 6. Avia Masters -->
-      <div class="game-square-card" onclick="launchGameEngine('avia', 'Avia Masters')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-label-under">Avia Masters</div>
-      </div>
+      <div class="game-square-card" onclick="launchGameEngine('aviator','Aviator')"><div class="game-thumb-box"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Aviator</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('keno','Fast Keno')"><div class="game-thumb-box"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Fast Keno</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('jetx','Jet-X')"><div class="game-thumb-box"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Jet-X</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('road','Chicken Road 2')"><div class="game-thumb-box"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Chicken Road 2</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('slot','777 Multi Slot')"><div class="game-thumb-box"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">777 Slot</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('avia','Avia Masters')"><div class="game-thumb-box"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Avia Masters</div></div>
     </div>
   </div>
 
-  <!-- FULLSCREEN GAME VIEWPORT (KEEPS GAME ALIVE IN BACKGROUND!) -->
   <div class="game-viewport-modal" id="gameViewport">
     <div class="viewport-topbar">
-      <!-- 👈 ተጫዋቹ Lobby ሲነካ ማስጠንቀቂያ እንዲሰጠውና ጌሙ እንዳይጠፋ የሚያደርገው አዝራር -->
       <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="closeGameViewport()"><i class="fa-solid fa-arrow-left"></i> Lobby</button>
       <span class="viewport-title" id="activeGameTitle">Game</span>
       <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="openDepositDrawer()">+ Deposit</button>
     </div>
-    <iframe class="viewport-iframe" id="gameIframe" src="" allow="autoplay; fullscreen"></iframe>
+    <iframe class="viewport-iframe" id="gameIframe" src="about:blank" allow="autoplay; fullscreen"></iframe>
   </div>
 
-  <!-- DEPOSIT DRAWER -->
   <div class="modal-overlay" id="modalDepositDrawer" onclick="closeModal('modalDepositDrawer')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
       <span class="sheet-close-x" onclick="closeModal('modalDepositDrawer')">✕</span>
       <h3 style="margin-bottom:6px;">Instant Deposit</h3>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">Assigned Cashier: @Agent1hulubet</p>
-      <input type="number" id="depositAmountInput" class="modal-input-field" placeholder="Deposit Amount (Min 50 ETB)..." min="50">
-      <button class="modal-yellow-cta" onclick="submitDepositOrder()">Send Deposit Request</button>
+      <p class="sheet-note">Cashier: @Agent1hulubet. Send your request, then pay the agent in Telegram.</p>
+      <input type="number" id="depositAmountInput" class="modal-input-field" placeholder="Deposit amount (min 50 ETB)" min="50" inputmode="decimal">
+      <button class="modal-yellow-cta" id="depBtn" onclick="submitDepositOrder()">Send Deposit Request</button>
     </div>
   </div>
 
-  <!-- WITHDRAWAL DRAWER -->
   <div class="modal-overlay" id="modalWithdrawDrawer" onclick="closeModal('modalWithdrawDrawer')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
       <span class="sheet-close-x" onclick="closeModal('modalWithdrawDrawer')">✕</span>
       <h3 style="margin-bottom:6px;">Cashout (Telebirr / CBE)</h3>
-      <input type="number" id="withdrawAmountInput" class="modal-input-field" placeholder="Amount (Min 100 ETB)..." min="100">
-      <input type="text" id="withdrawAccountInput" class="modal-input-field" placeholder="Account Number...">
-      <button class="modal-yellow-cta" style="background:var(--green-odds);color:#000;" onclick="submitWithdrawOrder()">Confirm Cashout</button>
+      <p class="sheet-note" id="wdInfo"></p>
+      <input type="number" id="withdrawAmountInput" class="modal-input-field" placeholder="Amount (min 100 ETB)" min="100" inputmode="decimal">
+      <input type="tel" id="withdrawAccountInput" class="modal-input-field" placeholder="Phone / account number">
+      <button class="modal-yellow-cta" id="wdBtn" style="background:var(--green-odds);" onclick="submitWithdrawOrder()">Confirm Cashout</button>
     </div>
   </div>
 
-  <!-- DOCK NAVIGATION -->
   <nav class="bottom-dock-nav">
     <button class="b-nav-item active" onclick="navigateToTab('casino')"><i class="fa-solid fa-dice"></i><span>Casino</span></button>
     <button class="b-nav-item" onclick="openWithdrawDrawer()"><i class="fa-solid fa-money-bill-transfer"></i><span>Withdraw</span></button>
@@ -226,192 +126,124 @@ html, body { width: 100%; min-height: 100vh; background: #000; color: var(--text
 
 <script>
 const SERVER_URL = "https://hulubet-server.onrender.com";
+const GAME_ORIGIN = "https://hulubetsupport.github.io";   // only pages from here are trusted / receive the session
 
-// ============================================================================
-// 🛡️ 1. TELEGRAM SWIPE-DOWN ACCIDENTAL CLOSE GUARD (ወሳኙ ጥበቃ!)
-// ============================================================================
+// ---- Telegram session (no fallback user: outside Telegram nothing works) ----
 const tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.ready();
-  tg.expand();
-  if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
-  if (tg.enableClosingConfirmation) tg.enableClosingConfirmation(); // 👈 ቴሌግራም በስህተት እንዳይዘጋ ያግዳል!
+if (tg) { tg.ready(); tg.expand(); tg.disableVerticalSwipes?.(); tg.enableClosingConfirmation?.(); }
+const INIT_DATA = tg?.initData || "";
+const tgUser = tg?.initDataUnsafe?.user;
+const USER_ID = tgUser ? String(tgUser.id) : "";
+if (!INIT_DATA || !USER_ID) document.getElementById('noSession').style.display = 'flex';
+
+let currentBalance = null, wagerLeft = 0, isBalanceHidden = false;
+
+async function api(path, opts = {}) {
+  try {
+    const r = await fetch(SERVER_URL + path, { ...opts, headers: { 'Content-Type': 'application/json', 'x-telegram-init-data': INIT_DATA } });
+    const d = await r.json();
+    if (r.status === 401) toast("Session expired. Reopen the app from Telegram.");
+    return d;
+  } catch (e) { return { success: false, message: "Connection error, try again" }; }
 }
-
-let telegramUser = tg?.initDataUnsafe?.user || { id: 589218392, first_name: "Player", username: "player_ethio" };
-const USER_ID = String(telegramUser.id);
-const USER_NAME = telegramUser.first_name || "Player";
-const USER_HANDLE = telegramUser.username || "user";
-
-let currentBalance = parseFloat(localStorage.getItem('user_balance') || "20.00");
-let isBalanceHidden = false;
-
-function triggerCleanToast(msg) {
-  const box = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'clean-toast';
-  toast.innerText = msg;
-  box.appendChild(toast);
-  setTimeout(() => toast.remove(), 2600);
+function toast(msg) {
+  const box = document.getElementById('toast-container'), t = document.createElement('div');
+  t.className = 'clean-toast'; t.innerText = msg; box.appendChild(t); setTimeout(() => t.remove(), 2800);
 }
-
 function updateBalanceDisplay() {
-  const displayTxt = isBalanceHidden ? '••••••' : currentBalance.toFixed(2) + ' ETB';
-  document.getElementById('headerBalTxt').innerText = displayTxt;
-  localStorage.setItem('user_balance', currentBalance.toFixed(2));
+  const el = document.getElementById('headerBalTxt');
+  el.innerText = (isBalanceHidden || currentBalance === null) ? '••••••' : currentBalance.toFixed(2) + ' ETB';
+  document.getElementById('wdInfo').innerText = wagerLeft > 0 ? `Bonus wagering left: ${wagerLeft.toFixed(2)} ETB (bet this much to unlock withdrawals)` : `Available: ${(currentBalance ?? 0).toFixed(2)} ETB`;
 }
-updateBalanceDisplay();
-
 function toggleBalanceVisibility() {
   isBalanceHidden = !isBalanceHidden;
   document.getElementById('balEyeIcon').className = isBalanceHidden ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
   updateBalanceDisplay();
 }
-
 async function syncDatabaseBalance() {
-  try {
-    const res = await fetch(`${SERVER_URL}/api/user/init?userId=${USER_ID}&username=${USER_HANDLE}&name=${encodeURIComponent(USER_NAME)}`);
-    const data = await res.json();
-    if (data.success && data.balance !== undefined) {
-      currentBalance = parseFloat(data.balance);
-      updateBalanceDisplay();
-    }
-  } catch(e) {}
+  if (!INIT_DATA) return;
+  const ref = tg?.initDataUnsafe?.start_param || '';
+  const d = await api('/api/user/init' + (ref ? '?refId=' + encodeURIComponent(ref) : ''));
+  if (d.success) { currentBalance = d.balance; wagerLeft = d.wagerRequirementLeft || 0; updateBalanceDisplay(); }
+  else if (d.message) toast(d.message);
 }
 syncDatabaseBalance();
 
-// ============================================================================
-// 🎮 2. SEAMLESS BACKGROUND PERSISTENCE (ጨዋታው በጀርባ እንዳይጠፋ የሚያደርገው)
-// ============================================================================
-const LIVE_GAMES_URLS = {
-  aviator: { title: "Aviator", url: "https://hulubetsupport.github.io/Aveiter/" },
-  keno: { title: "Fast Keno", url: "https://hulubetsupport.github.io/Keno-fast/" },
-  jetx: { title: "Jet-X", url: "https://hulubetsupport.github.io/Jet-x/" },
-  road: { title: "Chicken Road 2", url: "https://hulubetsupport.github.io/Chekn-road/" },
-  slot: { title: "777 Multi Slot", url: "https://hulubetsupport.github.io/Slot-777-/" },
-  avia: { title: "Avia Masters", url: "https://hulubetsupport.github.io/Avia-master/" }
+// ---- games ----
+const GAMES = {
+  aviator: { title: "Aviator", url: GAME_ORIGIN + "/Aveiter/" },
+  keno: { title: "Fast Keno", url: GAME_ORIGIN + "/Keno-fast/" },
+  jetx: { title: "Jet-X", url: GAME_ORIGIN + "/Jet-x/" },
+  road: { title: "Chicken Road 2", url: GAME_ORIGIN + "/Chekn-road/" },
+  slot: { title: "777 Multi Slot", url: GAME_ORIGIN + "/Slot-777-/" },
+  avia: { title: "Avia Masters", url: GAME_ORIGIN + "/Avia-master/" }
 };
+let currentLoadedGame = null, isGameRoundActive = false;
+const gameWin = () => document.getElementById('gameIframe').contentWindow;
+const sendInit = () => { try { gameWin().postMessage({ type: 'INIT', userId: USER_ID, initData: INIT_DATA, balance: currentBalance }, GAME_ORIGIN); } catch (e) {} };
 
-let currentLoadedGame = null;
-let isGameRoundActive = false; // ተጫዋቹ ውርርድ ላይ መሆኑን መከታተያ
-
-function launchGameEngine(gameKey, gameTitle) {
-  const g = LIVE_GAMES_URLS[gameKey];
-  if (!g) return;
-
-  document.getElementById('activeGameTitle').innerText = gameTitle || g.title;
+function launchGameEngine(key, title) {
+  if (!INIT_DATA) return toast("Open the app from Telegram");
+  const g = GAMES[key]; if (!g) return;
+  document.getElementById('activeGameTitle').innerText = title || g.title;
   const iframe = document.getElementById('gameIframe');
-
-  // 👉 1. ቀድሞ የተከፈተ ያው ጨዋታ ከሆነ ድጋሚ ሪሎድ ሳያደርግ ካቆመበት ወዲያውኑ ይከፍተዋል!
-  if (currentLoadedGame === gameKey && iframe.src && iframe.src !== 'about:blank') {
-    document.getElementById('gameViewport').style.display = 'flex';
-    try {
-      iframe.contentWindow.postMessage({ type: 'UPDATE_BALANCE', balance: currentBalance }, '*');
-    } catch(e) {}
-    return;
-  }
-
-  // አዲስ ጨዋታ ከሆነ ብቻ አዲስ URL ይጭናል
-  currentLoadedGame = gameKey;
-  isGameRoundActive = false;
-  const sep = g.url.includes('?') ? '&' : '?';
-  iframe.src = `${g.url}${sep}userId=${USER_ID}&balance=${currentBalance.toFixed(2)}&name=${encodeURIComponent(USER_NAME)}`;
   document.getElementById('gameViewport').style.display = 'flex';
+  if (currentLoadedGame === key) { sendInit(); return; }        // same game: resume where it was, do not reload
+  currentLoadedGame = key; isGameRoundActive = false;
+  iframe.src = g.url;                                           // no user id / balance in the URL: the game gets the session via postMessage
 }
-
 function closeGameViewport() {
-  // 👉 2. ውርርድ ይዞ እያለ ለመውጣት ከሞከረ ማስጠንቀቂያ መስጠት
-  if (isGameRoundActive) {
-    const confirmExit = confirm("⚠️ አሁን ውርርድ ላይ ነዎት! አሁን ከወጡ ጨዋታው በጀርባ መሄዱን ይቀጥላል። ወደ ሎቢ መመለስ ይፈልጋሉ?");
-    if (!confirmExit) return;
-  }
-
-  // 👉 3. ወሳኙ መፍትሄ፦ iframe.src = '' አንለውም! ስክሪኑን ብቻ እንደብቀዋለን!
-  document.getElementById('gameViewport').style.display = 'none';
-  syncDatabaseBalance();
+  const leave = () => { document.getElementById('gameViewport').style.display = 'none'; syncDatabaseBalance(); };
+  if (!isGameRoundActive) return leave();
+  const msg = "You have a round in progress. It keeps running in the background. Go back to the lobby?";
+  if (tg?.showConfirm) tg.showConfirm(msg, ok => ok && leave()); else if (confirm(msg)) leave();
 }
 
-// 📡 ከጨዋታው ጋር የሚደረግ ግንኙነት
-window.addEventListener('message', (e) => {
-  if (!e.data) return;
-
-  // ጨዋታው ውርርድ መያዙን ሲያሳውቅ
-  if (e.data.type === 'BET_STARTED') {
-    isGameRoundActive = true;
-  }
-
-  // ጨዋታው ሲጠናቀቅ ወይም Cash Out ሲደረግ
-  if (e.data.type === 'BET_ENDED') {
-    isGameRoundActive = false;
-  }
-
-  // የሂሳብ ለውጥ ሲኖር
-  if (e.data.type === 'BALANCE_UPDATE') {
-    currentBalance = parseFloat(e.data.newBalance);
-    updateBalanceDisplay();
-  }
-
-  if (e.data.type === 'OPEN_DEPOSIT') {
-    closeGameViewport();
-    openDepositDrawer();
-  }
+window.addEventListener('message', e => {
+  if (e.source !== gameWin() || e.origin !== GAME_ORIGIN) return;   // ignore anything not from our own game
+  const d = e.data || {};
+  if (d.type === 'GAME_READY') sendInit();
+  else if (d.type === 'BET_STARTED') isGameRoundActive = true;
+  else if (d.type === 'BET_ENDED') isGameRoundActive = false;
+  else if (d.type === 'BALANCE_UPDATE') { const b = parseFloat(d.newBalance); if (Number.isFinite(b)) { currentBalance = b; updateBalanceDisplay(); } }
+  else if (d.type === 'OPEN_DEPOSIT') openDepositDrawer();
 });
 
-// Modals
-function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function openDepositDrawer() { openModal('modalDepositDrawer'); }
-function openWithdrawDrawer() { openModal('modalWithdrawDrawer'); }
+// ---- modals / cashier ----
+const openModal = id => document.getElementById(id).style.display = 'flex';
+const closeModal = id => document.getElementById(id).style.display = 'none';
+const openDepositDrawer = () => openModal('modalDepositDrawer');
+function openWithdrawDrawer() { syncDatabaseBalance(); openModal('modalWithdrawDrawer'); }
 
 async function submitDepositOrder() {
   const amount = Number(document.getElementById('depositAmountInput').value);
-  if (!amount || amount < 50) return triggerCleanToast("Minimum deposit is 50 ETB!");
-
-  let depTxnId = 'DEP-' + Math.floor(10000 + Math.random() * 90000);
-  try {
-    await fetch(`${SERVER_URL}/api/cashier/deposit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: USER_ID, username: USER_HANDLE, amount: amount, method: "Telebirr", agentAssigned: "Agent1hulubet" })
-    });
-  } catch(e) {}
-
+  if (!amount || amount < 50) return toast("Minimum deposit is 50 ETB");
+  const btn = document.getElementById('depBtn'); btn.disabled = true;
+  const d = await api('/api/cashier/deposit', { method: 'POST', body: JSON.stringify({ amount, method: 'Telebirr', agentAssigned: 'Agent1hulubet' }) });
+  btn.disabled = false;
+  if (!d.success) return toast(d.message || "Deposit request failed");
   closeModal('modalDepositDrawer');
-  const msg = encodeURIComponent(`📥 DEPOSIT REQUEST: ${amount} ETB\nPlayer ID: ${USER_ID}\nRef: ${depTxnId}`);
-  window.open(`https://t.me/Agent1hulubet?text=${msg}`, '_blank');
+  const text = encodeURIComponent(`📥 DEPOSIT REQUEST: ${amount} ETB\nPlayer ID: ${USER_ID}\nRef: ${d.txnId}`);   // ref is the real server transaction id
+  const link = `https://t.me/${d.agent}?text=${text}`;
+  if (tg?.openTelegramLink) tg.openTelegramLink(link); else window.open(link, '_blank');
 }
 
 async function submitWithdrawOrder() {
   const amount = Number(document.getElementById('withdrawAmountInput').value);
   const account = document.getElementById('withdrawAccountInput').value.trim();
-
-  if (amount < 100) return triggerCleanToast("Minimum withdrawal is 100 ETB!");
-  if (amount > currentBalance) return triggerCleanToast("Insufficient balance!");
-  if (!account) return triggerCleanToast("Account number required!");
-
-  try {
-    const res = await fetch(`${SERVER_URL}/api/cashier/withdraw`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: USER_ID, amount: amount, accountNumber: account, method: "Telebirr" })
-    });
-    const d = await res.json();
-    if (d.success) {
-      currentBalance = parseFloat(d.newBalance);
-      updateBalanceDisplay();
-      closeModal('modalWithdrawDrawer');
-      triggerCleanToast("Withdrawal request submitted successfully!");
-    } else {
-      triggerCleanToast(d.message || "Withdrawal failed");
-    }
-  } catch(e) {
-    triggerCleanToast("Connection error");
-  }
+  if (!amount || amount < 100) return toast("Minimum withdrawal is 100 ETB");
+  if (!account) return toast("Account number required");
+  const btn = document.getElementById('wdBtn'); btn.disabled = true;
+  const d = await api('/api/cashier/withdraw', { method: 'POST', body: JSON.stringify({ amount, accountNumber: account, method: 'Telebirr' }) });
+  btn.disabled = false;
+  if (!d.success) return toast(d.message || "Withdrawal failed");
+  currentBalance = d.newBalance; updateBalanceDisplay(); closeModal('modalWithdrawDrawer');
+  toast("Withdrawal request submitted");
 }
 
 function navigateToTab(t) {
   document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
-  document.getElementById(`tab-${t}`).classList.add('active');
+  document.getElementById('tab-' + t).classList.add('active');
 }
 </script>
 </body>
