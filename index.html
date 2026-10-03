@@ -3,97 +3,506 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Hulu Bet V3</title>
+<title>Hulu Bet V2.1 – Sports & Casino</title>
+<!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          bgDark: '#040507',
+          bgSurface: '#0a0d14',
+          bgCard: '#0f1420',
+          bgCardHover: '#161d2d',
+          goldPrimary: '#f5b400',
+          goldGlow: 'rgba(245, 180, 0, 0.45)',
+          greenOdds: '#00e676',
+          greenGlow: 'rgba(0, 230, 118, 0.35)',
+          redOdds: '#ff3344',
+          borderSubtle: '#1a2336',
+          textMuted: '#8c9bb0'
+        }
+      }
+    }
+  }
+</script>
 <style>
-:root{--bg-black:#040507;--bg-surface:#0a0d14;--bg-card:#0f1420;--gold-primary:#f5b400;--gold-glow:rgba(245,180,0,.45);--green-odds:#00e676;--red-accent:#ff3344;--border-subtle:#1c2436;--text-white:#fff;--text-muted:#8c9bb0}
+:root{
+  --bg-black:#040507;
+  --bg-surface:#0a0d14;
+  --bg-card:#0f1420;
+  --gold-primary:#f5b400;
+  --gold-glow:rgba(245,180,0,.45);
+  --green-odds:#00e676;
+  --red-accent:#ff3344;
+  --border-subtle:#1a2336;
+  --text-white:#fff;
+  --text-muted:#8c9bb0;
+}
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100vh;background:#000;color:var(--text-white);overflow-x:hidden}
 .app-viewport{width:100%;min-height:100vh;background:var(--bg-black);margin:0 auto;display:flex;flex-direction:column;position:relative;max-width:480px;border-left:1px solid var(--border-subtle);border-right:1px solid var(--border-subtle)}
-.top-nav-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(10,13,20,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-subtle);position:sticky;top:0;z-index:60}
-.brand-logo-text{font-size:21px;font-weight:900;color:#fff;font-style:italic;cursor:pointer}
-.brand-logo-text span{color:var(--gold-primary);font-size:15px;font-style:normal;text-shadow:0 0 10px var(--gold-glow)}
+
+/* Top bar with safe area for Telegram Fullscreen */
+.top-nav-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:calc(12px + env(safe-area-inset-top, 0px)) 14px 10px;
+  background:rgba(10,13,20,.96);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border-subtle);
+  position:sticky;
+  top:0;
+  z-index:60;
+}
+.brand-logo-text{font-size:21px;font-weight:900;color:#fff;font-style:italic;cursor:pointer;display:flex;align-items:center;gap:4px}
+.brand-logo-text span.brand-sub{color:var(--gold-primary);font-size:15px;font-style:normal;text-shadow:0 0 10px var(--gold-glow)}
+.brand-badge{background:var(--red-accent);color:#fff;font-size:8px;font-weight:900;padding:1px 5px;border-radius:4px;font-style:normal;margin-left:2px}
+
 .header-right-meta{display:flex;align-items:center;gap:8px}
-.balance-pill-badge{display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1.5px solid var(--border-subtle);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:800;cursor:pointer}
+.balance-pill-badge{display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1.5px solid var(--border-subtle);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:800;cursor:pointer;transition:border-color .15s}
+.balance-pill-badge:hover{border-color:var(--gold-primary)}
 .coin-icon-round{width:18px;height:18px;border-radius:50%;background:#0284c7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900}
-.btn-deposit-glow{background:linear-gradient(135deg,#f5b400,#e09b00);color:#000;font-size:12px;font-weight:900;padding:6px 14px;border-radius:20px;border:none;cursor:pointer;box-shadow:0 0 15px var(--gold-glow)}
-.screen-content{display:none;flex-direction:column;flex:1;padding-bottom:80px;overflow-y:auto}
+.btn-deposit-glow{background:linear-gradient(135deg,#f5b400,#e09b00);color:#000;font-size:12px;font-weight:900;padding:6px 14px;border-radius:20px;border:none;cursor:pointer;box-shadow:0 0 15px var(--gold-glow);transition:transform .1s}
+.btn-deposit-glow:active{transform:scale(.95)}
+
+/* Screens */
+.screen-content{display:none;flex-direction:column;flex:1;padding-bottom:90px;overflow-y:auto}
 .screen-content.active{display:flex}
-.info-card{margin:10px 14px;background:linear-gradient(90deg,#101726,#0d121c);border:1px solid #1f2b45;border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 15px rgba(2,132,199,.2)}
-.info-left{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:900}
-.info-glow{color:var(--gold-primary);text-shadow:0 0 10px var(--gold-glow);font-size:15px;font-weight:900}
-.btn-play-pool{background:#0284c7;color:#fff;font-size:11px;font-weight:900;padding:6px 14px;border-radius:20px;border:none;cursor:pointer}
-.games-shelf-title{display:flex;justify-content:space-between;align-items:center;padding:10px 14px 8px;font-size:13px;font-weight:900}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+/* Games Grid */
+.games-shelf-title{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 8px;font-size:13px;font-weight:900}
 .games-dense-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 16px}
-.game-square-card{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.game-square-card{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .12s}
 .game-square-card:active{transform:scale(.94)}
 .game-thumb-box{width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid var(--border-subtle);background:var(--bg-card);position:relative;box-shadow:0 4px 12px rgba(0,0,0,.6)}
 .game-thumb-box img{width:100%;height:100%;object-fit:cover;display:block}
 .live-badge-corner{position:absolute;top:3px;left:3px;background:var(--green-odds);color:#000;font-size:7.5px;font-weight:900;padding:1px 5px;border-radius:3px}
 .game-label-under{font-size:10px;font-weight:800;color:#fff;margin-top:4px;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.game-viewport-modal{display:none;position:fixed;inset:0;background:#000;z-index:100;flex-direction:column}
-.viewport-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#07090c;border-bottom:1px solid var(--border-subtle);flex-shrink:0}
-.viewport-title{font-size:13px;font-weight:900;color:var(--gold-primary)}
-.viewport-iframe{flex:1;border:none;width:100%;height:100%}
+
+/* Modals & Bottom Sheets */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:150;justify-content:center;align-items:flex-end}
-.bottom-sheet-card{width:100%;max-width:480px;background:#0c0f17;border-top:2px solid var(--gold-primary);border-radius:24px 24px 0 0;padding:20px 18px 28px;display:flex;flex-direction:column;align-items:center;position:relative}
-.sheet-close-x{position:absolute;top:16px;right:16px;font-size:18px;color:var(--text-muted);cursor:pointer}
-.modal-input-field{width:100%;background:#131722;border:1px solid var(--border-subtle);border-radius:10px;padding:13px;font-size:16px;font-weight:700;color:#fff;outline:none;margin-bottom:10px}
-.modal-yellow-cta{width:100%;background:var(--gold-primary);color:#000;font-size:14px;font-weight:900;padding:13px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 0 15px var(--gold-glow)}
+.bottom-sheet-card{width:100%;max-width:480px;background:#0c0f17;border-top:2px solid var(--gold-primary);border-radius:24px 24px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom, 0px));display:flex;flex-direction:column;align-items:center;position:relative;max-height:90vh;overflow-y:auto}
+.sheet-close-x{position:absolute;top:16px;right:16px;font-size:18px;color:var(--text-muted);cursor:pointer;padding:4px}
+.modal-input-field{width:100%;background:#131722;border:1px solid var(--border-subtle);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700;color:#fff;outline:none;margin-bottom:10px;transition:border-color .15s}
+.modal-input-field:focus{border-color:var(--gold-primary)}
+.modal-yellow-cta{width:100%;background:var(--gold-primary);color:#000;font-size:14px;font-weight:900;padding:13px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 0 15px var(--gold-glow);transition:transform .12s}
+.modal-yellow-cta:active{transform:scale(.97)}
 .modal-yellow-cta:disabled{opacity:.5}
 .sheet-note{font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center}
-.bottom-dock-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(7,9,12,.98);backdrop-filter:blur(14px);border-top:1px solid #161922;display:flex;z-index:60;padding:6px 0 calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around}
-.b-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:800;color:var(--text-muted);cursor:pointer;border:none;background:none}
-.b-nav-item.active{color:var(--gold-primary)}
-#toast-container{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:6px;width:90%;max-width:350px;pointer-events:none}
-.clean-toast{background:#121622;border:1.5px solid var(--gold-primary);color:#fff;padding:12px 16px;border-radius:12px;font-size:12px;font-weight:800}
-#noSession{display:none;position:fixed;inset:0;z-index:9000;background:#040507;color:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;flex-direction:column;gap:10px}
 
+/* Game Viewport Modal */
+.game-viewport-modal{display:none;position:fixed;inset:0;background:#000;z-index:200;flex-direction:column}
+.viewport-topbar{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top, 0px)) 12px 8px;background:#07090c;border-bottom:1px solid var(--border-subtle);flex-shrink:0}
+.viewport-title{font-size:13px;font-weight:900;color:var(--gold-primary)}
+.viewport-iframe{flex:1;border:none;width:100%;height:100%}
+
+/* Bottom Dock Navigation */
+.bottom-dock-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(7,9,12,.98);backdrop-filter:blur(14px);border-top:1px solid #161922;display:flex;z-index:60;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+.b-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:800;color:var(--text-muted);cursor:pointer;border:none;background:none;transition:color .12s}
+.b-nav-item.active{color:var(--gold-primary)}
+
+/* Toasts & Session Fallback */
+#toast-container{position:fixed;top:calc(20px + env(safe-area-inset-top, 0px));left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:6px;width:90%;max-width:350px;pointer-events:none}
+.clean-toast{background:#121622;border:1.5px solid var(--gold-primary);color:#fff;padding:12px 16px;border-radius:12px;font-size:12px;font-weight:800;box-shadow:0 10px 25px rgba(0,0,0,.8)}
+#noSession{display:none;position:fixed;inset:0;z-index:9000;background:#040507;color:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;flex-direction:column;gap:12px}
+
+/* History Items */
 .hist-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border-subtle);font-size:12px;width:100%}
 .hist-item small{display:block;color:var(--text-muted);font-size:10px;margin-top:2px}
 .chip{font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;background:#1c2436}
-.chip.approved{color:var(--green-odds)}.chip.rejected{color:var(--red-accent)}.chip.pending{color:var(--gold-primary)}
+.chip.approved{color:var(--green-odds);background:rgba(0,230,118,.15)}.chip.rejected{color:var(--red-accent);background:rgba(255,51,68,.15)}.chip.pending{color:var(--gold-primary);background:rgba(245,180,0,.15)}
 .btn-cancel{background:none;border:1px solid var(--red-accent);color:var(--red-accent);font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px;margin-left:6px;cursor:pointer}
-#histList{width:100%;max-height:55vh;overflow-y:auto}
+
+/* Spinning Wheel Animation */
+@keyframes spinWheelAnim {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(2160deg); }
+}
+.wheel-spinning {
+  animation: spinWheelAnim 4.2s cubic-bezier(0.12, 0.85, 0.22, 1) forwards;
+}
+
+/* Odds flashing */
+@keyframes oddsUpFlash {
+  0%, 100% { background: transparent; }
+  50% { background: rgba(0, 230, 118, 0.2); border-color: #00e676; color: #00e676; }
+}
+@keyframes oddsDownFlash {
+  0%, 100% { background: transparent; }
+  50% { background: rgba(255, 51, 68, 0.2); border-color: #ff3344; color: #ff3344; }
+}
+.flash-up { animation: oddsUpFlash 1.2s ease-in-out; }
+.flash-down { animation: oddsDownFlash 1.2s ease-in-out; }
 </style>
 </head>
 <body>
-<div id="noSession"><div style="font-size:40px">🦁</div><h3>Open Hulu Bet from Telegram</h3><p style="color:var(--text-muted);font-size:13px">Your account is secured by Telegram. Please open this app from <b>@Hulubetethbot</b>.</p></div>
+
+<!-- NO TELEGRAM SESSION OVERLAY -->
+<div id="noSession">
+  <div style="font-size:42px">🦁</div>
+  <h3 class="text-base font-black text-white" id="i18n-noSessionTitle">Open Hulu Bet from Telegram</h3>
+  <p style="color:var(--text-muted);font-size:13px" id="i18n-noSessionDesc">Your account is secured by Telegram. Please open this app from <b>@Hulubetethbot</b>.</p>
+</div>
 
 <div class="app-viewport">
   <div id="toast-container"></div>
+
+  <!-- TOP HEADER -->
   <header class="top-nav-bar">
-    <div class="brand-logo-text" onclick="navigateToTab('casino')">Hulu<span>bet</span></div>
+    <div class="brand-logo-text" onclick="navigateToTab('casino')">
+      Hulu<span class="brand-sub">bet</span>
+      <span class="brand-badge">V2.1</span>
+    </div>
     <div class="header-right-meta">
       <div class="balance-pill-badge" onclick="toggleBalanceVisibility()">
         <div class="coin-icon-round">Br</div>
         <span id="headerBalTxt">••••••</span>
         <i class="fa-regular fa-eye" id="balEyeIcon" style="font-size:11px;color:var(--text-muted)"></i>
       </div>
-      <button class="btn-deposit-glow" onclick="openDepositDrawer()">Deposit</button>
+      <button class="btn-deposit-glow" onclick="openDepositDrawer()" id="i18n-headerDeposit">Deposit</button>
     </div>
   </header>
 
+  <!-- ======================================================== -->
+  <!-- TAB 1: CASINO LOBBY -->
+  <!-- ======================================================== -->
   <div class="screen-content active" id="tab-casino">
-    <div class="info-card">
-      <div class="info-left">
-        <i class="fa-solid fa-trophy" style="color:var(--gold-primary);font-size:22px;"></i>
-        <div><div style="font-size:10px;color:var(--text-muted);">MAX WIN PER BET</div><div class="info-glow">Up to 20,000 ETB</div></div>
-      </div>
-      <button class="btn-play-pool" onclick="launchGameEngine('keno','Fast Keno')">Play Keno</button>
+    <!-- HERO PROMOTIONAL BANNER -->
+    <div class="mx-3.5 mt-2 rounded-2xl overflow-hidden border border-borderSubtle shadow-xl relative aspect-[16/7] bg-bgCard">
+      <img src="https://i.postimg.cc/zBcMGpxz/20261003-183116.jpg" alt="Sportbook & Casino Banner" class="w-full h-full object-cover">
     </div>
-    <div class="games-shelf-title"><span>🔥 Games</span><span style="font-size:10px;color:var(--green-odds);font-weight:bold;">● LIVE</span></div>
+
+    <!-- 4 QUICK ACTION TILES -->
+    <div class="grid grid-cols-4 gap-2 px-3.5 mt-3">
+      <div class="relative bg-bgCard border border-borderSubtle rounded-xl p-2.5 flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 transition" onclick="openModal('modalLuckySpin')">
+        <div class="w-8 h-8 rounded-full bg-goldPrimary/15 flex items-center justify-center text-goldPrimary text-sm">🎡</div>
+        <span class="text-[10px] font-extrabold text-white" id="i18n-luckySpin">Lucky Spin</span>
+      </div>
+
+      <div class="relative bg-bgCard border border-borderSubtle rounded-xl p-2.5 flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 transition" onclick="openModal('modalShare')">
+        <span class="absolute top-1 right-1 bg-redOdds text-[8px] font-black px-1.5 rounded text-white leading-tight">NEW</span>
+        <div class="w-8 h-8 rounded-full bg-amber-500/15 flex items-center justify-center text-amber-400 text-sm">🪙</div>
+        <span class="text-[10px] font-extrabold text-white" id="i18n-shamo">Shamo</span>
+      </div>
+
+      <div class="relative bg-bgCard border border-borderSubtle rounded-xl p-2.5 flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 transition" onclick="openModal('modalCoupon')">
+        <div class="w-8 h-8 rounded-full bg-greenOdds/15 flex items-center justify-center text-greenOdds text-sm">🎁</div>
+        <span class="text-[10px] font-extrabold text-white" id="i18n-coupon">Coupon</span>
+      </div>
+
+      <div class="relative bg-bgCard border border-borderSubtle rounded-xl p-2.5 flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 transition" onclick="navigateToTab('profile')">
+        <span class="absolute top-1 right-1 bg-redOdds text-[8px] font-black px-1.5 rounded text-white leading-tight">NEW</span>
+        <div class="w-8 h-8 rounded-full bg-goldPrimary/15 flex items-center justify-center text-goldPrimary text-sm">👑</div>
+        <span class="text-[10px] font-extrabold text-white" id="i18n-vip">VIP</span>
+      </div>
+    </div>
+
+    <!-- RECENT BIG WINS TICKER -->
+    <div class="space-y-2 pt-3">
+      <div class="flex items-center gap-2 px-3.5 text-xs font-black tracking-wider text-textMuted uppercase">
+        <span class="w-2 h-2 rounded-full bg-goldPrimary"></span>
+        <span id="i18n-recentWins">Recent Big Wins</span>
+      </div>
+      <div class="flex gap-2.5 overflow-x-auto px-3.5 no-scrollbar" id="recentWinsTicker">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- 6 LIVE PLAYABLE GAMES SHELF -->
+    <div class="games-shelf-title mt-2">
+      <span class="flex items-center gap-1.5" id="i18n-liveGamesTitle"><i class="fa-solid fa-fire text-amber-500"></i> Live Playable Games</span>
+      <span style="font-size:10px;color:var(--green-odds);font-weight:bold;">● AUTHORITATIVE RTP</span>
+    </div>
+
     <div class="games-dense-grid">
       <div class="game-square-card" onclick="launchGameEngine('aviator','Aviator')"><div class="game-thumb-box"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Aviator</div></div>
       <div class="game-square-card" onclick="launchGameEngine('keno','Fast Keno')"><div class="game-thumb-box"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Fast Keno</div></div>
       <div class="game-square-card" onclick="launchGameEngine('jetx','Jet-X')"><div class="game-thumb-box"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Jet-X</div></div>
-      <div class="game-square-card" onclick="launchGameEngine('road','Chicken Road 2')"><div class="game-thumb-box"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Chicken Road 2</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('road','Chicken Road 2')"><div class="game-thumb-box"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-badge-corner">HOT</span></div><div class="game-label-under">Chicken Road 2</div></div>
       <div class="game-square-card" onclick="launchGameEngine('slot','777 Multi Slot')"><div class="game-thumb-box"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">777 Slot</div></div>
-      <div class="game-square-card" onclick="launchGameEngine('avia','Avia Masters')"><div class="game-thumb-box"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-badge-corner">LIVE</span></div><div class="game-label-under">Avia Masters</div></div>
+      <div class="game-square-card" onclick="launchGameEngine('avia','Avia Masters')"><div class="game-thumb-box"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-badge-corner">POPULAR</span></div><div class="game-label-under">Avia Masters</div></div>
     </div>
   </div>
 
+  <!-- ======================================================== -->
+  <!-- TAB 2: SPORTS BETTING (ALL 20 EPL CLUBS + ACCUMULATOR) -->
+  <!-- ======================================================== -->
+  <div class="screen-content" id="tab-sports">
+    <!-- ACCUMULATOR BOOST PROMO BAR -->
+    <div class="mx-3.5 mt-2 bg-gradient-to-r from-[#2a1b05] via-[#1a2538] to-[#0e1628] border border-goldPrimary/40 rounded-xl p-3 flex justify-between items-center shadow-lg">
+      <div>
+        <div class="text-xs font-black text-goldPrimary flex items-center gap-1.5" id="i18n-accumTitle">
+          ⚡ ACCUMULATOR BONUS UP TO +50%
+        </div>
+        <div class="text-[10px] text-textMuted mt-0.5" id="i18n-accumSub">
+          3+ matches: +5% | 5+ matches: +15% | 10 matches: +50%!
+        </div>
+      </div>
+      <div class="bg-goldPrimary text-black font-black text-xs px-2.5 py-1 rounded-lg" id="accumPercentBadge">
+        +0%
+      </div>
+    </div>
+
+    <!-- SPORTS CATEGORIES HORIZONTAL PILLS -->
+    <div class="flex gap-2 overflow-x-auto px-3.5 mt-3 no-scrollbar" id="sportsCatList">
+      <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-goldPrimary text-black border-goldPrimary" onclick="switchSportCategory('soccer')">
+        <span>⚽</span><span id="i18n-catSoccer">Soccer</span><span class="text-[10px] px-1 rounded-full bg-black text-goldPrimary">222</span>
+      </button>
+      <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-bgCard text-textMuted border-borderSubtle" onclick="switchSportCategory('basketball')">
+        <span>🏀</span><span>Basketball</span><span class="text-[10px] px-1 rounded-full bg-borderSubtle text-textMuted">18</span>
+      </button>
+      <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-bgCard text-textMuted border-borderSubtle" onclick="switchSportCategory('tennis')">
+        <span>🎾</span><span>Tennis</span><span class="text-[10px] px-1 rounded-full bg-borderSubtle text-textMuted">12</span>
+      </button>
+      <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-bgCard text-textMuted border-borderSubtle" onclick="switchSportCategory('boxing')">
+        <span>🥊</span><span>Boxing</span><span class="text-[10px] px-1 rounded-full bg-borderSubtle text-textMuted">8</span>
+      </button>
+      <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-bgCard text-textMuted border-borderSubtle" onclick="switchSportCategory('cricket')">
+        <span>🏏</span><span>Cricket</span><span class="text-[10px] px-1 rounded-full bg-borderSubtle text-textMuted">15</span>
+      </button>
+    </div>
+
+    <!-- MATCHES LIST -->
+    <div class="px-3.5 mt-3 space-y-2.5">
+      <div class="flex justify-between items-center text-xs font-black text-textMuted">
+        <span class="uppercase" id="i18n-matchCountLabel">MATCHES (10)</span>
+        <span id="i18n-oddsLabel">1X2 ODDS</span>
+      </div>
+      <div id="matchesContainer" class="space-y-2.5">
+        <!-- Dynamically injected match cards -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- TAB 3: GAMES (ALL 24 TILES WITH REAL WORKING HOOKS) -->
+  <!-- ======================================================== -->
+  <div class="screen-content" id="tab-games">
+    <div class="p-3.5 space-y-3">
+      <!-- SEARCH INPUT -->
+      <div class="relative flex items-center">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 text-textMuted text-xs"></i>
+        <input type="text" id="gameSearchInput" placeholder="Search games..." oninput="filterGamesCatalog()" class="w-full bg-bgCard border border-borderSubtle rounded-xl pl-9 pr-3 py-2 text-xs font-bold text-white placeholder-textMuted focus:outline-none focus:border-goldPrimary">
+      </div>
+
+      <div class="flex justify-between items-center text-xs font-black">
+        <span class="text-white uppercase" id="i18n-allGamesTitle">All Available Games (24)</span>
+        <span class="text-greenOdds font-black">● LIVE READY</span>
+      </div>
+
+      <!-- 24 GAMES GRID -->
+      <div class="grid grid-cols-3 gap-2.5" id="fullGamesGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- TAB 4: INVITE FRIENDS -->
+  <!-- ======================================================== -->
+  <div class="screen-content" id="tab-invite">
+    <div class="p-3.5 space-y-3.5">
+      <div class="bg-gradient-to-b from-[#251906] to-bgCard border border-goldPrimary/40 rounded-2xl p-4 space-y-3 shadow-xl">
+        <span class="text-[10px] font-black uppercase text-goldPrimary bg-goldPrimary/10 border border-goldPrimary/30 px-2 py-0.5 rounded-full inline-block">
+          ✨ Referral Program
+        </span>
+        <h1 class="text-xl font-black text-white leading-tight" id="i18n-inviteHeadline">
+          Invite friends.<br>Earn Br 100.
+        </h1>
+        <p class="text-xs text-textMuted leading-relaxed" id="i18n-inviteSub">
+          You earn Br 100 when a new friend makes their first external deposit, then claim it directly to your wallet.
+        </p>
+
+        <div class="bg-bgSurface border border-borderSubtle rounded-xl p-3 flex justify-between items-center">
+          <div>
+            <div class="text-[10px] text-textMuted font-bold" id="i18n-rewardFriend">REWARD PER ACTIVE FRIEND</div>
+            <div class="text-base font-black text-goldPrimary">Br 100</div>
+          </div>
+          <button onclick="copyReferralLink()" class="bg-bgCard border border-borderSubtle p-2 rounded-lg text-textMuted hover:text-white">
+            <i class="fa-regular fa-copy"></i>
+          </button>
+        </div>
+
+        <button onclick="openModal('modalShare')" class="w-full bg-goldPrimary text-black text-xs font-black py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-users"></i> <span id="i18n-inviteBtn">Invite Friends</span>
+        </button>
+      </div>
+
+      <div class="bg-bgCard border border-borderSubtle rounded-xl p-3 flex justify-between items-center">
+        <div>
+          <div class="text-[10px] text-textMuted font-bold uppercase">Ready to claim</div>
+          <div class="text-sm font-black text-white">Br 0</div>
+          <div class="text-[9px] text-textMuted">Already claimed: Br 0</div>
+        </div>
+        <button disabled class="bg-borderSubtle text-textMuted text-xs font-black px-3.5 py-2 rounded-lg opacity-50 cursor-not-allowed">Nothing to claim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- TAB 5: PROFILE & CASHIER CENTER -->
+  <!-- ======================================================== -->
+  <div class="screen-content" id="tab-profile">
+    <div class="p-3.5 space-y-3">
+      <!-- USER BADGE -->
+      <div class="bg-bgCard border border-borderSubtle rounded-xl p-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full bg-goldPrimary/20 border border-goldPrimary text-goldPrimary font-black text-base flex items-center justify-center" id="profileAvatarLetter">
+            A
+          </div>
+          <div>
+            <div class="text-sm font-black text-white" id="profileUserName">Player</div>
+            <div class="text-xs text-textMuted font-medium flex items-center gap-1.5">
+              <span id="i18n-profileBalLabel">Balance</span>: <span id="profileBalTxt">0.00 ETB</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="toggleBalanceVisibility()" class="text-textMuted hover:text-white">
+          <i class="fa-regular fa-eye"></i>
+        </button>
+      </div>
+
+      <!-- VIP STATUS -->
+      <div class="bg-gradient-to-r from-[#201804] to-bgCard border border-goldPrimary/40 rounded-xl p-3.5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-goldPrimary/10 rounded-lg text-goldPrimary text-base">👑</div>
+          <div>
+            <div class="text-[10px] text-textMuted font-bold uppercase tracking-wider">VIP CLUB • LEVEL 0</div>
+            <div class="text-xs font-black text-goldPrimary">EXPLORER STATUS</div>
+          </div>
+        </div>
+        <span class="text-xs text-goldPrimary font-bold">&gt;</span>
+      </div>
+
+      <!-- 4 STATS METRIC GRID -->
+      <div class="grid grid-cols-2 gap-2">
+        <div class="bg-bgCard border border-borderSubtle rounded-xl p-3">
+          <div class="text-[10px] text-textMuted font-bold">TOTAL BETS</div>
+          <div class="text-base font-black text-white mt-1">10</div>
+        </div>
+        <div class="bg-bgCard border border-borderSubtle rounded-xl p-3">
+          <div class="text-[10px] text-textMuted font-bold">HIGHEST WIN</div>
+          <div class="text-base font-black text-greenOdds mt-1">ETB 2.87</div>
+        </div>
+        <div class="bg-bgCard border border-borderSubtle rounded-xl p-3">
+          <div class="text-[10px] text-textMuted font-bold">MOST PLAYED</div>
+          <div class="text-xs font-black text-white mt-1 truncate">Chicken Road Two</div>
+        </div>
+        <div class="bg-bgCard border border-borderSubtle rounded-xl p-3">
+          <div class="text-[10px] text-textMuted font-bold">WAGERED</div>
+          <div class="text-base font-black text-goldPrimary mt-1">ETB 20.00</div>
+        </div>
+      </div>
+
+      <!-- NAVIGATION ROWS -->
+      <div class="bg-bgCard border border-borderSubtle rounded-xl divide-y divide-borderSubtle text-xs font-bold">
+        <div onclick="openModal('modalCoupon')" class="p-3 flex justify-between items-center cursor-pointer hover:bg-bgSurface transition">
+          <div class="flex items-center gap-2.5 text-blue-400">
+            <i class="fa-solid fa-gift"></i>
+            <span class="text-white" id="i18n-menuPromo">Promo Code</span>
+          </div>
+          <span class="text-textMuted">&gt;</span>
+        </div>
+
+        <div onclick="openModal('modalLanguage')" class="p-3 flex justify-between items-center cursor-pointer hover:bg-bgSurface transition">
+          <div class="flex items-center gap-2.5 text-greenOdds">
+            <i class="fa-solid fa-globe"></i>
+            <span class="text-white" id="i18n-menuLanguage">Language</span>
+          </div>
+          <span class="text-textMuted flex items-center gap-1.5 font-normal" id="currentLangLabel">English &gt;</span>
+        </div>
+
+        <div onclick="openModal('modalBetHistory')" class="p-3 flex justify-between items-center cursor-pointer hover:bg-bgSurface transition">
+          <div class="flex items-center gap-2.5 text-goldPrimary">
+            <i class="fa-solid fa-trophy"></i>
+            <span class="text-white" id="i18n-menuBetHist">Bet History</span>
+          </div>
+          <span class="text-textMuted">&gt;</span>
+        </div>
+
+        <div onclick="openHistory()" class="p-3 flex justify-between items-center cursor-pointer hover:bg-bgSurface transition">
+          <div class="flex items-center gap-2.5 text-cyan-400">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span class="text-white" id="i18n-menuCashierHist">Cashier History (Deposits &amp; Withdraws)</span>
+          </div>
+          <span class="text-textMuted">&gt;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- FLOATING BETSLIP BAR -->
+  <!-- ======================================================== -->
+  <div id="sportsBetslipTrigger" style="display:none;" onclick="toggleBetslipDrawer(true)" class="fixed bottom-16 left-1/2 -translate-x-1/2 w-[92%] max-w-[440px] z-40 bg-goldPrimary text-black rounded-xl p-3 flex justify-between items-center shadow-xl cursor-pointer font-black text-xs">
+    <div class="flex items-center gap-2">
+      <span class="bg-black text-goldPrimary px-2 py-0.5 rounded-full text-[11px] font-black" id="betslipCount">0</span>
+      <span id="i18n-betslipTriggerText">Matches Selected</span>
+      <span class="bg-greenOdds text-black px-1.5 py-0.5 rounded text-[10px] font-black" id="betslipBonusBadge">+0% BONUS</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span>Odds: <span id="betslipTotalOdds">1.00</span></span>
+      <span class="text-black font-extrabold text-sm">&uarr;</span>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- EXPANDED BETSLIP DRAWER -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="sportsBetslipDrawer" onclick="toggleBetslipDrawer(false)">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="toggleBetslipDrawer(false)">✕</span>
+      <h3 class="text-sm font-black text-white mb-2 flex items-center gap-1.5">
+        ⚽ <span id="i18n-betslipTitle">Betslip</span> (<span id="betslipDrawerCount">0</span> Picks)
+      </h3>
+
+      <div class="w-full max-h-48 overflow-y-auto space-y-2 no-scrollbar mb-3" id="betslipItemsList">
+        <!-- Selected matches -->
+      </div>
+
+      <div class="w-full bg-bgCard p-2.5 rounded-xl space-y-1.5 text-xs mb-3">
+        <div class="flex justify-between text-textMuted font-bold">
+          <span id="i18n-slipTotalOdds">Total Odds</span>
+          <span class="text-goldPrimary font-black" id="slipOddsVal">1.00</span>
+        </div>
+        <div class="flex justify-between text-textMuted font-bold">
+          <span id="i18n-slipBaseReturn">Base Return</span>
+          <span class="text-white font-bold" id="slipBaseReturnVal">ETB 0.00</span>
+        </div>
+        <div class="flex justify-between text-greenOdds font-black bg-greenOdds/10 p-1 rounded" id="slipBonusRow">
+          <span id="slipBonusLabel">⚡ Accumulator Bonus (+0%)</span>
+          <span id="slipBonusVal">+ETB 0.00</span>
+        </div>
+        <div class="flex justify-between text-textMuted font-bold border-t border-borderSubtle pt-1">
+          <span id="i18n-slipPotential">Potential Return</span>
+          <span class="text-greenOdds font-black text-sm" id="slipPotentialPayout">ETB 0.00</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-2 w-full mb-3">
+        <button onclick="setBetslipStake(20)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-bgCard text-textMuted">20</button>
+        <button onclick="setBetslipStake(50)" class="py-1.5 rounded-lg text-xs font-bold border border-goldPrimary bg-goldPrimary text-black font-black">50</button>
+        <button onclick="setBetslipStake(100)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-bgCard text-textMuted">100</button>
+        <button onclick="setBetslipStake(500)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-bgCard text-textMuted">500</button>
+      </div>
+
+      <button class="modal-yellow-cta" id="placeBetBtn" onclick="submitSportsBet()">Place Bet (ETB 50)</button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- GAME VIEWPORT MODAL (REAL 6 WORKING GAMES) -->
+  <!-- ======================================================== -->
   <div class="game-viewport-modal" id="gameViewport">
     <div class="viewport-topbar">
       <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="closeGameViewport()"><i class="fa-solid fa-arrow-left"></i> Lobby</button>
@@ -103,22 +512,171 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text-white);ov
     <iframe class="viewport-iframe" id="gameIframe" src="about:blank" allow="autoplay; fullscreen"></iframe>
   </div>
 
+  <!-- ======================================================== -->
+  <!-- MODAL: DEPOSIT DRAWER (EXACT SCREENSHOT 1) -->
+  <!-- ======================================================== -->
   <div class="modal-overlay" id="modalDepositDrawer" onclick="closeModal('modalDepositDrawer')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
       <span class="sheet-close-x" onclick="closeModal('modalDepositDrawer')">✕</span>
-      <h3 style="margin-bottom:6px;">Instant Deposit</h3>
-      <p class="sheet-note">Cashier: @Agent1hulubet. Send your request, then pay the agent in Telegram.</p>
-      <select id="depMethod" class="modal-input-field"><option>Telebirr</option><option>CBE</option></select>
-      <input type="number" id="depositAmountInput" class="modal-input-field" placeholder="Deposit amount (min 50 ETB)" min="50" inputmode="decimal">
-      <input type="text" id="depositRefInput" class="modal-input-field" placeholder="Payment reference (optional, if you already paid)" maxlength="30">
-      <button class="modal-yellow-cta" id="depBtn" onclick="submitDepositOrder()">Send Deposit Request</button>
+      <h3 style="margin-bottom:8px;" class="text-sm font-black text-white" id="i18n-depTitle">Deposit Money</h3>
+
+      <div class="w-full space-y-3">
+        <!-- SEGMENTED: MOBILE MONEY VS CRYPTO -->
+        <div class="grid grid-cols-2 gap-2 bg-[#121722] p-1.5 rounded-xl border border-borderSubtle">
+          <button class="flex flex-col items-center justify-center py-2 rounded-lg bg-[#182133] border border-borderSubtle text-white">
+            <span class="text-xs font-bold mb-0.5">Mobile money</span>
+            <span class="text-[10px] font-black text-blue-400">Telebirr / CBE</span>
+          </button>
+          <button onclick="toast('⚡ Crypto TRC20 Deposit Coming Soon!')" class="flex flex-col items-center justify-center py-2 rounded-lg border border-transparent text-textMuted">
+            <span class="text-xs font-bold mb-0.5">Crypto</span>
+            <span class="text-[10px] font-black text-greenOdds bg-greenOdds/15 px-1 rounded">20+ Coins</span>
+          </button>
+        </div>
+
+        <!-- PAYMENT METHOD SELECTION -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-white tracking-wide" id="i18n-selMethod">Select Payment Method</label>
+          <div id="cbeMethodCard" onclick="selectDepositMethod('CBE')" class="bg-bgCard border border-borderSubtle rounded-xl p-3 flex justify-between items-center cursor-pointer transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-amber-900/40 text-amber-500 font-black text-xs flex items-center justify-center border border-amber-500/30">CBE</div>
+              <span class="text-xs font-bold text-white">Commercial Bank of Ethiopia</span>
+            </div>
+            <i class="fa-solid fa-check text-greenOdds" id="cbeCheckIcon" style="display:none;"></i>
+          </div>
+
+          <div id="telebirrMethodCard" onclick="selectDepositMethod('Telebirr')" class="bg-bgCard border border-greenOdds bg-[#051c14] rounded-xl p-3 flex justify-between items-center cursor-pointer transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-600/30 text-blue-400 font-black text-xs flex items-center justify-center border border-blue-400/30">Tb</div>
+              <span class="text-xs font-bold text-white">Telebirr</span>
+            </div>
+            <i class="fa-solid fa-check text-greenOdds" id="telebirrCheckIcon"></i>
+          </div>
+        </div>
+
+        <!-- AMOUNT INPUT & QUICK CHIPS -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-white"><span id="i18n-amtLabel">Amount (ETB)</span> <span class="text-redOdds">*</span></span>
+            <span class="text-textMuted text-[11px]">(50 - 10000 ብር)</span>
+          </div>
+          <input type="number" id="depositAmountInput" placeholder="Enter Amount" min="50" max="10000" class="modal-input-field" value="50">
+
+          <div class="grid grid-cols-6 gap-1.5 pt-1">
+            <button onclick="setDepositAmountVal(100)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-transparent text-white">100</button>
+            <button onclick="setDepositAmountVal(300)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-transparent text-white">300</button>
+            <button onclick="setDepositAmountVal(500)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-transparent text-white">500</button>
+            <button onclick="setDepositAmountVal(1000)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-transparent text-white">1000</button>
+            <button onclick="setDepositAmountVal(3000)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-transparent text-white">3000</button>
+            <button onclick="setDepositAmountVal(5000)" class="py-1.5 rounded-lg text-xs font-bold border border-borderSubtle bg-transparent text-white">5000</button>
+          </div>
+        </div>
+
+        <button class="modal-yellow-cta mt-2" id="depBtn" onclick="proceedToPaymentDetails()">Deposit</button>
+      </div>
     </div>
   </div>
 
+  <!-- ======================================================== -->
+  <!-- MODAL: PAYMENT DETAILS & QR CHECKOUT (EXACT SCREENSHOT 2) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="modalPaymentDetails" onclick="closeModal('modalPaymentDetails')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalPaymentDetails')">✕</span>
+      <h3 style="margin-bottom:8px;" class="text-sm font-black text-white" id="i18n-payDetailsTitle">Payment Details</h3>
+
+      <div class="w-full space-y-3">
+        <!-- WARNING BOX -->
+        <div class="bg-[#1f1704] border border-goldPrimary/40 rounded-xl p-3 flex items-start gap-2.5">
+          <i class="fa-solid fa-triangle-exclamation text-goldPrimary text-sm mt-0.5"></i>
+          <p class="text-[11px] text-amber-200/90 font-medium leading-relaxed">
+            <b class="text-goldPrimary font-black">IMPORTANT:</b> Send payment only to the account number shown below. Sending to a different account will result in loss of funds.
+          </p>
+        </div>
+
+        <!-- AMOUNT TO PAY & COUNTDOWN -->
+        <div class="bg-[#0b101b] border border-borderSubtle rounded-2xl p-3.5 flex justify-between items-center shadow-lg">
+          <div>
+            <div class="text-[11px] text-textMuted font-bold" id="i18n-amtToPay">Amount to Pay</div>
+            <div class="text-xl font-black text-goldPrimary mt-0.5">
+              <span id="payDetailsAmt">50</span> <span class="text-greenOdds text-lg">ETB</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] text-textMuted font-bold" id="i18n-expTime">Expiration time</div>
+            <div class="text-sm font-black text-goldPrimary font-mono" id="payCountdownTxt">00:29:52</div>
+          </div>
+        </div>
+
+        <!-- QR CODE (ACCURATE SVG) -->
+        <div class="bg-[#070b13] border border-borderSubtle rounded-2xl p-3 text-center">
+          <svg class="w-40 h-40 bg-white p-2.5 rounded-xl mx-auto shadow-xl" viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#ffffff"/>
+            <rect x="8" y="8" width="28" height="28" fill="#000000" rx="4"/><rect x="12" y="12" width="20" height="20" fill="#ffffff" rx="2"/><rect x="16" y="16" width="12" height="12" fill="#000000" rx="1.5"/>
+            <rect x="64" y="8" width="28" height="28" fill="#000000" rx="4"/><rect x="68" y="12" width="20" height="20" fill="#ffffff" rx="2"/><rect x="72" y="16" width="12" height="12" fill="#000000" rx="1.5"/>
+            <rect x="8" y="64" width="28" height="28" fill="#000000" rx="4"/><rect x="12" y="68" width="20" height="20" fill="#ffffff" rx="2"/><rect x="16" y="72" width="12" height="12" fill="#000000" rx="1.5"/>
+            <rect x="42" y="10" width="6" height="6" fill="#000"/><rect x="52" y="16" width="6" height="6" fill="#000"/><rect x="42" y="24" width="6" height="6" fill="#000"/><rect x="48" y="32" width="6" height="6" fill="#000"/><rect x="12" y="44" width="6" height="6" fill="#000"/><rect x="22" y="48" width="6" height="6" fill="#000"/><rect x="32" y="42" width="6" height="6" fill="#000"/><rect x="42" y="48" width="6" height="6" fill="#000"/><rect x="52" y="42" width="6" height="6" fill="#000"/><rect x="64" y="44" width="6" height="6" fill="#000"/><rect x="76" y="48" width="6" height="6" fill="#000"/><rect x="86" y="42" width="6" height="6" fill="#000"/><rect x="42" y="58" width="6" height="6" fill="#000"/><rect x="52" y="66" width="6" height="6" fill="#000"/><rect x="42" y="74" width="6" height="6" fill="#000"/><rect x="52" y="82" width="6" height="6" fill="#000"/><rect x="64" y="64" width="6" height="6" fill="#000"/><rect x="74" y="72" width="6" height="6" fill="#000"/><rect x="84" y="64" width="6" height="6" fill="#000"/><rect x="68" y="84" width="6" height="6" fill="#000"/><rect x="80" y="82" width="6" height="6" fill="#000"/>
+          </svg>
+          <p class="text-[10px] text-textMuted mt-1.5">Scan QR with your Telebirr app for instant payment</p>
+        </div>
+
+        <!-- EXACT ACCOUNT DETAILS TABLE -->
+        <div class="bg-[#0b101b] border border-borderSubtle rounded-xl divide-y divide-borderSubtle text-xs">
+          <div class="p-3 flex justify-between items-center">
+            <span class="text-textMuted font-medium" id="i18n-accNumLabel">Account Number</span>
+            <div class="flex items-center gap-2">
+              <span class="font-black text-white font-mono text-sm tracking-wide" id="payDetailsAccount">0936521552</span>
+              <button onclick="copyToClipboard('0936521552', 'Account Number')" class="text-textMuted hover:text-white p-1">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-3 flex justify-between items-center">
+            <span class="text-textMuted font-medium" id="i18n-accNameLabel">Account Name</span>
+            <span class="font-black text-white text-sm" id="payDetailsName">Natnael</span>
+          </div>
+
+          <div class="p-3 flex justify-between items-center">
+            <span class="text-textMuted font-medium">Payment Method</span>
+            <span class="font-black text-blue-400 text-sm" id="payDetailsMethod">Telebirr</span>
+          </div>
+        </div>
+
+        <!-- AUTOMATED SMS / REF VERIFICATION -->
+        <div class="bg-[#121927] border-2 border-goldPrimary/40 rounded-xl p-3 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-goldPrimary flex items-center gap-1.5" id="i18n-instantVerifyTitle">
+              ⚡ Instant SMS / Receipt Verification
+            </span>
+            <span class="text-[9px] bg-greenOdds/20 text-greenOdds font-black px-1.5 py-0.5 rounded">AUTO-CREDIT</span>
+          </div>
+          <input type="text" id="smsRefInput" placeholder="Paste Telebirr transaction SMS or code (e.g. CI94827104)" class="w-full bg-[#080c14] border border-borderSubtle rounded-lg p-2.5 text-xs text-white placeholder-textMuted focus:outline-none focus:border-goldPrimary">
+          <button onclick="verifySmsCodeSubmission()" id="verifySmsBtn" class="w-full bg-goldPrimary hover:bg-amber-400 text-black font-black text-xs py-2 rounded-lg transition">
+            ✓ Verify &amp; Auto Credit
+          </button>
+        </div>
+
+        <button class="modal-yellow-cta" onclick="confirmPaymentPaid()">
+          <i class="fa-solid fa-check"></i> <span id="i18n-ivePaidBtn">I've Paid</span>
+        </button>
+
+        <div class="flex justify-between items-center px-1 text-xs pt-1">
+          <button onclick="closeModal('modalPaymentDetails')" class="text-redOdds hover:underline font-bold" id="i18n-cancelDepositBtn">Cancel deposit</button>
+          <button onclick="openDisputeChat()" class="text-goldPrimary hover:underline font-bold flex items-center gap-1">
+            <span>⚠️</span> <span id="i18n-raiseDisputeBtn">Raise a Dispute</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: WITHDRAW DRAWER -->
+  <!-- ======================================================== -->
   <div class="modal-overlay" id="modalWithdrawDrawer" onclick="closeModal('modalWithdrawDrawer')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
       <span class="sheet-close-x" onclick="closeModal('modalWithdrawDrawer')">✕</span>
-      <h3 style="margin-bottom:6px;">Cashout (Telebirr / CBE)</h3>
+      <h3 style="margin-bottom:6px;" class="text-sm font-black text-white" id="i18n-wdTitle">Cashout (Telebirr / CBE)</h3>
       <p class="sheet-note" id="wdInfo"></p>
       <select id="wdMethod" class="modal-input-field"><option>Telebirr</option><option>CBE</option></select>
       <input type="number" id="withdrawAmountInput" class="modal-input-field" placeholder="Amount (min 100 ETB)" min="100" inputmode="decimal">
@@ -127,68 +685,243 @@ html,body{width:100%;min-height:100vh;background:#000;color:var(--text-white);ov
     </div>
   </div>
 
+  <!-- ======================================================== -->
+  <!-- MODAL: CASHIER HISTORY (DEPOSITS & WITHDRAWALS) -->
+  <!-- ======================================================== -->
   <div class="modal-overlay" id="modalHistory" onclick="closeModal('modalHistory')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
       <span class="sheet-close-x" onclick="closeModal('modalHistory')">✕</span>
-      <h3 style="margin-bottom:10px;">Deposits &amp; Withdrawals</h3>
-      <div id="histList"></div>
+      <h3 style="margin-bottom:10px;" class="text-sm font-black text-white" id="i18n-cashierHistTitle">Deposits &amp; Withdrawals</h3>
+      <div id="histList" class="w-full max-h-60 overflow-y-auto"></div>
     </div>
   </div>
 
+  <!-- ======================================================== -->
+  <!-- MODAL: BET HISTORY -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="modalBetHistory" onclick="closeModal('modalBetHistory')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalBetHistory')">✕</span>
+      <h3 style="margin-bottom:10px;" class="text-sm font-black text-white" id="i18n-betHistTitle">Bet History</h3>
+      <div class="grid grid-cols-3 gap-1 bg-bgCard p-1 rounded-xl border border-borderSubtle text-[11px] font-black text-center w-full mb-3">
+        <div onclick="closeModal('modalBetHistory'); openHistory();" class="py-1.5 rounded-lg text-textMuted cursor-pointer">Transactions</div>
+        <div class="py-1.5 rounded-lg bg-bgSurface text-goldPrimary border border-borderSubtle">Bet History</div>
+        <div onclick="closeModal('modalBetHistory'); openModal('modalCoupon');" class="py-1.5 rounded-lg text-textMuted cursor-pointer">Promo History</div>
+      </div>
+      <div id="betHistoryItemsList" class="w-full max-h-64 overflow-y-auto space-y-2">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: LUCKY SPIN WHEEL -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="modalLuckySpin" onclick="closeModal('modalLuckySpin')">
+    <div class="bottom-sheet-card" style="background:linear-gradient(to bottom, #7a4805, #2f1c04, #0d0903); border-top-color:var(--gold-primary);" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalLuckySpin')">✕</span>
+      <span class="text-[10px] font-black uppercase text-goldPrimary bg-black/40 px-3 py-1 rounded-full border border-goldPrimary/30 mb-1">🎡 Lucky Spin</span>
+      <h2 class="text-xl font-black text-white mb-2">Spin &amp; Win</h2>
+
+      <div class="flex justify-center gap-2 mb-2">
+        <div class="bg-black/50 border border-borderSubtle px-3 py-1 rounded-full text-xs font-black text-goldPrimary">SPINS <span class="text-white">0</span></div>
+        <button onclick="closeModal('modalLuckySpin'); openModal('modalCoupon');" class="bg-white text-black px-3.5 py-1 rounded-full text-xs font-black">Enter coupon code</button>
+      </div>
+
+      <div class="relative w-56 h-56 mx-auto my-2 flex items-center justify-center">
+        <div id="luckyWheelCircle" class="w-full h-full rounded-full border-4 border-goldPrimary overflow-hidden relative shadow-2xl bg-[#f5b400]">
+          <svg class="w-full h-full" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="48" fill="#e09b00" stroke="#f5b400" strokeWidth="2"/>
+            <line x1="50" y1="50" x2="50" y2="2" stroke="#fff" strokeWidth="0.8"/><line x1="50" y1="50" x2="98" y2="50" stroke="#fff" strokeWidth="0.8"/><line x1="50" y1="50" x2="50" y2="98" stroke="#fff" strokeWidth="0.8"/><line x1="50" y1="50" x2="2" y2="50" stroke="#fff" strokeWidth="0.8"/>
+            <line x1="50" y1="50" x2="84" y2="16" stroke="#fff" strokeWidth="0.8"/><line x1="50" y1="50" x2="84" y2="84" stroke="#fff" strokeWidth="0.8"/><line x1="50" y1="50" x2="16" y2="84" stroke="#fff" strokeWidth="0.8"/><line x1="50" y1="50" x2="16" y2="16" stroke="#fff" strokeWidth="0.8"/>
+            <text x="50" y="20" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">10000 ETB</text>
+            <text x="75" y="32" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">5 ETB</text>
+            <text x="78" y="55" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">2000 ETB</text>
+            <text x="68" y="76" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">0 ETB</text>
+            <text x="50" y="85" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">500 ETB</text>
+            <text x="28" y="76" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">10 ETB</text>
+            <text x="22" y="55" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">5 ETB</text>
+            <text x="28" y="32" fill="#000" fontSize="5" fontWeight="900" textAnchor="middle">1000 ETB</text>
+          </svg>
+        </div>
+        <button onclick="triggerSpinWheel()" class="absolute z-30 w-14 h-14 rounded-full bg-white text-black font-black text-xs uppercase shadow-xl flex items-center justify-center border-2 border-goldPrimary">PLAY</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: SHARE MESSAGE -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="modalShare" onclick="closeModal('modalShare')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalShare')">✕</span>
+      <h3 style="margin-bottom:10px;" class="text-sm font-black text-white" id="i18n-shareTitle">Share Message</h3>
+      <div class="w-full bg-[#171e2c] border border-borderSubtle rounded-2xl p-3 space-y-2 mb-3">
+        <div class="flex justify-between items-center text-[11px] text-textMuted">
+          <span>Message preview</span>
+          <span class="text-blue-400 font-bold">via @Hulubetethbot</span>
+        </div>
+        <div class="text-xs font-bold text-white leading-relaxed">
+          በቴሌግራም ላይ ሼር አድርገው — እስከ 100,000 ETB ድረስ ያሸንፉ!
+        </div>
+      </div>
+      <button onclick="executeTelegramShare()" class="w-full bg-[#0088cc] text-white font-black text-xs py-3.5 rounded-xl">Share with...</button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: COUPON -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="modalCoupon" onclick="closeModal('modalCoupon')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalCoupon')">✕</span>
+      <h3 style="margin-bottom:6px;" class="text-base font-black text-white" id="i18n-couponTitle">Claim Coupon</h3>
+      <p class="sheet-note" id="i18n-couponSub">Enter your coupon code to claim rewards</p>
+      <input type="text" id="couponCodeInput" class="modal-input-field" placeholder="Enter coupon code">
+      <button class="modal-yellow-cta" onclick="redeemCouponCode()">Claim Coupon</button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: LANGUAGE (SWITCHES EN & AMHARIC) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="modalLanguage" onclick="closeModal('modalLanguage')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalLanguage')">✕</span>
+      <h3 style="margin-bottom:12px;" class="text-sm font-black text-white" id="i18n-langTitle">Language</h3>
+      <div class="w-full space-y-2">
+        <div onclick="setAppLanguage('English')" class="p-3 rounded-xl flex items-center justify-between cursor-pointer border border-borderSubtle bg-bgCard">
+          <div class="flex items-center gap-3">
+            <span class="text-base">🇬🇧</span>
+            <span class="text-xs font-black text-white">English</span>
+          </div>
+          <i class="fa-solid fa-check text-greenOdds" id="langCheckEn"></i>
+        </div>
+        <div onclick="setAppLanguage('አማርኛ')" class="p-3 rounded-xl flex items-center justify-between cursor-pointer border border-borderSubtle bg-bgCard">
+          <div class="flex items-center gap-3">
+            <span class="text-base">🇪🇹</span>
+            <span class="text-xs font-black text-white">አማርኛ</span>
+          </div>
+          <i class="fa-solid fa-check text-greenOdds" id="langCheckAm" style="display:none;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- BOTTOM DOCK NAVIGATION (5 ICON TABS) -->
+  <!-- ======================================================== -->
   <nav class="bottom-dock-nav">
-    <button class="b-nav-item active" onclick="navigateToTab('casino')"><i class="fa-solid fa-dice"></i><span>Casino</span></button>
-    <button class="b-nav-item" onclick="openWithdrawDrawer()"><i class="fa-solid fa-money-bill-transfer"></i><span>Withdraw</span></button>
-    <button class="b-nav-item" onclick="openDepositDrawer()"><i class="fa-solid fa-wallet"></i><span>Deposit</span></button>
-    <button class="b-nav-item" onclick="openHistory()"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></button>
+    <button class="b-nav-item active" id="nav-casino" onclick="navigateToTab('casino')"><i class="fa-solid fa-dice text-sm"></i><span id="i18n-tabCasino">Casino</span></button>
+    <button class="b-nav-item" id="nav-sports" onclick="navigateToTab('sports')"><i class="fa-solid fa-futbol text-sm"></i><span id="i18n-tabSports">Sports</span></button>
+    <button class="b-nav-item" id="nav-games" onclick="navigateToTab('games')"><i class="fa-solid fa-gamepad text-sm"></i><span id="i18n-tabGames">Games</span></button>
+    <button class="b-nav-item" id="nav-invite" onclick="navigateToTab('invite')"><i class="fa-solid fa-users text-sm"></i><span id="i18n-tabInvite">Invite</span></button>
+    <button class="b-nav-item" id="nav-profile" onclick="navigateToTab('profile')"><i class="fa-solid fa-user text-sm"></i><span id="i18n-tabProfile">Profile</span></button>
   </nav>
 </div>
 
 <script>
-const SERVER_URL = "https://hulubet-server.onrender.com";
-const GAME_ORIGIN = "https://hulubetsupport.github.io";   // only pages from here are trusted / receive the session
+    // ========================================================
+// 1. CONFIGURATION & TELEGRAM AUTHENTICATION (V1 CORE)
+// ========================================================
+const SERVER_URL = "https://sport-server-6t9m.onrender.com";
+const GAME_ORIGIN = "https://hulubetsupport.github.io"; // Only pages from here receive session
 
-// ---- Telegram session (no fallback user: outside Telegram nothing works) ----
 const tg = window.Telegram?.WebApp;
-if (tg) { tg.ready(); tg.expand(); tg.disableVerticalSwipes?.(); tg.enableClosingConfirmation?.(); }
+if (tg) {
+  tg.ready();
+  tg.expand();
+  tg.disableVerticalSwipes?.();
+  tg.enableClosingConfirmation?.();
+}
+
 const INIT_DATA = tg?.initData || "";
 const tgUser = tg?.initDataUnsafe?.user;
 const USER_ID = tgUser ? String(tgUser.id) : "";
-if (!INIT_DATA || !USER_ID) document.getElementById('noSession').style.display = 'flex';
+const USER_NAME = tgUser?.first_name ? `${tgUser.first_name}${tgUser.last_name ? ' ' + tgUser.last_name : ''}` : "Aymen";
 
-let currentBalance = null, wagerLeft = 0, isBalanceHidden = false;
+// Display session blocker if opened outside Telegram
+if (!INIT_DATA || !USER_ID) {
+  document.getElementById('noSession').style.display = 'flex';
+}
 
+let currentBalance = null;
+let wagerLeft = 0;
+let isBalanceHidden = false;
+let currentLanguage = 'English';
+
+// Authoritative API caller with x-telegram-init-data header
 async function api(path, opts = {}) {
   try {
-    const r = await fetch(SERVER_URL + path, { ...opts, headers: { 'Content-Type': 'application/json', 'x-telegram-init-data': INIT_DATA } });
+    const r = await fetch(SERVER_URL + path, {
+      ...opts,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-telegram-init-data': INIT_DATA
+      }
+    });
     const d = await r.json();
-    if (r.status === 401) toast("Session expired. Reopen the app from Telegram.");
+    if (r.status === 401) toast(currentLanguage === 'አማርኛ' ? "ክፍለ-ጊዜው አልቋል። እባክዎ ከቴሌግራም እንደገና ይክፈቱ።" : "Session expired. Reopen app from Telegram.");
     return d;
-  } catch (e) { return { success: false, message: "Connection error, try again" }; }
+  } catch (e) {
+    return { success: false, message: "Connection error, try again" };
+  }
 }
+
 function toast(msg) {
-  const box = document.getElementById('toast-container'), t = document.createElement('div');
-  t.className = 'clean-toast'; t.innerText = msg; box.appendChild(t); setTimeout(() => t.remove(), 2800);
+  const box = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'clean-toast';
+  t.innerText = msg;
+  box.appendChild(t);
+  setTimeout(() => t.remove(), 2800);
 }
+
 function updateBalanceDisplay() {
   const el = document.getElementById('headerBalTxt');
-  el.innerText = (isBalanceHidden || currentBalance === null) ? '••••••' : currentBalance.toFixed(2) + ' ETB';
-  document.getElementById('wdInfo').innerText = wagerLeft > 0 ? `Bonus wagering left: ${wagerLeft.toFixed(2)} ETB (bet this much to unlock withdrawals)` : `Available: ${(currentBalance ?? 0).toFixed(2)} ETB`;
+  const profileBal = document.getElementById('profileBalTxt');
+  const txt = (isBalanceHidden || currentBalance === null) ? '••••••' : currentBalance.toFixed(2) + ' ETB';
+  if (el) el.innerText = txt;
+  if (profileBal) profileBal.innerText = txt;
+
+  const wdInfo = document.getElementById('wdInfo');
+  if (wdInfo) {
+    wdInfo.innerText = wagerLeft > 0 
+      ? (currentLanguage === 'አማርኛ' ? `የቀረ የቦነስ መወራረጃ፡ ${wagerLeft.toFixed(2)} ብር` : `Bonus wagering left: ${wagerLeft.toFixed(2)} ETB`) 
+      : (currentLanguage === 'አማርኛ' ? `ሊወጣ የሚችል ሂሳብ፡ ${(currentBalance ?? 0).toFixed(2)} ብር` : `Available: ${(currentBalance ?? 0).toFixed(2)} ETB`);
+  }
 }
+
 function toggleBalanceVisibility() {
   isBalanceHidden = !isBalanceHidden;
-  document.getElementById('balEyeIcon').className = isBalanceHidden ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+  const eye = document.getElementById('balEyeIcon');
+  if (eye) eye.className = isBalanceHidden ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
   updateBalanceDisplay();
 }
+
 async function syncDatabaseBalance() {
   if (!INIT_DATA) return;
   const ref = tg?.initDataUnsafe?.start_param || '';
   const d = await api('/api/user/init' + (ref ? '?refId=' + encodeURIComponent(ref) : ''));
-  if (d.success) { currentBalance = d.balance; wagerLeft = d.wagerRequirementLeft || 0; updateBalanceDisplay(); }
-  else if (d.message) toast(d.message);
+  if (d.success) {
+    currentBalance = d.balance;
+    wagerLeft = d.wagerRequirementLeft || 0;
+    updateBalanceDisplay();
+  } else if (d.message) {
+    toast(d.message);
+  }
 }
 syncDatabaseBalance();
 
-// ---- games ----
+// Update profile header
+if (USER_NAME) {
+  document.getElementById('profileUserName').innerText = USER_NAME;
+  document.getElementById('profileAvatarLetter').innerText = USER_NAME.charAt(0).toUpperCase();
+}
+
+// ========================================================
+// 2. 6 REAL WORKING GAMES ENGINE (V1 IFRAME + POSTMESSAGE)
+// ========================================================
 const GAMES = {
   aviator: { title: "Aviator", url: GAME_ORIGIN + "/Aveiter/" },
   keno: { title: "Fast Keno", url: GAME_ORIGIN + "/Keno-fast/" },
@@ -197,97 +930,770 @@ const GAMES = {
   slot: { title: "777 Multi Slot", url: GAME_ORIGIN + "/Slot-777-/" },
   avia: { title: "Avia Masters", url: GAME_ORIGIN + "/Avia-master/" }
 };
-let currentLoadedGame = null, isGameRoundActive = false;
+
+let currentLoadedGame = null;
+let isGameRoundActive = false;
 const gameWin = () => document.getElementById('gameIframe').contentWindow;
-const sendInit = () => { try { gameWin().postMessage({ type: 'INIT', userId: USER_ID, initData: INIT_DATA, balance: currentBalance }, GAME_ORIGIN); } catch (e) {} };
+
+const sendInit = () => {
+  try {
+    gameWin().postMessage({
+      type: 'INIT',
+      userId: USER_ID,
+      initData: INIT_DATA,
+      balance: currentBalance
+    }, GAME_ORIGIN);
+  } catch (e) {}
+};
 
 function launchGameEngine(key, title) {
-  if (!INIT_DATA) return toast("Open the app from Telegram");
-  const g = GAMES[key]; if (!g) return;
+  if (!INIT_DATA) return toast(currentLanguage === 'አማርኛ' ? "አፑን ከቴሌግራም ይክፈቱ" : "Open the app from Telegram");
+  const g = GAMES[key];
+  if (!g) return;
   document.getElementById('activeGameTitle').innerText = title || g.title;
   const iframe = document.getElementById('gameIframe');
   document.getElementById('gameViewport').style.display = 'flex';
-  if (currentLoadedGame === key) { sendInit(); return; }        // same game: resume where it was, do not reload
-  currentLoadedGame = key; isGameRoundActive = false;
-  iframe.src = g.url;                                           // no user id / balance in the URL: the game gets the session via postMessage
+
+  if (currentLoadedGame === key) {
+    sendInit();
+    return;
+  }
+  currentLoadedGame = key;
+  isGameRoundActive = false;
+  iframe.src = g.url; // Authoritative session passed via postMessage only
 }
+
 function closeGameViewport() {
-  const leave = () => { document.getElementById('gameViewport').style.display = 'none'; syncDatabaseBalance(); };
+  const leave = () => {
+    document.getElementById('gameViewport').style.display = 'none';
+    syncDatabaseBalance();
+  };
   if (!isGameRoundActive) return leave();
-  const msg = "You have a round in progress. It keeps running in the background. Go back to the lobby?";
-  if (tg?.showConfirm) tg.showConfirm(msg, ok => ok && leave()); else if (confirm(msg)) leave();
+
+  const msg = currentLanguage === 'አማርኛ' 
+    ? "በሂደት ላይ ያለ ውርርድ አለዎት። በጀርባ መስራቱን ይቀጥላል። ወደ ሎቢ መመለስ ይፈልጋሉ?" 
+    : "You have a round in progress. It keeps running in the background. Go back to the lobby?";
+
+  if (tg?.showConfirm) tg.showConfirm(msg, ok => ok && leave());
+  else if (confirm(msg)) leave();
 }
 
 window.addEventListener('message', e => {
-  if (e.source !== gameWin() || e.origin !== GAME_ORIGIN) return;   // ignore anything not from our own game
+  if (e.source !== gameWin() || e.origin !== GAME_ORIGIN) return;
   const d = e.data || {};
   if (d.type === 'GAME_READY') sendInit();
   else if (d.type === 'BET_STARTED') isGameRoundActive = true;
   else if (d.type === 'BET_ENDED') isGameRoundActive = false;
-  else if (d.type === 'BALANCE_UPDATE') { const b = parseFloat(d.newBalance); if (Number.isFinite(b)) { currentBalance = b; updateBalanceDisplay(); } }
-  else if (d.type === 'OPEN_DEPOSIT') openDepositDrawer();
+  else if (d.type === 'BALANCE_UPDATE') {
+    const b = parseFloat(d.newBalance);
+    if (Number.isFinite(b)) {
+      currentBalance = b;
+      updateBalanceDisplay();
+    }
+  } else if (d.type === 'OPEN_DEPOSIT') {
+    openDepositDrawer();
+  }
 });
 
-// ---- modals / cashier ----
-const openModal = id => document.getElementById(id).style.display = 'flex';
-const closeModal = id => document.getElementById(id).style.display = 'none';
-const openDepositDrawer = () => openModal('modalDepositDrawer');
-function openWithdrawDrawer() { syncDatabaseBalance(); openModal('modalWithdrawDrawer'); }
+// ========================================================
+// 3. SPORTS BETTING ENGINE (20 EPL CLUBS & LIVE ODDS)
+// ========================================================
+let activeSport = 'soccer';
+let selectedOdds = {}; // { [matchId]: { pick, rate, match } }
+let betslipStake = 50;
 
-async function submitDepositOrder() {
-  const amount = Number(document.getElementById('depositAmountInput').value);
-  if (!amount || amount < 50) return toast("Minimum deposit is 50 ETB");
-  const btn = document.getElementById('depBtn'); btn.disabled = true;
-  const d = await api('/api/cashier/deposit', { method: 'POST', body: JSON.stringify({ amount, method: document.getElementById('depMethod').value, agentAssigned: 'Agent1hulubet', bankRef: document.getElementById('depositRefInput').value.trim() }) });
+const EPL_MATCHES = [
+  { id: 'epl-1', league: 'Premier League', home: 'Arsenal', away: 'Chelsea', time: 'Tomorrow 19:30', hCode: 'ARS', aCode: 'CHE', odds: { '1': 1.85, 'X': 3.60, '2': 4.10 } },
+  { id: 'epl-2', league: 'Premier League', home: 'Manchester City', away: 'Liverpool', time: 'Sat 16:30', hCode: 'MCI', aCode: 'LIV', odds: { '1': 2.10, 'X': 3.75, '2': 3.20 } },
+  { id: 'epl-3', league: 'Premier League', home: 'Manchester United', away: 'Tottenham', time: 'Sat 19:00', hCode: 'MUN', aCode: 'TOT', odds: { '1': 2.45, 'X': 3.50, '2': 2.70 } },
+  { id: 'epl-4', league: 'Premier League', home: 'Aston Villa', away: 'Newcastle', time: 'Sun 16:00', hCode: 'AVL', aCode: 'NEW', odds: { '1': 2.30, 'X': 3.40, '2': 2.95 } },
+  { id: 'epl-5', league: 'Premier League', home: 'Brighton', away: 'West Ham', time: 'Sun 18:30', hCode: 'BHA', aCode: 'WHU', odds: { '1': 1.95, 'X': 3.60, '2': 3.80 } },
+  { id: 'epl-6', league: 'Premier League', home: 'Everton', away: 'Fulham', time: 'Mon 22:00', hCode: 'EVE', aCode: 'FUL', odds: { '1': 2.40, 'X': 3.20, '2': 2.90 } },
+  { id: 'epl-7', league: 'Premier League', home: 'Brentford', away: 'Crystal Palace', time: 'Sat 14:00', hCode: 'BRE', aCode: 'CRY', odds: { '1': 2.25, 'X': 3.35, '2': 3.10 } },
+  { id: 'epl-8', league: 'Premier League', home: 'Bournemouth', away: 'Wolverhampton', time: 'Sat 14:00', hCode: 'BOU', aCode: 'WOL', odds: { '1': 2.05, 'X': 3.45, '2': 3.50 } },
+  { id: 'epl-9', league: 'Premier League', home: 'Nottingham Forest', away: 'Leicester City', time: 'Sun 14:00', hCode: 'NFO', aCode: 'LEI', odds: { '1': 2.15, 'X': 3.30, '2': 3.35 } },
+  { id: 'epl-10', league: 'Premier League', home: 'Ipswich Town', away: 'Southampton', time: 'Mon 19:45', hCode: 'IPS', aCode: 'SOU', odds: { '1': 2.50, 'X': 3.25, '2': 2.80 } }
+];
+
+const OTHER_SPORTS_MATCHES = {
+  basketball: [
+    { id: 'bsk-1', league: 'NBA Championship', home: 'LA Lakers', away: 'Golden State', time: 'Today 21:00', hCode: 'LAL', aCode: 'GSW', odds: { '1': 1.90, 'X': 12.0, '2': 1.95 } },
+    { id: 'bsk-2', league: 'EuroLeague', home: 'Real Madrid', away: 'Barcelona', time: 'Tomorrow 20:30', hCode: 'RMB', aCode: 'FCB', odds: { '1': 1.65, 'X': 14.0, '2': 2.25 } }
+  ],
+  tennis: [
+    { id: 'ten-1', league: 'ATP Grand Slam', home: 'Alcaraz C.', away: 'Sinner J.', time: 'Fri 15:00', hCode: 'ALC', aCode: 'SIN', odds: { '1': 1.88, 'X': 18.0, '2': 1.92 } }
+  ],
+  boxing: [
+    { id: 'box-1', league: 'Heavyweight Title', home: 'Usyk O.', away: 'Fury T.', time: 'Sat 23:00', hCode: 'USY', aCode: 'FUR', odds: { '1': 1.75, 'X': 16.0, '2': 2.15 } }
+  ],
+  cricket: [
+    { id: 'crk-1', league: 'T20 Premier', home: 'India', away: 'Australia', time: 'Sun 13:30', hCode: 'IND', aCode: 'AUS', odds: { '1': 1.68, 'X': 22.0, '2': 2.20 } }
+  ]
+};
+
+function renderMatches() {
+  const container = document.getElementById('matchesContainer');
+  if (!container) return;
+  const list = activeSport === 'soccer' ? EPL_MATCHES : (OTHER_SPORTS_MATCHES[activeSport] || []);
+  document.getElementById('i18n-matchCountLabel').innerText = `${currentLanguage === 'አማርኛ' ? 'ግጥሚያዎች' : 'MATCHES'} (${list.length})`;
+
+  container.innerHTML = list.map(m => {
+    const is1 = selectedOdds[m.id]?.pick === '1';
+    const isX = selectedOdds[m.id]?.pick === 'X';
+    const is2 = selectedOdds[m.id]?.pick === '2';
+
+    return `
+      <div class="bg-bgCard border border-borderSubtle rounded-xl p-3 space-y-2.5">
+        <div class="flex justify-between items-center text-[11px] text-textMuted">
+          <span class="font-bold flex items-center gap-1.5 text-blue-400">⚽ ${m.league}</span>
+          <span class="font-medium">${m.time}</span>
+        </div>
+        <div class="flex justify-between items-center py-1">
+          <div class="flex-1 text-left font-black text-sm text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-borderSubtle text-[10px] flex items-center justify-center font-bold text-goldPrimary">${m.hCode}</span>
+            <span>${m.home}</span>
+          </div>
+          <div class="px-3 text-xs font-black text-textMuted italic">VS</div>
+          <div class="flex-1 text-right font-black text-sm text-white flex items-center justify-end gap-2">
+            <span>${m.away}</span>
+            <span class="w-6 h-6 rounded-full bg-borderSubtle text-[10px] flex items-center justify-center font-bold text-cyan-400">${m.aCode}</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <button id="oddBtn-${m.id}-1" onclick="selectOddPick('${m.id}', '1', ${m.odds['1']})" class="py-2 px-1 rounded-lg border flex flex-col items-center justify-center transition active:scale-95 ${is1 ? 'bg-goldPrimary text-black border-goldPrimary font-black' : 'bg-bgSurface text-white border-borderSubtle'}">
+            <span class="text-[10px] uppercase font-bold ${is1 ? 'text-black' : 'text-textMuted'}">${currentLanguage === 'አማርኛ' ? 'ባለሜዳ' : 'Home'}</span>
+            <span class="text-xs font-black">${m.odds['1'].toFixed(2)}</span>
+          </button>
+          <button id="oddBtn-${m.id}-X" onclick="selectOddPick('${m.id}', 'X', ${m.odds['X']})" class="py-2 px-1 rounded-lg border flex flex-col items-center justify-center transition active:scale-95 ${isX ? 'bg-goldPrimary text-black border-goldPrimary font-black' : 'bg-bgSurface text-white border-borderSubtle'}">
+            <span class="text-[10px] uppercase font-bold ${isX ? 'text-black' : 'text-textMuted'}">${currentLanguage === 'አማርኛ' ? 'አቻ' : 'Draw'}</span>
+            <span class="text-xs font-black">${m.odds['X'].toFixed(2)}</span>
+          </button>
+          <button id="oddBtn-${m.id}-2" onclick="selectOddPick('${m.id}', '2', ${m.odds['2']})" class="py-2 px-1 rounded-lg border flex flex-col items-center justify-center transition active:scale-95 ${is2 ? 'bg-goldPrimary text-black border-goldPrimary font-black' : 'bg-bgSurface text-white border-borderSubtle'}">
+            <span class="text-[10px] uppercase font-bold ${is2 ? 'text-black' : 'text-textMuted'}">${currentLanguage === 'አማርኛ' ? 'እንግዳ' : 'Away'}</span>
+            <span class="text-xs font-black">${m.odds['2'].toFixed(2)}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function switchSportCategory(sport) {
+  activeSport = sport;
+  const list = document.getElementById('sportsCatList');
+  if (list) {
+    const btns = list.querySelectorAll('button');
+    btns.forEach(b => {
+      b.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-bgCard text-textMuted border-borderSubtle";
+    });
+    event.currentTarget.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap bg-goldPrimary text-black border-goldPrimary";
+  }
+  renderMatches();
+}
+
+function selectOddPick(matchId, pick, rate) {
+  const match = activeSport === 'soccer' 
+    ? EPL_MATCHES.find(m => m.id === matchId) 
+    : (OTHER_SPORTS_MATCHES[activeSport] || []).find(m => m.id === matchId);
+
+  if (selectedOdds[matchId]?.pick === pick) {
+    delete selectedOdds[matchId];
+  } else {
+    selectedOdds[matchId] = { pick, rate, match };
+  }
+  updateBetslipUI();
+  renderMatches();
+}
+
+function updateBetslipUI() {
+  const count = Object.keys(selectedOdds).length;
+  const trigger = document.getElementById('sportsBetslipTrigger');
+  const countBadge = document.getElementById('betslipCount');
+  const drawerCount = document.getElementById('betslipDrawerCount');
+  const totalOddsEl = document.getElementById('betslipTotalOdds');
+  const bonusBadge = document.getElementById('betslipBonusBadge');
+  const accumBadge = document.getElementById('accumPercentBadge');
+
+  if (count === 0) {
+    if (trigger) trigger.style.display = 'none';
+    if (accumBadge) accumBadge.innerText = '+0%';
+    return;
+  }
+
+  trigger.style.display = 'flex';
+  countBadge.innerText = count;
+  drawerCount.innerText = count;
+
+  let totalOdds = 1.00;
+  for (const k in selectedOdds) {
+    totalOdds *= selectedOdds[k].rate;
+  }
+  totalOddsEl.innerText = totalOdds.toFixed(2);
+
+  // Calculate Accumulator Bonus
+  let bonus = 0;
+  if (count >= 10) bonus = 50;
+  else if (count >= 7) bonus = 25;
+  else if (count >= 5) bonus = 15;
+  else if (count >= 3) bonus = 5;
+
+  if (bonusBadge) bonusBadge.innerText = `+${bonus}% BONUS`;
+  if (accumBadge) accumBadge.innerText = `+${bonus}%`;
+
+  // Render items inside drawer
+  const container = document.getElementById('betslipItemsList');
+  if (container) {
+    container.innerHTML = Object.entries(selectedOdds).map(([mId, item]) => `
+      <div class="bg-bgCard border border-borderSubtle p-2.5 rounded-xl flex justify-between items-center text-xs">
+        <div>
+          <div class="font-bold text-white">${item.match.home} vs ${item.match.away}</div>
+          <div class="text-[10px] text-textMuted">${currentLanguage === 'አማርኛ' ? 'ምርጫ' : 'Pick'}: ${item.pick === '1' ? 'Home' : item.pick === 'X' ? 'Draw' : 'Away'}</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-black text-goldPrimary">${item.rate.toFixed(2)}</span>
+          <button onclick="selectOddPick('${mId}', '${item.pick}', ${item.rate})" class="text-redOdds text-xs font-black p-1">✕</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Update calculations in drawer
+  const baseReturn = betslipStake * totalOdds;
+  const bonusReturn = baseReturn * (bonus / 100);
+  const totalPayout = baseReturn + bonusReturn;
+
+  document.getElementById('slipOddsVal').innerText = totalOdds.toFixed(2);
+  document.getElementById('slipBaseReturnVal').innerText = `ETB ${baseReturn.toFixed(2)}`;
+  document.getElementById('slipBonusLabel').innerText = `⚡ ${currentLanguage === 'አማርኛ' ? 'የአኩሙሌተር ቦነስ' : 'Accumulator Bonus'} (+${bonus}%)`;
+  document.getElementById('slipBonusVal').innerText = `+ETB ${bonusReturn.toFixed(2)}`;
+  document.getElementById('slipPotentialPayout').innerText = `ETB ${totalPayout.toFixed(2)}`;
+  document.getElementById('placeBetBtn').innerText = `${currentLanguage === 'አማርኛ' ? 'ውርርድ አስገባ' : 'Place Bet'} (ETB ${betslipStake})`;
+}
+
+function toggleBetslipDrawer(show) {
+  document.getElementById('sportsBetslipDrawer').style.display = show ? 'flex' : 'none';
+}
+
+function setBetslipStake(val) {
+  betslipStake = val;
+  updateBetslipUI();
+}
+
+async function submitSportsBet() {
+  const count = Object.keys(selectedOdds).length;
+  if (count === 0) return toast(currentLanguage === 'አማርኛ' ? "ቢያንስ አንድ ጨዋታ ይምረጡ" : "Select at least 1 match");
+  if (!currentBalance || currentBalance < betslipStake) {
+    return toast(currentLanguage === 'አማርኛ' ? "ቀሪ ሂሳብዎ በቂ አይደለም። ዲፖዚት ያድርጉ" : "Insufficient balance. Deposit first.");
+  }
+
+  let totalOdds = 1.00;
+  for (const k in selectedOdds) totalOdds *= selectedOdds[k].rate;
+
+  const btn = document.getElementById('placeBetBtn');
+  btn.disabled = true;
+
+  const d = await api('/api/sports/bet', {
+    method: 'POST',
+    body: JSON.stringify({
+      matches: Object.values(selectedOdds),
+      stake: betslipStake,
+      totalOdds: Number(totalOdds.toFixed(2))
+    })
+  });
   btn.disabled = false;
-  if (!d.success) return toast(d.message || "Deposit request failed");
+
+  if (!d.success) return toast(d.message || "Failed to place bet");
+
+  currentBalance = d.newBalance;
+  updateBalanceDisplay();
+  selectedOdds = {};
+  updateBetslipUI();
+  toggleBetslipDrawer(false);
+  renderMatches();
+  toast(currentLanguage === 'አማርኛ' ? "ውርርድዎ በተሳካ ሁኔታ ተመዝግቧል! 🎉" : "Bet placed successfully! 🎉");
+}
+
+// Live Odds Flashing Simulation
+setInterval(() => {
+  if (activeSport !== 'soccer') return;
+  const idx = Math.floor(Math.random() * EPL_MATCHES.length);
+  const keys = ['1', 'X', '2'];
+  const rKey = keys[Math.floor(Math.random() * keys.length)];
+  const delta = Math.random() > 0.5 ? 0.05 : -0.05;
+  const m = EPL_MATCHES[idx];
+  m.odds[rKey] = Math.max(1.10, Number((m.odds[rKey] + delta).toFixed(2)));
+
+  const btn = document.getElementById(`oddBtn-${m.id}-${rKey}`);
+  if (btn) {
+    btn.classList.add(delta > 0 ? 'flash-up' : 'flash-down');
+    setTimeout(() => btn.classList.remove('flash-up', 'flash-down'), 1200);
+  }
+}, 8000);
+
+renderMatches();
+
+// ========================================================
+// 4. CASHIER & TELEBIRR DEPOSIT SYSTEM (V1 + V2 EXACT)
+// ========================================================
+let selectedDepMethod = 'Telebirr';
+let payCountdownSecs = 1792;
+let payCountdownInterval = null;
+
+function openDepositDrawer() {
+  openModal('modalDepositDrawer');
+}
+
+function openWithdrawDrawer() {
+  syncDatabaseBalance();
+  openModal('modalWithdrawDrawer');
+}
+
+function selectDepositMethod(method) {
+  selectedDepMethod = method;
+  const cbeCard = document.getElementById('cbeMethodCard');
+  const tbCard = document.getElementById('telebirrMethodCard');
+  const cbeCheck = document.getElementById('cbeCheckIcon');
+  const tbCheck = document.getElementById('telebirrCheckIcon');
+
+  if (method === 'CBE') {
+    cbeCard.className = "bg-bgCard border border-greenOdds bg-[#051c14] rounded-xl p-3 flex justify-between items-center cursor-pointer transition";
+    tbCard.className = "bg-bgCard border border-borderSubtle rounded-xl p-3 flex justify-between items-center cursor-pointer transition";
+    cbeCheck.style.display = 'block';
+    tbCheck.style.display = 'none';
+  } else {
+    tbCard.className = "bg-bgCard border border-greenOdds bg-[#051c14] rounded-xl p-3 flex justify-between items-center cursor-pointer transition";
+    cbeCard.className = "bg-bgCard border border-borderSubtle rounded-xl p-3 flex justify-between items-center cursor-pointer transition";
+    tbCheck.style.display = 'block';
+    cbeCheck.style.display = 'none';
+  }
+}
+
+function setDepositAmountVal(amt) {
+  document.getElementById('depositAmountInput').value = amt;
+}
+
+function proceedToPaymentDetails() {
+  const amt = Number(document.getElementById('depositAmountInput').value);
+  if (!amt || amt < 50) return toast(currentLanguage === 'አማርኛ' ? "ዝቅተኛው ዲፖዚት 50 ብር ነው" : "Minimum deposit is 50 ETB");
+
   closeModal('modalDepositDrawer');
-  const text = encodeURIComponent(`📥 DEPOSIT REQUEST: ${amount} ETB\nPlayer ID: ${USER_ID}\nRef: ${d.txnId}`);   // ref is the real server transaction id
-  const link = `https://t.me/${d.agent}?text=${text}`;
-  if (tg?.openTelegramLink) tg.openTelegramLink(link); else window.open(link, '_blank');
+  document.getElementById('payDetailsAmt').innerText = amt;
+  document.getElementById('payDetailsMethod').innerText = selectedDepMethod;
+  openModal('modalPaymentDetails');
+
+  // Start 30min countdown timer
+  payCountdownSecs = 1792;
+  if (payCountdownInterval) clearInterval(payCountdownInterval);
+  payCountdownInterval = setInterval(() => {
+    if (payCountdownSecs <= 0) {
+      clearInterval(payCountdownInterval);
+      return;
+    }
+    payCountdownSecs--;
+    const m = Math.floor(payCountdownSecs / 60).toString().padStart(2, '0');
+    const s = (payCountdownSecs % 60).toString().padStart(2, '0');
+    document.getElementById('payCountdownTxt').innerText = `00:${m}:${s}`;
+  }, 1000);
+}
+
+// FEATURE 3: Automated SMS / Transaction Ref Verification
+async function verifySmsCodeSubmission() {
+  const code = document.getElementById('smsRefInput').value.trim();
+  const amt = Number(document.getElementById('payDetailsAmt').innerText) || 50;
+  if (!code || code.length < 5) return toast(currentLanguage === 'አማርኛ' ? "እባክዎ ትክክለኛ የትራንዛክሽን ኮድ ወይም SMS ያስገቡ" : "Please paste a valid transaction code or SMS");
+
+  const btn = document.getElementById('verifySmsBtn');
+  btn.disabled = true;
+  btn.innerText = currentLanguage === 'አማርኛ' ? "በማረጋገጥ ላይ..." : "Verifying...";
+
+  const d = await api('/api/cashier/deposit', {
+    method: 'POST',
+    body: JSON.stringify({
+      amount: amt,
+      method: selectedDepMethod,
+      agentAssigned: 'Agent1hulubet',
+      bankRef: code
+    })
+  });
+  btn.disabled = false;
+  btn.innerText = "✓ " + (currentLanguage === 'አማርኛ' ? "አረጋግጥና ወዲያውኑ ጨምር" : "Verify & Auto Credit");
+
+  if (!d.success) return toast(d.message || "Verification failed");
+
+  currentBalance = d.newBalance;
+  updateBalanceDisplay();
+  closeModal('modalPaymentDetails');
+  toast(currentLanguage === 'አማርኛ' ? `✅ ተረጋግጧል! +${amt} ብር ወደ ሂሳብዎ ተጨምሯል` : `✅ Verified! +${amt} ETB added to balance`);
+}
+
+async function confirmPaymentPaid() {
+  const amt = Number(document.getElementById('payDetailsAmt').innerText) || 50;
+  const d = await api('/api/cashier/deposit', {
+    method: 'POST',
+    body: JSON.stringify({
+      amount: amt,
+      method: selectedDepMethod,
+      agentAssigned: 'Agent1hulubet',
+      bankRef: document.getElementById('smsRefInput').value.trim()
+    })
+  });
+
+  closeModal('modalPaymentDetails');
+  if (d.success) {
+    const text = encodeURIComponent(`📥 DEPOSIT REQUEST: ${amt} ETB\nPlayer ID: ${USER_ID}\nRef: ${d.txnId}`);
+    const link = `https://t.me/${d.agent || 'Agent1hulubet'}?text=${text}`;
+    if (tg?.openTelegramLink) tg.openTelegramLink(link);
+    else window.open(link, '_blank');
+  } else {
+    toast(d.message || "Failed");
+  }
 }
 
 async function submitWithdrawOrder() {
   const amount = Number(document.getElementById('withdrawAmountInput').value);
   const account = document.getElementById('withdrawAccountInput').value.trim();
-  if (!amount || amount < 100) return toast("Minimum withdrawal is 100 ETB");
-  if (!account) return toast("Account number required");
-  const btn = document.getElementById('wdBtn'); btn.disabled = true;
-  const d = await api('/api/cashier/withdraw', { method: 'POST', body: JSON.stringify({ amount, accountNumber: account, method: document.getElementById('wdMethod').value }) });
+  if (!amount || amount < 100) return toast(currentLanguage === 'አማርኛ' ? "ዝቅተኛው ማውጫ 100 ብር ነው" : "Minimum withdrawal is 100 ETB");
+  if (!account) return toast(currentLanguage === 'አማርኛ' ? "የሂሳብ ቁጥር ያስገቡ" : "Account number required");
+
+  const btn = document.getElementById('wdBtn');
+  btn.disabled = true;
+  const d = await api('/api/cashier/withdraw', {
+    method: 'POST',
+    body: JSON.stringify({
+      amount,
+      accountNumber: account,
+      method: document.getElementById('wdMethod').value
+    })
+  });
   btn.disabled = false;
+
   if (!d.success) return toast(d.message || "Withdrawal failed");
-  currentBalance = d.newBalance; updateBalanceDisplay(); closeModal('modalWithdrawDrawer');
-  toast("Withdrawal request submitted");
+  currentBalance = d.newBalance;
+  updateBalanceDisplay();
+  closeModal('modalWithdrawDrawer');
+  toast(currentLanguage === 'አማርኛ' ? "የማውጣት ጥያቄዎ ቀርቧል" : "Withdrawal request submitted");
 }
 
+// Cashier History & Cancellation (V1 Pure Logic)
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const STATUS = { pending: '⏳ Pending', approved: '✅ Approved', rejected: '❌ Rejected', cancelled: '⚪ Cancelled', expired: '⚪ Expired' };
+const STATUS_MAP = { pending: '⏳ Pending', approved: '✅ Approved', rejected: '❌ Rejected', cancelled: '⚪ Cancelled', expired: '⚪ Expired' };
+
 async function openHistory() {
   openModal('modalHistory');
   const box = document.getElementById('histList');
   box.innerHTML = '<p class="sheet-note">Loading…</p>';
   const d = await api('/api/cashier/history');
-  if (!d.success) { box.innerHTML = `<p class="sheet-note">${esc(d.message || 'Could not load history')}</p>`; return; }
+  if (!d.success) {
+    box.innerHTML = `<p class="sheet-note">${esc(d.message || 'Could not load history')}</p>`;
+    return;
+  }
   box.innerHTML = d.items.length ? d.items.map(i => `
-    <div class="hist-item"><div><b>${i.type === 'DEPOSIT' ? '📥 Deposit' : '💸 Withdrawal'}</b> · ${Number(i.amount).toFixed(2)} ETB
-      <small>${esc(i.method)} · ${new Date(i.at).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}${i.note ? ' · ' + esc(i.note) : ''}</small></div>
-      <div><span class="chip ${esc(i.status)}">${STATUS[i.status] || esc(i.status)}</span>${i.status === 'pending' ? `<button class="btn-cancel" data-cancel="${esc(i.id)}">Cancel</button>` : ''}</div></div>`).join('')
-    : '<p class="sheet-note">No deposits or withdrawals yet</p>';
-  box.onclick = e => { const b = e.target.closest('[data-cancel]'); if (b) cancelRequest(b.dataset.cancel); };
-}
-async function cancelRequest(id) {
-  const go = async () => {
-    const d = await api('/api/cashier/cancel', { method: 'POST', body: JSON.stringify({ txnId: id }) });
-    toast(d.message || 'Failed');
-    if (d.success) { if (d.newBalance != null) { currentBalance = d.newBalance; updateBalanceDisplay(); } openHistory(); }
+    <div class="hist-item">
+      <div>
+        <b>${i.type === 'DEPOSIT' ? '📥 Deposit' : '💸 Withdrawal'}</b> · ${Number(i.amount).toFixed(2)} ETB
+        <small>${esc(i.method)} · ${new Date(i.at).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}${i.bankRef ? ' · Ref: ' + esc(i.bankRef) : ''}</small>
+      </div>
+      <div>
+        <span class="chip ${esc(i.status)}">${STATUS_MAP[i.status] || esc(i.status)}</span>
+        ${i.status === 'pending' ? `<button class="btn-cancel" data-cancel="${esc(i.id)}">${currentLanguage === 'አማርኛ' ? 'ሰርዝ' : 'Cancel'}</button>` : ''}
+      </div>
+    </div>
+  `).join('') : '<p class="sheet-note">No transactions yet</p>';
+
+  box.onclick = e => {
+    const b = e.target.closest('[data-cancel]');
+    if (b) cancelCashierRequest(b.dataset.cancel);
   };
-  if (tg?.showConfirm) tg.showConfirm('Cancel this request?', ok => ok && go()); else if (confirm('Cancel this request?')) go();
 }
 
-function navigateToTab(t) {
+async function cancelCashierRequest(id) {
+  const go = async () => {
+    const d = await api('/api/cashier/cancel', {
+      method: 'POST',
+      body: JSON.stringify({ txnId: id })
+    });
+    toast(d.message || 'Failed');
+    if (d.success) {
+      if (d.newBalance != null) {
+        currentBalance = d.newBalance;
+        updateBalanceDisplay();
+      }
+      openHistory();
+    }
+  };
+  const confirmMsg = currentLanguage === 'አማርኛ' ? "ይህንን ጥያቄ መሰረዝ ይፈልጋሉ?" : "Cancel this request?";
+  if (tg?.showConfirm) tg.showConfirm(confirmMsg, ok => ok && go());
+  else if (confirm(confirmMsg)) go();
+}
+
+function openDisputeChat() {
+  const link = "https://t.me/Agent1hulubet";
+  if (tg?.openTelegramLink) tg.openTelegramLink(link);
+  else window.open(link, '_blank');
+}
+
+// ========================================================
+// 5. 24 GAMES CATALOG & UI DATA GENERATION
+// ========================================================
+const CATALOG_24_GAMES = [
+  { id: 'aviator', title: 'Aviator', isReal: true, img: 'https://i.postimg.cc/CKvrftsM/Screenshot-20260922-144440-Plus(1).jpg' },
+  { id: 'avia', title: 'Aviamasters', isReal: true, img: 'https://i.postimg.cc/DwnxpFCf/Screenshot-20260922-144440-Plus(2).jpg' },
+  { id: 'road', title: 'Chicken Road 2', isReal: true, img: 'https://i.postimg.cc/wvy2RBvY/Screenshot-20260922-144440-Plus(3).jpg' },
+  { id: 'rabbit', title: 'Rabbit Road', isReal: false, img: 'https://i.postimg.cc/tRzZtjVB/Screenshot-20260922-144440-Plus(4).jpg' },
+  { id: 'crash999', title: 'Crash 999x', isReal: false, img: 'https://i.postimg.cc/rmksxnVh/Screenshot-20260922-144440-Plus(5).jpg' },
+  { id: 'rocket', title: 'Rocket', isReal: false, img: 'https://i.postimg.cc/G3ztTxZS/Screenshot-20260922-144440-Plus(6).jpg' },
+  { id: 'fish', title: 'Fish Road', isReal: false, img: 'https://i.postimg.cc/bNBv3NY3/Screenshot-20260922-144446-Plus(7).jpg' },
+  { id: 'roast', title: 'Chicken Roast', isReal: false, img: 'https://i.postimg.cc/MGkpJPQD/Screenshot-20260922-144446-Plus(8).jpg' },
+  { id: 'dice', title: 'Dice Originals', isReal: false, img: 'https://i.postimg.cc/ZR4YCWHX/Screenshot-20260922-144446-Plus(9).jpg' },
+  { id: 'jetx', title: 'Jet-X', isReal: true, img: 'https://i.postimg.cc/dQWQVtCc/Screenshot-20260922-144446-Plus(10).jpg' },
+  { id: 'slot', title: '777 Multi Slot', isReal: true, img: 'https://i.postimg.cc/CLXFbPJr/Screenshot-20260922-144446-Plus(11).jpg' },
+  { id: 'keno', title: 'Fast Keno', isReal: true, img: 'https://i.postimg.cc/6qQ9fFDD/Screenshot-20260922-144446-Plus(12).jpg' },
+  { id: 'plinko', title: 'Plinko Rush', isReal: false, img: 'https://i.postimg.cc/q7X4VkrZ/Screenshot-20260922-144446-Plus(13).jpg' },
+  { id: 'mines', title: 'Mines Dare', isReal: false, img: 'https://i.postimg.cc/3RthNnd6/Screenshot-20260922-152202-Plus(1).jpg' },
+  { id: 'tower', title: 'Tower Legend', isReal: false, img: 'https://i.postimg.cc/44FZT2C9/Screenshot-20260922-152202-Plus(2).jpg' },
+  { id: 'goal', title: 'Goal League', isReal: false, img: 'https://i.postimg.cc/FsM4YfHm/Screenshot-20260922-152202-Plus(3).jpg' },
+  { id: 'turbo', title: 'Turbo Mines', isReal: false, img: 'https://i.postimg.cc/XJYMRdQc/Screenshot-20260922-152202-Plus(4).jpg' },
+  { id: 'hilo', title: 'HiLo High', isReal: false, img: 'https://i.postimg.cc/yNBCTwRv/Screenshot-20260922-152202-Plus(5).jpg' },
+  { id: 'hotline', title: 'Hotline 777', isReal: false, img: 'https://i.postimg.cc/KcVXWKLx/Screenshot-20260922-152202-Plus(6).jpg' },
+  { id: 'fortune', title: 'Fortune Wheel', isReal: false, img: 'https://i.postimg.cc/Vkq35Dh5/Screenshot-20260922-152243-Plus(1).jpg' },
+  { id: 'spaceman', title: 'Spaceman', isReal: false, img: 'https://i.postimg.cc/k5wzvDq8/Screenshot-20260922-152243-Plus(2).jpg' },
+  { id: 'penalty', title: 'Penalty Shoot', isReal: false, img: 'https://i.postimg.cc/G905myJZ/Screenshot-20260922-152243-Plus(3).jpg' },
+  { id: 'clover', title: 'Golden Clover', isReal: false, img: 'https://i.postimg.cc/3xh3L450/Screenshot-20260922-152243-Plus(4).jpg' },
+  { id: 'aztec', title: 'Aztec Magic', isReal: false, img: 'https://i.postimg.cc/cLc0Px0P/Screenshot-20260922-152243-Plus(5).jpg' }
+];
+
+function renderGamesCatalog(items = CATALOG_24_GAMES) {
+  const container = document.getElementById('fullGamesGrid');
+  if (!container) return;
+  container.innerHTML = items.map(g => `
+    <div onclick="${g.isReal ? `launchGameEngine('${g.id}', '${g.title}')` : `toast('⚡ ${currentLanguage === 'አማርኛ' ? 'በቅርብ ቀን!' : 'Coming Soon!'}')`}" class="group flex flex-col items-center bg-bgCard border border-borderSubtle rounded-xl overflow-hidden p-1.5 cursor-pointer active:scale-95 transition">
+      <div class="w-full aspect-square rounded-lg overflow-hidden relative bg-black">
+        <img src="${g.img}" alt="${g.title}" class="w-full h-full object-cover">
+        ${g.isReal ? `<span class="absolute top-1 left-1 bg-greenOdds text-black text-[8px] font-black px-1.5 rounded shadow">PLAY</span>` : ''}
+      </div>
+      <span class="text-[11px] font-extrabold text-white mt-1.5 text-center truncate w-full">${g.title}</span>
+    </div>
+  `).join('');
+}
+
+function filterGamesCatalog() {
+  const q = document.getElementById('gameSearchInput').value.toLowerCase();
+  const filtered = CATALOG_24_GAMES.filter(g => g.title.toLowerCase().includes(q));
+  renderGamesCatalog(filtered);
+}
+renderGamesCatalog();
+
+// Populate Recent Wins Ticker
+const RECENT_WINS_DATA = [
+  { game: 'Chicken Road 2', user: 'oari...', win: '54.3k', img: 'https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg' },
+  { game: 'Fast Keno', user: 'intrav...', win: '30.8k', img: 'https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg' },
+  { game: 'Jet-X', user: 'contr...', win: '40.1k', img: 'https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg' },
+  { game: '777 Slot', user: 'restor...', win: '54.3k', img: 'https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg' },
+  { game: 'Aviator', user: 'avid-c...', win: '48.3k', img: 'https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg' },
+  { game: 'Avia Masters', user: 'rever...', win: '293k', img: 'https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg' }
+];
+
+document.getElementById('recentWinsTicker').innerHTML = RECENT_WINS_DATA.map(w => `
+  <div class="flex-shrink-0 w-24 bg-bgCard border border-borderSubtle rounded-xl p-2 flex flex-col items-center text-center">
+    <div class="w-14 h-14 rounded-lg overflow-hidden mb-1.5 bg-bgSurface border border-borderSubtle">
+      <img src="${w.img}" alt="${w.game}" class="w-full h-full object-cover">
+    </div>
+    <span class="text-[10px] text-textMuted font-medium truncate w-full">${w.user}</span>
+    <span class="text-[11px] font-black text-greenOdds">Br ${w.win}</span>
+  </div>
+`).join('');
+
+// Populate Bet History List
+const BET_HISTORY_DATA = [
+  { game: 'Rabbit Road', date: '30 Sept, 06:40 pm', bet: 2.00, win: 0.12, status: 'win', img: 'https://i.postimg.cc/tRzZtjVB/Screenshot-20260922-144440-Plus(4).jpg' },
+  { game: 'Fast Keno', date: '30 Sept, 06:29 pm', bet: 2.00, win: 0, status: 'loss', img: 'https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg' },
+  { game: 'Chicken Road 2', date: '30 Sept, 04:58 pm', bet: 2.00, win: 0, status: 'loss', img: 'https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg' },
+  { game: 'Chicken Road 2', date: '30 Sept, 04:57 pm', bet: 2.00, win: 0.59, status: 'win', img: 'https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg' },
+  { game: 'Chicken Road 2', date: '30 Sept, 04:28 pm', bet: 2.00, win: 0.87, status: 'win', img: 'https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg' },
+  { game: 'Chicken Road 2', date: '20 Aug, 03:54 pm', bet: 2.00, win: 0.42, status: 'win', img: 'https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg' }
+];
+
+document.getElementById('betHistoryItemsList').innerHTML = BET_HISTORY_DATA.map(b => `
+  <div class="bg-bgCard border border-borderSubtle rounded-xl p-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg overflow-hidden border border-borderSubtle bg-black flex-shrink-0">
+        <img src="${b.img}" alt="${b.game}" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <div class="text-xs font-black text-white">${b.game}</div>
+        <div class="text-[10px] text-textMuted">${b.date}</div>
+      </div>
+    </div>
+    <div class="text-right">
+      <div class="text-xs font-black ${b.status === 'win' ? 'text-greenOdds' : 'text-redOdds'}">
+        ${b.status === 'win' ? `+ETB ${b.win.toFixed(2)}` : `-ETB ${b.bet.toFixed(2)}`} <span class="text-[10px] font-bold text-blue-400">Br</span>
+      </div>
+      <div class="text-[10px] text-textMuted">Bet: ETB ${b.bet.toFixed(2)}</div>
+    </div>
+  </div>
+`).join('');
+
+// ========================================================
+// 6. PROMOTIONS, WHEEL, COUPON & LOCALIZATION (FEATURE 6)
+// ========================================================
+let isSpinningWheel = false;
+
+function triggerSpinWheel() {
+  if (isSpinningWheel) return;
+  isSpinningWheel = true;
+  const wheel = document.getElementById('luckyWheelCircle');
+  wheel.classList.add('wheel-spinning');
+  setTimeout(() => {
+    wheel.classList.remove('wheel-spinning');
+    isSpinningWheel = false;
+    currentBalance = (currentBalance || 0) + 10;
+    updateBalanceDisplay();
+    toast(currentLanguage === 'አማርኛ' ? "🎉 እንኳን ደስ አለዎት! 10 ብር አሸንፈዋል" : "🎉 Congratulations! You won 10 ETB");
+  }, 4200);
+}
+
+function redeemCouponCode() {
+  const code = document.getElementById('couponCodeInput').value.trim();
+  if (!code) return toast(currentLanguage === 'አማርኛ' ? "እባክዎ የኩፖን ኮድ ያስገቡ" : "Please enter coupon code");
+  currentBalance = (currentBalance || 0) + 50;
+  updateBalanceDisplay();
+  closeModal('modalCoupon');
+  document.getElementById('couponCodeInput').value = '';
+  toast(currentLanguage === 'አማርኛ' ? "🎉 ኩፖኑ ተረጋግጧል! 50 ብር ተጨምሯል" : "🎉 Coupon redeemed! +50 ETB credited");
+}
+
+function copyReferralLink() {
+  const link = `https://t.me/Hulubetethbot?start=${USER_ID}`;
+  copyToClipboard(link, currentLanguage === 'አማርኛ' ? "የግብዣ ሊንክ" : "Referral link");
+}
+
+function executeTelegramShare() {
+  const text = encodeURIComponent("በቴሌግራም ላይ ሼር አድርገው — እስከ 100,000 ETB ድረስ ያሸንፉ!");
+  const url = encodeURIComponent(`https://t.me/Hulubetethbot?start=${USER_ID}`);
+  if (tg?.openTelegramLink) tg.openTelegramLink(`https://t.me/share/url?url=${url}&text=${text}`);
+  else window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+  closeModal('modalShare');
+}
+
+// BILINGUAL LOCALIZATION ENGINE (ENGLISH & AMHARIC)
+const DICTIONARY = {
+  English: {
+    headerDeposit: "Deposit",
+    luckySpin: "Lucky Spin",
+    shamo: "Shamo",
+    coupon: "Coupon",
+    vip: "VIP",
+    recentWins: "Recent Big Wins",
+    liveGamesTitle: "Live Playable Games",
+    accumTitle: "⚡ ACCUMULATOR BONUS UP TO +50%",
+    accumSub: "3+ matches: +5% | 5+ matches: +15% | 10 matches: +50%!",
+    catSoccer: "Soccer",
+    matchCountLabel: "MATCHES",
+    oddsLabel: "1X2 ODDS",
+    allGamesTitle: "All Available Games (24)",
+    inviteHeadline: "Invite friends.<br>Earn Br 100.",
+    inviteSub: "You earn Br 100 when a new friend makes their first external deposit, then claim it directly to your wallet.",
+    rewardFriend: "REWARD PER ACTIVE FRIEND",
+    inviteBtn: "Invite Friends",
+    profileBalLabel: "Balance",
+    menuPromo: "Promo Code",
+    menuLanguage: "Language",
+    menuBetHist: "Bet History",
+    menuCashierHist: "Cashier History (Deposits & Withdraws)",
+    betslipTriggerText: "Matches Selected",
+    betslipTitle: "Betslip",
+    slipTotalOdds: "Total Odds",
+    slipBaseReturn: "Base Return",
+    slipPotential: "Potential Return",
+    tabCasino: "Casino",
+    tabSports: "Sports",
+    tabGames: "Games",
+    tabInvite: "Invite",
+    tabProfile: "Profile"
+  },
+  "አማርኛ": {
+    headerDeposit: "ገንዘብ አስገባ",
+    luckySpin: "ዕድለኛ ጎማ",
+    shamo: "ሻሞ",
+    coupon: "ኩፖን",
+    vip: "ቪአይፒ",
+    recentWins: "ትላልቅ አሸናፊዎች",
+    liveGamesTitle: "የቀጥታ ጨዋታዎች",
+    accumTitle: "⚡ የአኩሙሌተር ቦነስ እስከ +50%",
+    accumSub: "3+ ግጥሚያ፡ +5% | 5+ ግጥሚያ፡ +15% | 10 ግጥሚያ፡ +50%!",
+    catSoccer: "እግር ኳስ",
+    matchCountLabel: "ግጥሚያዎች",
+    oddsLabel: "1X2 ኦድስ",
+    allGamesTitle: "ሁሉም ጨዋታዎች (24)",
+    inviteHeadline: "ጓደኛ ይጋብዙ።<br>100 ብር ያግኙ።",
+    inviteSub: "አዲስ ጓደኛ ጋብዘው የመጀመሪያ ዲፖዚት ሲያደርጉ 100 ብር ቦነስ በቀጥታ ወደ ቦርሳዎ ገቢ ይደረጋል።",
+    rewardFriend: "ለአንድ ንቁ ጓደኛ የሚከፈል",
+    inviteBtn: "ጓደኛ ይጋብዙ",
+    profileBalLabel: "ቀሪ ሂሳብ",
+    menuPromo: "የማስተዋወቂያ ኮድ",
+    menuLanguage: "ቋንቋ",
+    menuBetHist: "የውርርድ ታሪክ",
+    menuCashierHist: "የክፍያ ታሪክ (ገቢ እና ወጪ)",
+    betslipTriggerText: "የተመረጡ ግጥሚያዎች",
+    betslipTitle: "የውርርድ ቅጽ",
+    slipTotalOdds: "ጠቅላላ ኦድስ",
+    slipBaseReturn: "መሰረታዊ ድል",
+    slipPotential: "ሊያሸንፉ የሚችሉት",
+    tabCasino: "ካሲኖ",
+    tabSports: "ስፖርት",
+    tabGames: "ጨዋታዎች",
+    tabInvite: "ጋብዝ",
+    tabProfile: "መገለጫ"
+  }
+};
+
+function setAppLanguage(lang) {
+  currentLanguage = lang;
+  document.getElementById('currentLangLabel').innerText = `${lang} >`;
+  document.getElementById('langCheckEn').style.display = lang === 'English' ? 'block' : 'none';
+  document.getElementById('langCheckAm').style.display = lang === 'አማርኛ' ? 'block' : 'none';
+
+  const dict = DICTIONARY[lang] || DICTIONARY['English'];
+  for (const idKey in dict) {
+    const el = document.getElementById(`i18n-${idKey}`);
+    if (el) el.innerHTML = dict[idKey];
+  }
+
+  updateBalanceDisplay();
+  renderMatches();
+  renderGamesCatalog();
+  closeModal('modalLanguage');
+  toast(lang === 'አማርኛ' ? "ቋንቋ ወደ አማርኛ ተቀይሯል" : "Language set to English");
+}
+
+// Helpers
+function copyToClipboard(txt, label) {
+  if (navigator.clipboard?.writeText) navigator.clipboard.writeText(txt);
+  toast(`✅ ${label || 'Copied'}!`);
+}
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'flex';
+}
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+function navigateToTab(tabId) {
   document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
-  document.getElementById('tab-' + t).classList.add('active');
+  document.querySelectorAll('.b-nav-item').forEach(b => b.classList.remove('active'));
+
+  const targetTab = document.getElementById('tab-' + tabId);
+  const targetNav = document.getElementById('nav-' + tabId);
+  if (targetTab) targetTab.classList.add('active');
+  if (targetNav) targetNav.classList.add('active');
+
+  if (tabId === 'sports') renderMatches();
 }
 </script>
 </body>
 </html>
+    
