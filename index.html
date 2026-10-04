@@ -3,40 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>HuluBet Ultra V3 - 2026 Sportsbook & Virtual Casino</title>
+<title>HuluBet Ultra - 12 Live Games & Sportsbook</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --obsidian: #04060a;
-  --bg-deep: #060913;
-  --panel-navy: #0c1222;
-  --panel-card: #11182c;
-  --panel-card-hover: #17213b;
+  --obsidian: #030508;
+  --bg-deep: #060a11;
+  --bg-card: #0b111c;
+  --bg-card-hover: #10192a;
+  --bg-input: #080d16;
+  --emerald-primary: #00f076;
+  --emerald-dark: #00a852;
+  --emerald-glow: rgba(0, 240, 118, 0.45);
+  --emerald-gradient: linear-gradient(135deg, #00f076 0%, #00b355 50%, #007a3a 100%);
   --gold-primary: #f5b400;
-  --gold-glow: rgba(245, 180, 0, 0.45);
-  --gold-gradient: linear-gradient(135deg, #f5b400 0%, #e09b00 50%, #b87b00 100%);
-  --neon-emerald: #00f076;
-  --neon-emerald-glow: rgba(0, 240, 118, 0.4);
-  --electric-cyan: #00d2ff;
-  --cyan-glow: rgba(0, 210, 255, 0.35);
-  --purple-accent: #9333ea;
-  --purple-glow: rgba(147, 51, 234, 0.4);
-  --red-accent: #ff3355;
-  --border-subtle: #1c273e;
-  --border-light: rgba(255, 255, 255, 0.08);
+  --gold-glow: rgba(245, 180, 0, 0.4);
+  --cyan-accent: #00d2ff;
+  --red-accent: #ff3344;
+  --border-subtle: #142033;
+  --border-active: rgba(0, 240, 118, 0.6);
   --text-white: #ffffff;
-  --text-muted: #8e9db5;
-  --text-dim: #54647c;
-  --glass-bg: rgba(12, 18, 34, 0.88);
+  --text-muted: #8a9bb0;
+  --text-dim: #4d5c70;
   --radius-xs: 6px;
   --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
   --radius-pill: 9999px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -54,46 +51,47 @@
 body, html {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--obsidian);
+  background-color: #000;
   color: var(--text-white);
   overflow-x: hidden;
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
-/* Master Responsive Presentation Shell */
+/* Master Responsive Shell */
 .app-viewport {
   width: 100%;
   min-height: 100vh;
   max-width: 480px;
   margin: 0 auto;
-  background: radial-gradient(circle at 50% 0%, #101930 0%, var(--obsidian) 80%);
+  background: radial-gradient(circle at 50% 0%, #0a1727 0%, var(--obsidian) 75%);
   display: flex;
   flex-direction: column;
   position: relative;
   border-left: 1px solid var(--border-subtle);
   border-right: 1px solid var(--border-subtle);
-  box-shadow: 0 0 60px rgba(0,0,0,0.95);
+  box-shadow: 0 0 60px rgba(0, 240, 118, 0.08);
 }
 
 @media (min-width: 768px) {
-  body { background: #020306; padding: 16px 0; }
+  body { background: #020407; padding: 14px 0; }
   .app-viewport {
     max-width: 520px;
-    border-radius: 28px;
+    border-radius: 26px;
     overflow: hidden;
     min-height: 96vh;
     border: 1px solid var(--border-subtle);
+    box-shadow: 0 0 70px rgba(0, 240, 118, 0.15);
   }
 }
 
-/* Telegram Security Gatekeeper */
+/* Telegram Gatekeeper */
 #noSession {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: radial-gradient(circle at center, #0e1526 0%, #030408 100%);
+  background: radial-gradient(circle at center, #0a1828 0%, #020407 100%);
   color: #fff;
   align-items: center;
   justify-content: center;
@@ -101,108 +99,118 @@ body, html {
   padding: 24px;
 }
 .gatekeeper-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--gold-primary);
+  background: var(--bg-card);
+  border: 1.5px solid var(--emerald-primary);
   padding: 32px 24px;
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px var(--gold-glow);
-  max-width: 340px;
+  max-width: 330px;
+  box-shadow: 0 0 35px var(--emerald-glow);
 }
 
-/* Master Header with Language Switcher */
+/* Top Nav Bar */
 .top-nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: calc(10px + var(--safe-top)) 14px 10px;
-  background: rgba(7, 10, 18, 0.94);
+  padding: calc(9px + var(--safe-top)) 12px 9px;
+  background: rgba(4, 8, 14, 0.94);
   backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
   z-index: 80;
+  border-bottom: 1px solid var(--border-subtle);
 }
-.brand-group {
+.brand-title {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-.brand-logo-text {
+  gap: 5px;
   font-family: 'Outfit', sans-serif;
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 900;
-  letter-spacing: -0.6px;
-  color: #fff;
   font-style: italic;
-}
-.brand-logo-text span {
-  color: var(--gold-primary);
-  font-style: normal;
-  text-shadow: 0 0 16px var(--gold-glow);
-}
-.lang-badge {
-  font-size: 9px;
-  font-weight: 800;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border-light);
-  padding: 2px 6px;
-  border-radius: var(--radius-xs);
+  letter-spacing: -0.5px;
   cursor: pointer;
-  color: var(--text-muted);
 }
-
-.header-right-meta {
+.brand-title b { color: #fff; }
+.brand-title span {
+  color: var(--emerald-primary);
+  font-style: normal;
+  text-shadow: 0 0 16px var(--emerald-glow);
+}
+.live-flame-badge {
+  font-size: 8px;
+  font-weight: 900;
+  background: rgba(0, 240, 118, 0.15);
+  color: var(--emerald-primary);
+  border: 1px solid var(--emerald-primary);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 2px;
+}
+.header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
-.balance-pill-badge {
+.header-bal-pill {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
+  background: var(--bg-card);
   border-radius: var(--radius-pill);
   padding: 4px 10px 4px 5px;
   cursor: pointer;
+  border: 1px solid var(--border-subtle);
 }
-.coin-icon-round {
-  width: 22px;
-  height: 22px;
+.br-coin {
+  width: 21px;
+  height: 21px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0284c7 0%, #005c8a 100%);
-  color: #fff;
+  background: var(--emerald-gradient);
+  color: #000;
+  font-size: 9.5px;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
-  font-weight: 900;
+  box-shadow: 0 0 8px var(--emerald-glow);
 }
-.balance-numbers { display: flex; flex-direction: column; }
-.bal-label { font-size: 7.5px; font-weight: 800; color: var(--text-dim); }
-#headerBalTxt { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; color: #fff; }
-.btn-deposit-glow {
-  background: var(--gold-gradient);
+#headerBalTxt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #fff;
+}
+.btn-deposit-header {
+  background: var(--emerald-gradient);
   color: #000;
   font-size: 11.5px;
   font-weight: 900;
-  padding: 7px 14px;
+  padding: 6px 14px;
   border-radius: var(--radius-pill);
   border: none;
   cursor: pointer;
-  box-shadow: 0 3px 18px var(--gold-glow);
+  box-shadow: 0 0 14px var(--emerald-glow);
 }
 
-/* Sub-Tab Navigation Bar */
+/* Master Screen Views */
+.screen-view {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  padding-bottom: 95px;
+  overflow-y: auto;
+}
+.screen-view.active { display: flex; }
+
+/* Sub Navigation Mode Switcher */
 .sub-nav-tabs {
   display: flex;
-  background: rgba(14, 21, 37, 0.85);
-  margin: 10px 14px 6px;
-  padding: 4px;
+  background: rgba(11, 17, 28, 0.85);
+  margin: 8px 12px 6px;
+  padding: 3px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
   gap: 4px;
 }
 .sub-tab-btn {
@@ -210,7 +218,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 7px;
   padding: 8px 0;
   font-size: 11.5px;
   font-weight: 800;
@@ -222,258 +230,262 @@ body, html {
   transition: all .2s;
 }
 .sub-tab-btn.active {
-  background: #19243d;
+  background: #142338;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 1px solid rgba(0, 240, 118, 0.3);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.5);
 }
-.sub-tab-btn.active i { color: var(--gold-primary); }
+.sub-tab-btn.active i { color: var(--emerald-primary); }
 
-/* Screen Viewports */
-.screen-content {
-  display: none;
-  flex-direction: column;
-  flex: 1;
-  padding-bottom: 110px;
-  overflow-y: auto;
-}
-.screen-content.active { display: flex; }
-
-/* Promotional Banner Carousel */
-.hero-slider-wrap { padding: 6px 14px 10px; }
-.hero-slide {
+/* Official Promotional Banner */
+.hero-banner-container { padding: 6px 12px 8px; }
+.hero-banner-card {
   position: relative;
-  background: linear-gradient(135deg, #16223e 0%, #0c1322 70%, #1e1338 100%);
-  border: 1px solid rgba(245, 180, 0, 0.3);
   border-radius: var(--radius-lg);
-  padding: 16px 18px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  border: 1.5px solid rgba(0, 240, 118, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 240, 118, 0.15);
+  cursor: pointer;
+  aspect-ratio: 2.15/1;
+  background: #09121d;
 }
-.hero-slide::after {
-  content: '';
-  position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
-  pointer-events: none;
+.hero-banner-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.hero-tag {
-  display: inline-flex;
+.slider-dots { display: flex; justify-content: center; gap: 5px; margin-top: 6px; }
+.slider-dot { width: 14px; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; }
+.slider-dot.active { width: 24px; background: var(--emerald-primary); box-shadow: 0 0 8px var(--emerald-glow); }
+
+/* Quick Action Cards */
+.top-cards-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 2px 12px 10px;
+}
+.top-action-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 5px;
-  background: rgba(245, 180, 0, 0.15);
-  border: 1px solid rgba(245, 180, 0, 0.4);
-  color: var(--gold-primary);
-  font-size: 9.5px;
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 6px;
-  margin-bottom: 8px;
+  position: relative;
+  cursor: pointer;
 }
-.hero-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 19px;
-  font-weight: 900;
+.top-action-card:active { border-color: var(--emerald-primary); transform: scale(0.96); }
+.top-action-card i { font-size: 20px; }
+.top-action-card span { font-size: 10.5px; font-weight: 800; color: #fff; }
+.badge-red-new {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--red-accent);
   color: #fff;
-  line-height: 1.2;
-  margin-bottom: 4px;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 4px;
 }
-.hero-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
-.hero-dots { display: flex; gap: 5px; margin-top: 10px; }
-.hero-dot { width: 18px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.2); }
-.hero-dot.active { background: var(--gold-primary); box-shadow: 0 0 8px var(--gold-glow); }
 
-/* Progressive Jackpot Ticker */
-.jackpot-counter-box {
-  margin: 0 14px 10px;
-  background: linear-gradient(90deg, #131b2e 0%, #17112a 50%, #131b2e 100%);
-  border: 1px solid rgba(245, 180, 0, 0.4);
+/* Progressive Jackpot */
+.jackpot-flow-card {
+  margin: 0 12px 10px;
+  background: linear-gradient(90deg, #0d1a29, #092418, #0d1a29);
+  border: 1px solid rgba(0, 240, 118, 0.4);
   border-radius: var(--radius-md);
   padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 0 20px rgba(245, 180, 0, 0.15);
+  box-shadow: 0 0 20px rgba(0, 240, 118, 0.15);
 }
-.jackpot-left { display: flex; align-items: center; gap: 10px; }
-.jackpot-icon { font-size: 24px; filter: drop-shadow(0 0 10px var(--gold-glow)); }
-.jackpot-title { font-size: 9.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; }
 .jackpot-amount {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 900;
-  color: var(--gold-primary);
-  text-shadow: 0 0 12px var(--gold-glow);
+  color: var(--emerald-primary);
+  text-shadow: 0 0 12px var(--emerald-glow);
 }
 
-/* Quick Tools Bar (Lucky Wheel & Live Chat Entry) */
-.quick-tools-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin: 0 14px 10px;
-}
-.quick-tool-btn {
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
+/* Category Filter Bar */
+.lobby-filter-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all .2s;
+  gap: 6px;
+  padding: 0 12px 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.quick-tool-btn:active { transform: scale(0.96); border-color: var(--gold-primary); }
-.quick-tool-btn i { font-size: 20px; }
-
-/* Live Wins Feed */
-.live-wins-feed {
-  margin: 0 14px 12px;
-  background: rgba(14, 21, 37, 0.6);
+.lobby-filter-bar::-webkit-scrollbar { display: none; }
+.lobby-tab-chip {
+  flex-shrink: 0;
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
-  padding: 5px 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
+  padding: 6px 12px;
   font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  cursor: pointer;
 }
-.live-dot-pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--neon-emerald);
-  box-shadow: 0 0 8px var(--neon-emerald);
-  flex-shrink: 0;
+.lobby-tab-chip.active {
+  background: var(--emerald-gradient);
+  color: #000;
+  border-color: var(--emerald-primary);
+  box-shadow: 0 0 12px var(--emerald-glow);
 }
-.live-wins-text { white-space: nowrap; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; }
-.live-wins-text b { color: #fff; }
-.live-wins-text span { color: var(--neon-emerald); font-weight: 800; }
-
-/* Search & Filter Bar */
-.search-filter-wrap { display: flex; align-items: center; gap: 8px; padding: 0 14px 10px; }
-.search-box-input {
-  flex: 1;
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
+.search-input-box {
+  margin: 0 12px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   padding: 8px 14px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.search-box-input input {
+.search-input-box input {
   background: transparent;
   border: none;
   outline: none;
   color: #fff;
-  font-size: 11.5px;
+  font-size: 12px;
   width: 100%;
 }
 
-/* Recently Played Shelf */
-.recent-games-tray {
-  padding: 0 14px 12px;
+/* Section Shelf Headers */
+.section-header-title {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px 6px;
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+}
+.section-header-title span i { color: var(--emerald-primary); margin-right: 4px; }
+
+/* Horizontal Shelves */
+.games-shelf-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 12px 14px;
   overflow-x: auto;
   scrollbar-width: none;
 }
-.recent-games-tray::-webkit-scrollbar { display: none; }
-.recent-mini-chip {
+.games-shelf-row::-webkit-scrollbar { display: none; }
+.game-card-tall {
   flex-shrink: 0;
+  width: 96px;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
-  padding: 4px 10px 4px 4px;
-  border-radius: var(--radius-pill);
+  flex-direction: column;
   cursor: pointer;
+  transition: transform .18s;
+}
+.game-card-tall:active { transform: scale(0.95); }
+.tall-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #0f1624;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.tall-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.tall-title {
   font-size: 10.5px;
   font-weight: 800;
+  color: #fff;
+  margin-top: 4px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.recent-mini-chip img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
-
-/* Core 6 Games Dense Grid */
-.games-shelf-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 14px 10px;
-  font-size: 13.5px;
+.live-corner {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: var(--emerald-primary);
+  color: #000;
+  font-size: 7.5px;
   font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 4px;
 }
+.new-corner {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--red-accent);
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+/* 3-Column Dense Games Grid */
 .games-dense-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 0 14px 16px;
+  gap: 9px;
+  padding: 0 12px 18px;
 }
 .game-square-card {
   display: flex;
   flex-direction: column;
   position: relative;
   border-radius: var(--radius-md);
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   padding: 6px;
   cursor: pointer;
-  transition: transform .18s ease;
+  transition: all .2s;
 }
-.game-square-card:active { transform: scale(0.94); border-color: var(--gold-primary); }
-.game-thumb-box {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #090d16;
-  position: relative;
+.game-square-card:active {
+  transform: scale(0.94);
+  border-color: var(--emerald-primary);
+  box-shadow: 0 0 18px var(--emerald-glow);
 }
-.game-thumb-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.live-badge-corner {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  background: var(--neon-emerald);
-  color: #000;
-  font-size: 8px;
-  font-weight: 900;
-  padding: 2px 5px;
-  border-radius: 4px;
-}
-.hot-badge-corner {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background: var(--red-accent);
-  color: #fff;
-  font-size: 8px;
-  font-weight: 900;
-  padding: 2px 5px;
-  border-radius: 4px;
-}
-.game-meta-under { display: flex; flex-direction: column; padding: 5px 2px 2px; }
-.game-label-under { font-size: 11px; font-weight: 800; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.game-provider-tag { font-size: 8.5px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
 
-/* FEATURE 1: 2D LIVE VIRTUAL PITCH VISUALIZER (SPORTSBOOK) */
-.sports-hub { padding: 4px 14px 14px; display: flex; flex-direction: column; gap: 12px; }
+/* Floating Headset Button */
+.floating-support-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--emerald-gradient);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 0 20px var(--emerald-glow);
+  z-index: 60;
+  cursor: pointer;
+}
+
+/* Sportsbook Styles */
+.sports-hub { padding: 4px 12px 14px; display: flex; flex-direction: column; gap: 10px; }
 .virtual-pitch-box {
-  background: radial-gradient(circle at center, #1b3a27 0%, #0d1e14 100%);
-  border: 1.5px solid rgba(0, 240, 118, 0.3);
+  background: radial-gradient(circle at center, #0f3d20 0%, #061e10 100%);
+  border: 1.5px solid rgba(0, 240, 118, 0.4);
   border-radius: var(--radius-md);
   padding: 12px;
   position: relative;
   overflow: hidden;
-  margin-bottom: 10px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+  box-shadow: inset 0 0 25px rgba(0,0,0,0.8);
 }
 .pitch-lines {
   position: absolute;
@@ -482,54 +494,32 @@ body, html {
   border-radius: 6px;
   pointer-events: none;
 }
-.pitch-center-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 50%;
-}
 .pitch-radar-pulse {
   position: absolute;
   top: 45%;
   left: 65%;
   width: 14px;
   height: 14px;
-  background: var(--neon-emerald);
+  background: var(--emerald-primary);
   border-radius: 50%;
-  box-shadow: 0 0 12px var(--neon-emerald);
-  animation: radarBlip 1.6s infinite;
+  box-shadow: 0 0 14px var(--emerald-primary);
+  animation: radarPing 1.8s infinite;
 }
-@keyframes radarBlip {
+@keyframes radarPing {
   0% { transform: scale(0.8); opacity: 1; }
-  100% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
 }
-.pitch-status-bar {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  font-weight: 800;
-  color: #fff;
-  position: relative;
-  z-index: 2;
-}
-
-/* FEATURE 8: MULTI-SPORT LEAGUE PILLS BAR */
 .sport-pills-row {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  margin-bottom: 8px;
 }
 .sport-pills-row::-webkit-scrollbar { display: none; }
 .sport-pill-btn {
   flex-shrink: 0;
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   padding: 6px 12px;
   font-size: 11px;
@@ -538,175 +528,141 @@ body, html {
   cursor: pointer;
 }
 .sport-pill-btn.active {
-  background: var(--neon-emerald);
+  background: var(--emerald-gradient);
   color: #000;
-  border-color: var(--neon-emerald);
+  border-color: var(--emerald-primary);
 }
-
-/* Match Cards & Odds */
-.live-broadcast-card {
-  background: linear-gradient(180deg, #101728 0%, #0a0f1d 100%);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 14px;
-  position: relative;
-  overflow: hidden;
-}
-.match-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.league-name { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
-.live-tag-pill {
-  background: rgba(0, 240, 118, 0.15);
-  color: var(--neon-emerald);
-  border: 1px solid rgba(0, 240, 118, 0.4);
-  font-size: 8.5px;
-  font-weight: 900;
-  padding: 2px 6px;
-  border-radius: 6px;
-}
-.scoreboard-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-bottom: 12px; text-align: center; }
-.team-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.team-shield {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #172138;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  color: var(--gold-primary);
-}
-.team-title { font-weight: 800; font-size: 11.5px; color: #fff; }
-.score-digits { font-family: 'Outfit'; font-size: 24px; font-weight: 900; color: #fff; letter-spacing: 2px; }
-.match-minute { font-family: 'JetBrains Mono'; font-size: 9.5px; color: var(--neon-emerald); font-weight: 700; }
-.micro-odds-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.odds-card-btn {
-  background: #141c30;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  padding: 8px 4px;
-  text-align: center;
-  cursor: pointer;
-  transition: all .15s ease;
-}
-.odds-card-btn:active {
-  border-color: var(--neon-emerald);
-  background: rgba(0, 240, 118, 0.15);
-  transform: translateY(-2px);
-}
-.odd-selection { font-size: 9px; font-weight: 700; color: var(--text-muted); }
-.odd-val { font-family: 'JetBrains Mono'; font-size: 12.5px; font-weight: 900; color: var(--neon-emerald); }
-
-/* FEATURE 5: COMBO BOOST METER */
-.combo-boost-card {
-  background: linear-gradient(135deg, #18223d 0%, #101628 100%);
-  border: 1px solid var(--purple-accent);
-  border-radius: var(--radius-md);
-  padding: 10px 14px;
-  margin-top: 10px;
-}
-.combo-meter-bar {
-  width: 100%;
-  height: 6px;
-  background: #252e46;
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-  margin: 6px 0;
-}
-.combo-meter-fill {
-  width: 35%;
-  height: 100%;
-  background: linear-gradient(90deg, var(--electric-cyan), var(--purple-accent));
-}
-
-/* FEATURE 6: ADVANCED PARTIAL CASHOUT SLIDER */
-.partial-cashout-box {
-  background: rgba(7, 10, 18, 0.7);
-  border: 1px dashed var(--neon-emerald);
-  border-radius: var(--radius-md);
-  padding: 10px;
-  margin-top: 8px;
-}
-.cashout-range-slider {
-  width: 100%;
-  accent-color: var(--neon-emerald);
-  margin: 8px 0;
-}
-
-/* FEATURE 2: 100,000 ETB WEEKLY LEADERBOARD PODIUM */
-.leaderboard-podium {
-  background: linear-gradient(135deg, #172138 0%, #0d1424 100%);
-  border: 1px solid var(--gold-primary);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  margin-bottom: 12px;
-}
-.podium-ranks {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  margin-top: 14px;
-  text-align: center;
-}
-.podium-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-.podium-box {
-  width: 60px;
-  background: #17243e;
-  border-radius: 8px 8px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-}
-.podium-1 { height: 60px; border-top: 3px solid var(--gold-primary); color: var(--gold-primary); }
-.podium-2 { height: 45px; border-top: 3px solid #cbd5e1; color: #cbd5e1; }
-.podium-3 { height: 32px; border-top: 3px solid #b45309; color: #b45309; }
-
-/* FEATURE 9 & 10: BANK DETAILS DRAWER & RESPONSIBLE GAMING */
-.bank-copy-tile {
-  background: #141c30;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-.btn-copy-sm {
-  background: rgba(245, 180, 0, 0.15);
-  border: 1px solid var(--gold-primary);
-  color: var(--gold-primary);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: var(--radius-xs);
-  cursor: pointer;
-}
-.resp-gaming-card {
-  background: rgba(255,255,255,0.03);
+.live-match-card {
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 12px;
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.micro-odds-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.odd-btn {
+  background: #0e1524;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 2px;
+  text-align: center;
+  cursor: pointer;
+}
+.odd-btn:active {
+  border-color: var(--emerald-primary);
+  background: rgba(0, 240, 118, 0.15);
+}
+.odd-btn small { font-size: 8px; color: var(--text-dim); display: block; }
+.odd-btn b { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--emerald-primary); }
+
+/* Wallet, Deposit, Checkout */
+.wallet-box-wrap { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.wallet-huge-card {
+  background: var(--bg-card);
+  border: 1.5px solid rgba(0, 240, 118, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.wallet-huge-amount {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--emerald-primary);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 15px var(--emerald-glow);
+}
+.btn-emerald-huge {
+  background: var(--emerald-gradient);
+  color: #000;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 13px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 0 18px var(--emerald-glow);
+}
+.btn-dark-huge {
+  background: #121927;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 13px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+.qr-checkout-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
-  font-size: 11px;
-  color: var(--text-muted);
 }
+.qr-container-white {
+  width: 170px;
+  height: 170px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-container-white img { width: 100%; height: 100%; }
 
-/* Modals General */
+/* Bottom Dock */
+.bottom-dock-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: rgba(4, 8, 14, 0.96);
+  backdrop-filter: blur(24px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  z-index: 70;
+  padding: 8px 0 calc(8px + var(--safe-bottom));
+  justify-content: space-around;
+  border-radius: 20px 20px 0 0;
+}
+@media (min-width: 768px) { .bottom-dock-nav { max-width: 520px; } }
+.dock-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+.dock-nav-item i { font-size: 17px; }
+.dock-nav-item.active { color: var(--emerald-primary); }
+
+/* Modals & Bottom Sheets */
 .modal-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(14px);
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(12px);
   z-index: 300;
   justify-content: center;
   align-items: flex-end;
@@ -714,59 +670,22 @@ body, html {
 .bottom-sheet-card {
   width: 100%;
   max-width: 480px;
-  background: #0d1322;
-  border-top: 2px solid var(--gold-primary);
-  border-radius: 26px 26px 0 0;
-  padding: 20px 18px calc(24px + var(--safe-bottom));
+  background: #090e17;
+  border-top: 2px solid var(--emerald-primary);
+  border-radius: 24px 24px 0 0;
+  padding: 18px 16px calc(20px + var(--safe-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  animation: sheetPop .22s ease-out;
 }
-@keyframes sheetPop { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.sheet-drag-handle { width: 36px; height: 4px; background: #25334f; border-radius: 2px; margin-bottom: 12px; }
-.sheet-close-x { position: absolute; top: 18px; right: 18px; font-size: 16px; color: var(--text-muted); cursor: pointer; }
-.modal-input-field {
-  width: 100%;
-  background: #141c30;
-  border: 1.5px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 13px 14px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  outline: none;
-  margin-bottom: 10px;
-}
-.amount-presets-row { display: flex; gap: 6px; width: 100%; margin-bottom: 12px; }
-.preset-chip {
-  flex: 1;
-  text-align: center;
-  background: var(--panel-card);
-  border: 1px solid var(--border-light);
-  padding: 8px 2px;
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: 800;
+.sheet-close-x {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 18px;
   color: var(--text-muted);
   cursor: pointer;
-}
-.modal-yellow-cta {
-  width: 100%;
-  background: var(--gold-gradient);
-  color: #000;
-  font-size: 14px;
-  font-weight: 900;
-  padding: 14px;
-  border-radius: var(--radius-md);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px var(--gold-glow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
 }
 .game-viewport-modal {
   display: none;
@@ -781,12 +700,10 @@ body, html {
   align-items: center;
   justify-content: space-between;
   padding: calc(6px + var(--safe-top)) 12px 6px;
-  background: #070a12;
+  background: #04070c;
   border-bottom: 1px solid var(--border-subtle);
-  flex-shrink: 0;
 }
-.viewport-title { font-size: 13px; font-weight: 900; color: var(--gold-primary); }
-.viewport-iframe { flex: 1; border: none; width: 100%; height: 100%; background: #000; }
+.viewport-iframe { flex: 1; border: none; width: 100%; height: 100%; }
 
 #toast-container {
   position: fixed;
@@ -796,116 +713,58 @@ body, html {
   z-index: 9999;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   width: 90%;
-  max-width: 360px;
+  max-width: 350px;
   pointer-events: none;
 }
 .clean-toast {
-  background: rgba(13, 19, 34, 0.95);
-  border: 1.5px solid var(--gold-primary);
+  background: #09121d;
+  border: 1.5px solid var(--emerald-primary);
   color: #fff;
   padding: 12px 16px;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   font-size: 12px;
   font-weight: 800;
+  box-shadow: 0 0 20px var(--emerald-glow);
 }
-
-/* Floating Betslip Bottom Bar */
-#floatingBetslipBar {
-  display: none;
-  position: fixed;
-  bottom: 68px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 28px);
-  max-width: 450px;
-  background: linear-gradient(90deg, #101a33, #0a1122);
-  border: 1.5px solid var(--neon-emerald);
-  border-radius: var(--radius-md);
-  padding: 10px 14px;
-  z-index: 75;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 20px var(--neon-emerald-glow);
-  cursor: pointer;
-}
-
-/* Bottom Curved Navigation Dock */
-.bottom-dock-nav {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  background: rgba(8, 12, 22, 0.96);
-  backdrop-filter: blur(24px);
-  border-top: 1px solid var(--border-light);
-  display: flex;
-  z-index: 70;
-  padding: 8px 0 calc(8px + var(--safe-bottom));
-  justify-content: space-around;
-  border-radius: 20px 20px 0 0;
-}
-@media (min-width: 768px) { .bottom-dock-nav { max-width: 520px; } }
-.b-nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  font-size: 9.5px;
-  font-weight: 800;
-  color: var(--text-muted);
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-.b-nav-item i { font-size: 17px; }
-.b-nav-item.active { color: var(--gold-primary); }
-.b-nav-item.active i { transform: translateY(-2px); filter: drop-shadow(0 0 10px var(--gold-glow)); }
 </style>
 </head>
 <body>
 
-<!-- Telegram Security Guard -->
+<!-- Telegram Gatekeeper -->
 <div id="noSession">
   <div class="gatekeeper-card">
-    <div style="font-size:46px; margin-bottom:8px;">🦁</div>
-    <h3 style="font-family:'Outfit'; font-size:19px; font-weight:900; margin-bottom:6px;">Open via Telegram</h3>
-    <p style="color:var(--text-muted); font-size:12px; line-height:1.5;">
-      Your betting account is protected by Telegram auth. Please launch HuluBet through official bot <b>@Hulubetethbot</b>.
-    </p>
+    <div style="font-size:46px;margin-bottom:8px;">🦁</div>
+    <h3 style="font-family:'Outfit';font-size:20px;font-weight:900;margin-bottom:6px;">Open HuluBet from Telegram</h3>
+    <p style="color:var(--text-muted);font-size:12px;line-height:1.5;">Your account is secured by Telegram. Please launch this app through <b>@Hulubetethbot</b>.</p>
   </div>
 </div>
 
 <div class="app-viewport">
   <div id="toast-container"></div>
 
-  <!-- Master Top Navigation -->
+  <!-- Header -->
   <header class="top-nav-bar">
-    <div class="brand-group" onclick="navigateToTab('casino')">
-      <div class="brand-logo-text">Hulu<span>bet</span></div>
-      <span class="lang-badge" id="langSelectorBadge" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> EN/አማ</span>
+    <div class="brand-title" onclick="navigateToTab('casino')">
+      <b>Hulu</b><span>bet</span>
+      <span class="live-flame-badge">12 GAMES</span>
     </div>
-    <div class="header-right-meta">
-      <div class="balance-pill-badge" onclick="toggleBalanceVisibility()">
-        <div class="coin-icon-round">Br</div>
-        <div class="balance-numbers">
-          <span class="bal-label">BALANCE</span>
-          <span id="headerBalTxt">••••••</span>
-        </div>
-        <i class="fa-regular fa-eye" id="balEyeIcon" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+    <div class="header-right">
+      <div class="header-bal-pill" onclick="openWalletScreen()">
+        <div class="br-coin">Br</div>
+        <span id="headerBalTxt">••••••</span>
+        <i class="fa-regular fa-eye" id="balEyeIcon" onclick="event.stopPropagation(); toggleBalanceVisibility();" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+        <i class="fa-solid fa-chevron-down" style="font-size:9px;color:var(--text-dim);margin-left:2px;"></i>
       </div>
-      <button class="btn-deposit-glow" onclick="openDepositDrawer()">+ Deposit</button>
+      <button class="btn-deposit-header" onclick="openDepositScreen()">Deposit</button>
     </div>
   </header>
 
-  <!-- Sub-Tabs Switcher -->
+  <!-- Sub Navigation Mode Switcher -->
   <div class="sub-nav-tabs">
     <button class="sub-tab-btn active" id="btnSubCasino" onclick="navigateToTab('casino')">
-      <i class="fa-solid fa-dice"></i> 3D Casino &amp; Crash
+      <i class="fa-solid fa-dice"></i> 12 Casino Games
     </button>
     <button class="sub-tab-btn" id="btnSubSports" onclick="navigateToTab('sports')">
       <i class="fa-solid fa-futbol"></i> Sportsbook Live
@@ -913,538 +772,533 @@ body, html {
   </div>
 
   <!-- ========================================================
-       PAGE 1: CASINO & CRASH ARENA
+       SCREEN 1: LOBBY & CASINO (12 PLAYABLE GAMES)
   ======================================================== -->
-  <div class="screen-content active" id="tab-casino">
-    <!-- Hero Promo Banner -->
-    <div class="hero-slider-wrap">
-      <div class="hero-slide" id="heroBannerSlide">
-        <span class="hero-tag"><i class="fa-solid fa-bolt"></i> HOT DEAL</span>
-        <div class="hero-title">100% First Deposit Bonus</div>
-        <div class="hero-desc">Double your first deposit via Telebirr or CBE. Get up to 5,000 ETB extra!</div>
-        <button class="btn-deposit-glow" onclick="openDepositDrawer()">Claim Now</button>
-        <div class="hero-dots">
-          <div class="hero-dot active"></div>
-          <div class="hero-dot"></div>
-          <div class="hero-dot"></div>
-        </div>
+  <div class="screen-view active" id="tab-casino">
+    <!-- NEW OFFICIAL BANNER AD -->
+    <div class="hero-banner-container">
+      <div class="hero-banner-card" onclick="openDepositScreen()">
+        <img src="https://i.postimg.cc/zBcMGpxz/20261003-183116.jpg" alt="HuluBet Official Promo">
+      </div>
+      <div class="slider-dots">
+        <div class="slider-dot active"></div>
+        <div class="slider-dot"></div>
+        <div class="slider-dot"></div>
       </div>
     </div>
 
-    <!-- Progressive Jackpot Counter -->
-    <div class="jackpot-counter-box">
-      <div class="jackpot-left">
-        <span class="jackpot-icon">🎰</span>
+    <!-- 4 Quick Action Cards -->
+    <div class="top-cards-row">
+      <div class="top-action-card" onclick="openLuckyWheelModal()">
+        <i class="fa-solid fa-dharmachakra" style="color:var(--emerald-primary);"></i>
+        <span>Lucky Spin</span>
+      </div>
+      <div class="top-action-card" onclick="openLiveChatModal()">
+        <span class="badge-red-new">LIVE</span>
+        <i class="fa-solid fa-comments" style="color:var(--cyan-accent);"></i>
+        <span>Chat</span>
+      </div>
+      <div class="top-action-card" onclick="toast('Coupon Code Active: HULU2026')">
+        <i class="fa-solid fa-gift" style="color:var(--gold-primary);"></i>
+        <span>Coupon</span>
+      </div>
+      <div class="top-action-card" onclick="navigateToTab('profile')">
+        <span class="badge-red-new">VIP</span>
+        <i class="fa-solid fa-crown" style="color:#f59e0b;"></i>
+        <span>VIP Club</span>
+      </div>
+    </div>
+
+    <!-- Progressive Mega Jackpot -->
+    <div class="jackpot-flow-card">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:22px;">🎰</span>
         <div>
-          <div class="jackpot-title">PROGRESSIVE GRAND JACKPOT</div>
+          <div style="font-size:9.5px;font-weight:800;color:var(--text-muted);">PROGRESSIVE GRAND JACKPOT</div>
           <div class="jackpot-amount" id="liveJackpotCounter">1,845,920.50 ETB</div>
         </div>
       </div>
-      <button class="btn-play-pool" onclick="launchGameEngine('slot','777 Multi Slot')">Hit It</button>
+      <button class="btn-deposit-header" onclick="launchGameEngine('slot','777 Multi Slot')">Hit It</button>
     </div>
 
-    <!-- Quick Tools: Lucky Wheel & Telegram Chat -->
-    <div class="quick-tools-grid">
-      <div class="quick-tool-btn" onclick="openLuckyWheelModal()">
-        <i class="fa-solid fa-dharmachakra" style="color:var(--gold-primary);"></i>
-        <div>
-          <div style="font-weight:900;font-size:11.5px;">Lucky Spin</div>
-          <div style="font-size:9px;color:var(--neon-emerald);">1 Free Daily Spin</div>
-        </div>
-      </div>
-      <div class="quick-tool-btn" onclick="openLiveChatModal()">
-        <i class="fa-solid fa-comments" style="color:var(--electric-cyan);"></i>
-        <div>
-          <div style="font-weight:900;font-size:11.5px;">Player Chat</div>
-          <div style="font-size:9px;color:var(--text-muted);">● 284 Online</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Live Wins Feed -->
-    <div class="live-wins-feed">
-      <span class="live-dot-pulse"></span>
-      <div class="live-wins-text" id="liveWinsFeedTxt">
-        User <b>TG_481***</b> won <span>8,420.00 ETB</span> in Aviator (14.2x)
-      </div>
+    <!-- Category Tabs -->
+    <div class="lobby-filter-bar">
+      <div class="lobby-tab-chip active"><i class="fa-solid fa-house"></i> All 12 Games</div>
+      <div class="lobby-tab-chip" onclick="launchGameEngine('aviator','Aviator')"><i class="fa-solid fa-jet-fighter"></i> Crash Arena</div>
+      <div class="lobby-tab-chip" onclick="launchGameEngine('luckychicken','Lucky Chicken')"><i class="fa-solid fa-drumstick-bite"></i> Chicken Universe</div>
+      <div class="lobby-tab-chip" onclick="launchGameEngine('roulette','Roulette')"><i class="fa-solid fa-dharmachakra"></i> Roulette &amp; Tables</div>
+      <div class="lobby-tab-chip" onclick="launchGameEngine('classickeno','Classic Keno')"><i class="fa-solid fa-dice"></i> Numbers &amp; Keno</div>
     </div>
 
     <!-- Search Bar -->
-    <div class="search-filter-wrap">
-      <div class="search-box-input">
-        <i class="fa-solid fa-magnifying-glass" style="color:var(--text-dim);font-size:12px;"></i>
-        <input type="text" id="gameSearchInput" placeholder="Search Aviator, Keno, Slot...">
+    <div class="search-input-box">
+      <i class="fa-solid fa-magnifying-glass" style="color:var(--text-dim);"></i>
+      <input type="text" id="gameSearchInput" placeholder="Find a Game (Aviator, Plinko, Roulette...)">
+    </div>
+
+    <!-- SHELF 1: CRASH ARENA & INSTANT HITS -->
+    <div class="section-header-title">
+      <span><i class="fa-solid fa-rocket"></i> Crash Arena &amp; Instant Hits</span>
+      <span style="font-size:10px;color:var(--emerald-primary);">4 Games</span>
+    </div>
+    <div class="games-shelf-row">
+      <div class="game-card-tall" onclick="launchGameEngine('aviator','Aviator')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Aviator</div>
       </div>
-      <div class="recent-mini-chip" onclick="openSupportModal()">
-        <i class="fa-solid fa-headset" style="color:var(--electric-cyan);"></i> Help
+      <div class="game-card-tall" onclick="launchGameEngine('plinko','Plinko')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/90y4Rrt1/Screenshot-20261004-192308-Plus(1).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Plinko</div>
+      </div>
+      <div class="game-card-tall" onclick="launchGameEngine('jetx','Jet-X')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Jet-X</div>
+      </div>
+      <div class="game-card-tall" onclick="launchGameEngine('avia','Avia Masters')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Avia Masters</div>
       </div>
     </div>
 
-    <!-- Recently Played Shelf -->
-    <div class="recent-games-tray">
-      <div class="recent-mini-chip" onclick="launchGameEngine('aviator','Aviator')">
-        <img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"> Aviator
+    <!-- SHELF 2: CHICKEN UNIVERSE -->
+    <div class="section-header-title">
+      <span><i class="fa-solid fa-drumstick-bite"></i> Chicken Universe Series</span>
+      <span style="font-size:10px;color:var(--emerald-primary);">HOT</span>
+    </div>
+    <div class="games-shelf-row">
+      <div class="game-card-tall" onclick="launchGameEngine('luckychicken','Lucky Chicken')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/cLFvnqY7/20261004-192938.jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Lucky Chicken</div>
       </div>
-      <div class="recent-mini-chip" onclick="launchGameEngine('keno','Fast Keno')">
-        <img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"> Fast Keno
+      <div class="game-card-tall" onclick="launchGameEngine('roastedchicken','Roasted Chicken')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/KzMjwRWV/Screenshot-20261004-192212-Plus(2).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Roasted Chicken</div>
       </div>
-      <div class="recent-mini-chip" onclick="launchGameEngine('road','Chicken Road 2')">
-        <img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"> Chicken Road
-      </div>
-      <div class="recent-mini-chip" onclick="launchGameEngine('jetx','Jet-X')">
-        <img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"> Jet-X
+      <div class="game-card-tall" onclick="launchGameEngine('road','Chicken Road 2')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Chicken Road 2</div>
       </div>
     </div>
 
-    <div class="games-shelf-title">
-      <span>🔥 6 Official Live Games</span>
-      <span style="font-size:10px;color:var(--neon-emerald);font-weight:900;">● VERIFIED</span>
+    <!-- SHELF 3: ALL 12 GAMES COMPLETE GRID -->
+    <div class="section-header-title">
+      <span><i class="fa-solid fa-fire"></i> All 12 Official Games Grid</span>
+      <span style="font-size:10px;color:var(--emerald-primary);"><i class="fa-solid fa-circle" style="font-size:7px;"></i> 12 VERIFIED</span>
     </div>
-
-    <!-- 6 Verified Games -->
     <div class="games-dense-grid">
+      <!-- 1. Aviator -->
       <div class="game-square-card" onclick="launchGameEngine('aviator','Aviator')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-badge-corner">LIVE</span><span class="hot-badge-corner">HOT</span></div>
-        <div class="game-meta-under"><div class="game-label-under">Aviator</div><div class="game-provider-tag">Spribe Crash</div></div>
+        <div class="tall-thumb"><img src="https://i.postimg.cc/FFPyRrqk/IMG-20260903-152505-514.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Aviator</div>
       </div>
+
+      <!-- 2. Roulette (NEW) -->
+      <div class="game-square-card" onclick="launchGameEngine('roulette','Roulette')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/yxRRmfBZ/Screenshot-20261004-192212-Plus(1).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Roulette</div>
+      </div>
+
+      <!-- 3. Classic Keno (NEW) -->
+      <div class="game-square-card" onclick="launchGameEngine('classickeno','Classic Keno')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/13BqrVhh/Screenshot-20261004-192546-Plus(1).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Classic Keno</div>
+      </div>
+
+      <!-- 4. Plinko (NEW) -->
+      <div class="game-square-card" onclick="launchGameEngine('plinko','Plinko')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/90y4Rrt1/Screenshot-20261004-192308-Plus(1).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Plinko</div>
+      </div>
+
+      <!-- 5. Lucky Chicken (NEW) -->
+      <div class="game-square-card" onclick="launchGameEngine('luckychicken','Lucky Chicken')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/cLFvnqY7/20261004-192938.jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Lucky Chicken</div>
+      </div>
+
+      <!-- 6. Roasted Chicken (NEW) -->
+      <div class="game-square-card" onclick="launchGameEngine('roastedchicken','Roasted Chicken')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/KzMjwRWV/Screenshot-20261004-192212-Plus(2).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Roasted Chicken</div>
+      </div>
+
+      <!-- 7. Mega Block (NEW) -->
+      <div class="game-square-card" onclick="launchGameEngine('megablock','Mega Block')">
+        <div class="tall-thumb"><img src="https://i.postimg.cc/RCwqTJKK/Screenshot-20261004-192726-Plus(1).jpg"><span class="new-corner">NEW</span></div>
+        <div class="tall-title">Mega Block</div>
+      </div>
+
+      <!-- 8. Fast Keno -->
       <div class="game-square-card" onclick="launchGameEngine('keno','Fast Keno')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-meta-under"><div class="game-label-under">Fast Keno</div><div class="game-provider-tag">Numbers Draw</div></div>
+        <div class="tall-thumb"><img src="https://i.postimg.cc/Gt3xf95Q/IMG-20260903-152505-649.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Fast Keno</div>
       </div>
+
+      <!-- 9. Jet-X -->
       <div class="game-square-card" onclick="launchGameEngine('jetx','Jet-X')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-meta-under"><div class="game-label-under">Jet-X</div><div class="game-provider-tag">SmartSoft</div></div>
+        <div class="tall-thumb"><img src="https://i.postimg.cc/xTT6xFrG/IMG-20260903-152505-617.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Jet-X</div>
       </div>
+
+      <!-- 10. Chicken Road 2 -->
       <div class="game-square-card" onclick="launchGameEngine('road','Chicken Road 2')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-meta-under"><div class="game-label-under">Chicken Road 2</div><div class="game-provider-tag">Step Mine</div></div>
+        <div class="tall-thumb"><img src="https://i.postimg.cc/9fjTSrRH/IMG-20260903-152505-599.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Chicken Road 2</div>
       </div>
+
+      <!-- 11. 777 Slot -->
       <div class="game-square-card" onclick="launchGameEngine('slot','777 Multi Slot')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-meta-under"><div class="game-label-under">777 Slot</div><div class="game-provider-tag">Multi Classic</div></div>
+        <div class="tall-thumb"><img src="https://i.postimg.cc/59kzJPYp/IMG-20260903-152953-851.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">777 Slot</div>
       </div>
+
+      <!-- 12. Avia Masters -->
       <div class="game-square-card" onclick="launchGameEngine('avia','Avia Masters')">
-        <div class="game-thumb-box"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-badge-corner">LIVE</span></div>
-        <div class="game-meta-under"><div class="game-label-under">Avia Masters</div><div class="game-provider-tag">Sky Crash</div></div>
+        <div class="tall-thumb"><img src="https://i.postimg.cc/xCfmfh3p/IMG-20260903-152505-630.jpg"><span class="live-corner">LIVE</span></div>
+        <div class="tall-title">Avia Masters</div>
       </div>
+    </div>
+
+    <!-- Floating Headset Icon -->
+    <div class="floating-support-btn" onclick="openSupportModal()">
+      <i class="fa-solid fa-headphones"></i>
     </div>
   </div>
 
   <!-- ========================================================
-       PAGE 2: SPORTSBOOK & LIVE TRACKER
+       SCREEN 2: SPORTSBOOK & 2D PITCH
   ======================================================== -->
-  <div class="screen-content" id="tab-sports">
+  <div class="screen-view" id="tab-sports">
     <div class="sports-hub">
-      <!-- FEATURE 8: MULTI-SPORT LEAGUES BAR -->
-      <div class="sport-pills-row">
-        <div class="sport-pill-btn active"><i class="fa-solid fa-futbol"></i> Soccer (24)</div>
-        <div class="sport-pill-btn"><i class="fa-solid fa-basketball"></i> Basketball (8)</div>
-        <div class="sport-pill-btn"><i class="fa-solid fa-baseball-bat-ball"></i> Tennis (5)</div>
-        <div class="sport-pill-btn"><i class="fa-solid fa-gamepad"></i> eSports (12)</div>
-      </div>
-
-      <!-- FEATURE 1: 2D LIVE VIRTUAL PITCH VISUALIZER -->
       <div class="virtual-pitch-box">
         <div class="pitch-lines"></div>
-        <div class="pitch-center-circle"></div>
         <div class="pitch-radar-pulse"></div>
-        <div class="pitch-status-bar">
-          <span><i class="fa-solid fa-bolt" style="color:var(--gold-primary);"></i> DANGEROUS ATTACK</span>
-          <span style="color:var(--neon-emerald);">ARSENAL ON PITCH</span>
+        <div style="position:relative;z-index:2;display:flex;justify-content:space-between;font-size:10px;font-weight:900;">
+          <span style="color:var(--emerald-primary);"><i class="fa-solid fa-bolt"></i> DANGEROUS ATTACK</span>
+          <span>ARSENAL FC ON PITCH</span>
         </div>
       </div>
 
-      <!-- Live Match 1 -->
-      <div class="live-broadcast-card">
-        <div class="match-header-row">
-          <span class="league-name"><i class="fa-solid fa-trophy" style="color:var(--gold-primary);"></i> UEFA Champions League</span>
-          <span class="live-tag-pill">LIVE 68'</span>
-        </div>
-        <div class="scoreboard-grid">
-          <div class="team-col">
-            <div class="team-shield"><i class="fa-solid fa-shield"></i></div>
-            <span class="team-title">Arsenal FC</span>
-          </div>
-          <div>
-            <div class="score-digits">2 - 1</div>
-            <span class="match-minute">2nd Half • 68:14</span>
-          </div>
-          <div class="team-col">
-            <div class="team-shield"><i class="fa-solid fa-crown"></i></div>
-            <span class="team-title">Real Madrid</span>
-          </div>
-        </div>
+      <div class="sport-pills-row">
+        <div class="sport-pill-btn active"><i class="fa-solid fa-futbol"></i> Soccer (222)</div>
+        <div class="sport-pill-btn"><i class="fa-solid fa-basketball"></i> Basketball (12)</div>
+        <div class="sport-pill-btn"><i class="fa-solid fa-mitten"></i> Boxing (20)</div>
+        <div class="sport-pill-btn"><i class="fa-solid fa-gamepad"></i> eSports (18)</div>
+      </div>
 
+      <div class="live-match-card">
+        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;color:var(--text-muted);">
+          <span><i class="fa-solid fa-trophy" style="color:var(--gold-primary);"></i> UEFA Champions League</span>
+          <span style="color:var(--emerald-primary);">LIVE 68'</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">
+          <div style="font-weight:900;font-size:13px;">Arsenal FC vs Real Madrid</div>
+          <div style="font-family:'Outfit';font-size:20px;font-weight:900;color:var(--emerald-primary);">2 - 1</div>
+        </div>
         <div class="micro-odds-row">
-          <div class="odds-card-btn" onclick="addToQuickSlip('Arsenal Next Goal', 2.15)">
-            <div class="odd-selection">Next Goal (ARS)</div>
-            <div class="odd-val">2.15</div>
-          </div>
-          <div class="odds-card-btn" onclick="addToQuickSlip('Over 3.5 Goals', 1.85)">
-            <div class="odd-selection">Over 3.5 Goals</div>
-            <div class="odd-val">1.85</div>
-          </div>
-          <div class="odds-card-btn" onclick="addToQuickSlip('Next Corner', 1.62)">
-            <div class="odd-selection">Next Corner</div>
-            <div class="odd-val">1.62</div>
-          </div>
-        </div>
-
-        <!-- FEATURE 5: COMBO BOOST METER PREVIEW -->
-        <div class="combo-boost-card">
-          <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;">
-            <span><i class="fa-solid fa-fire" style="color:var(--purple-accent);"></i> Accumulator Boost</span>
-            <span style="color:var(--electric-cyan);">+15% Extra Win</span>
-          </div>
-          <div class="combo-meter-bar"><div class="combo-meter-fill"></div></div>
-          <div style="font-size:9.5px;color:var(--text-muted);">Add 2 more matches to unlock <b>+25% Multiplier</b>!</div>
+          <div class="odd-btn" onclick="addToQuickSlip('Arsenal Win', 2.15)"><small>1 (Home)</small><b>2.15</b></div>
+          <div class="odd-btn" onclick="addToQuickSlip('Draw', 3.40)"><small>X (Draw)</small><b>3.40</b></div>
+          <div class="odd-btn" onclick="addToQuickSlip('Real Madrid Win', 3.10)"><small>2 (Away)</small><b>3.10</b></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ========================================================
-       PAGE 3: MY BETS & ADVANCED CASHOUT
+       SCREEN 3: WALLET
   ======================================================== -->
-  <div class="screen-content" id="tab-bets">
-    <div style="padding:10px 14px;display:flex;flex-direction:column;gap:10px;">
-      <div style="font-size:15px;font-weight:900;margin-bottom:2px;">🎟️ Active Bets &amp; Cashout</div>
+  <div class="screen-view" id="tab-wallet">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid var(--border-subtle);">
+      <div style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:900;" onclick="navigateToTab('casino')">
+        <i class="fa-solid fa-arrow-left"></i> My Wallet
+      </div>
+      <i class="fa-solid fa-xmark" style="font-size:18px;color:var(--text-muted);cursor:pointer;" onclick="navigateToTab('casino')"></i>
+    </div>
 
-      <div style="background:var(--panel-card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px;display:flex;flex-direction:column;gap:8px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="background:rgba(0,240,118,0.12);color:var(--neon-emerald);font-size:9px;font-weight:900;padding:2px 8px;border-radius:10px;">● IN PLAY</span>
-          <span style="font-size:10px;color:var(--text-muted);">Ticket: #HT-89210</span>
+    <div class="wallet-box-wrap">
+      <div class="wallet-huge-card">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="br-coin">Br</div>
+          <span style="font-size:9px;font-weight:800;color:var(--text-muted);">TOTAL BALANCE</span>
+          <i class="fa-regular fa-eye" style="margin-left:auto;color:var(--text-dim);cursor:pointer;" onclick="toggleBalanceVisibility()"></i>
         </div>
-        <div style="font-weight:800;font-size:13px;color:#fff;">Arsenal vs Real Madrid • Over 2.5 Goals</div>
-        <div style="display:flex;justify-content:space-between;background:rgba(7,10,18,0.6);padding:8px 10px;border-radius:var(--radius-sm);font-size:11px;">
-          <span>Odds: <b>2.10</b></span>
-          <span>Stake: <b>200.00 ETB</b></span>
-          <span>Win: <b>420.00 ETB</b></span>
+        <div class="wallet-huge-amount" id="walletTotalBalTxt">ETB 0.00</div>
+
+        <div style="background:#090f18;padding:10px 14px;border-radius:10px;border:1px solid var(--border-subtle);display:flex;justify-content:space-between;">
+          <div><small style="color:var(--emerald-primary);font-size:9px;font-weight:800;display:block;">WITHDRAWABLE</small><b id="walletWithdrawableTxt">ETB 0.00</b></div>
+          <i class="fa-solid fa-chevron-down" style="color:var(--text-dim);font-size:11px;"></i>
         </div>
 
-        <!-- FEATURE 6: PARTIAL CASHOUT SLIDER -->
-        <div class="partial-cashout-box">
-          <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;">
-            <span>Partial Cashout: <b id="cashoutPercentTxt">100%</b></span>
-            <span style="color:var(--neon-emerald);" id="cashoutAmountTxt">310.00 ETB</span>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;">
+          <button class="btn-emerald-huge" onclick="openDepositScreen()"><i class="fa-solid fa-plus"></i> Deposit</button>
+          <button class="btn-dark-huge" onclick="openWithdrawDrawer()">Withdraw</button>
+        </div>
+      </div>
+
+      <div class="section-header-title">
+        <span>RECENT TRANSACTIONS</span>
+      </div>
+      <div id="histList" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       SCREEN 4: DEPOSIT
+  ======================================================== -->
+  <div class="screen-view" id="tab-deposit">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid var(--border-subtle);">
+      <div style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:900;" onclick="navigateToTab('casino')">
+        <i class="fa-solid fa-arrow-left"></i> Deposit Money
+      </div>
+      <i class="fa-solid fa-xmark" style="font-size:18px;color:var(--text-muted);cursor:pointer;" onclick="navigateToTab('casino')"></i>
+    </div>
+
+    <div style="padding:12px;display:flex;flex-direction:column;gap:12px;">
+      <div style="font-size:11px;font-weight:800;color:var(--text-muted);">Select Payment Method</div>
+      
+      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" id="choiceTelebirr" onclick="selectDepositProvider('Telebirr')">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <i class="fa-solid fa-mobile-screen" style="color:#0284c7;font-size:18px;"></i>
+          <b>Telebirr (ቴሌብር)</b>
+        </div>
+        <i class="fa-solid fa-circle-check" id="checkTelebirr" style="color:var(--emerald-primary);"></i>
+      </div>
+
+      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" id="choiceCBE" onclick="selectDepositProvider('CBE')">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <i class="fa-solid fa-building-columns" style="color:var(--gold-primary);font-size:18px;"></i>
+          <b>CBE (የኢትዮጵያ ንግድ ባንክ)</b>
+        </div>
+        <i class="fa-solid fa-circle-check" id="checkCBE" style="color:var(--border-subtle);"></i>
+      </div>
+
+      <input type="hidden" id="depMethod" value="Telebirr">
+
+      <div style="font-size:11px;font-weight:800;color:var(--text-muted);">Amount (min 50 ETB)</div>
+      <input type="number" id="depositAmountInput" style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:10px;padding:14px;color:#fff;font-size:16px;font-weight:800;outline:none;" placeholder="Enter Amount" min="50" value="50">
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+        <div style="background:var(--bg-card);border:1px solid var(--border-subtle);padding:8px;border-radius:6px;text-align:center;cursor:pointer;" onclick="setDepPreset(100)">100</div>
+        <div style="background:var(--bg-card);border:1px solid var(--border-subtle);padding:8px;border-radius:6px;text-align:center;cursor:pointer;" onclick="setDepPreset(300)">300</div>
+        <div style="background:var(--bg-card);border:1px solid var(--border-subtle);padding:8px;border-radius:6px;text-align:center;cursor:pointer;" onclick="setDepPreset(500)">500</div>
+        <div style="background:var(--bg-card);border:1px solid var(--border-subtle);padding:8px;border-radius:6px;text-align:center;cursor:pointer;" onclick="setDepPreset(1000)">1000</div>
+      </div>
+
+      <input type="hidden" id="depositRefInput" value="">
+      <button class="btn-emerald-huge" id="depBtn" style="margin-top:10px;" onclick="goToPaymentDetailsStep()">Continue to Payment</button>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       SCREEN 5: PAYMENT DETAILS & QR
+  ======================================================== -->
+  <div class="screen-view" id="tab-payment-details">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid var(--border-subtle);">
+      <div style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:900;" onclick="openDepositScreen()">
+        <i class="fa-solid fa-arrow-left"></i> Payment Details
+      </div>
+      <i class="fa-solid fa-xmark" style="font-size:18px;color:var(--text-muted);cursor:pointer;" onclick="navigateToTab('casino')"></i>
+    </div>
+
+    <div style="padding:12px;display:flex;flex-direction:column;gap:12px;">
+      <div class="qr-checkout-card">
+        <div style="display:flex;justify-content:space-between;width:100%;">
+          <div>
+            <small style="color:var(--text-muted);font-size:9.5px;display:block;">Amount to Pay</small>
+            <b style="font-size:24px;color:var(--emerald-primary);" id="checkoutPayAmount">50 ETB</b>
           </div>
-          <input type="range" min="10" max="100" value="100" class="cashout-range-slider" id="cashoutSlider" oninput="updateCashoutSlider(this.value)">
+          <div style="text-align:right;">
+            <small style="color:var(--text-muted);font-size:9.5px;display:block;">Expiration time</small>
+            <b style="color:var(--gold-primary);font-size:14px;" id="checkoutTimer">00:29:52</b>
+          </div>
         </div>
 
-        <button style="background:var(--neon-emerald);color:#000;font-weight:900;padding:10px;border-radius:var(--radius-sm);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 15px var(--neon-emerald-glow);" onclick="executePartialCashout()">
-          <span><i class="fa-solid fa-bolt"></i> CONFIRM CASHOUT</span>
-          <span id="cashoutBtnVal">310.00 ETB</span>
-        </button>
+        <div class="qr-container-white">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=0936521552" alt="QR Code">
+        </div>
+
+        <div style="width:100%;font-size:12px;">
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+            <span style="color:var(--text-muted);">Account Number</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <b style="font-family:'JetBrains Mono';" id="checkoutAccNum">0936521552</b>
+              <i class="fa-regular fa-copy" style="cursor:pointer;color:var(--emerald-primary);" onclick="copyText('0936521552')"></i>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;">
+            <span style="color:var(--text-muted);">Account Name</span>
+            <b>Natnael (Agent)</b>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-emerald-huge" onclick="submitDepositOrder()">
+        <i class="fa-solid fa-check"></i> I've Paid
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       SCREEN 6: INVITE & EARN Br 100
+  ======================================================== -->
+  <div class="screen-view" id="tab-invite">
+    <div style="padding:12px;display:flex;flex-direction:column;gap:12px;">
+      <div style="background:var(--bg-card);border:1.5px solid var(--emerald-primary);border-radius:var(--radius-lg);padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <span style="background:rgba(0,240,118,0.15);color:var(--emerald-primary);font-size:9.5px;font-weight:900;padding:2px 8px;border-radius:10px;align-self:flex-start;">✨ REFERRAL</span>
+        <div style="font-family:'Outfit';font-size:22px;font-weight:900;">Invite friends. Earn Br 100.</div>
+        <p style="font-size:11px;color:var(--text-muted);">Earn Br 100 whenever an invited friend deposits. Automatic payout!</p>
+        <div style="display:flex;gap:6px;">
+          <button class="btn-emerald-huge" style="flex:1;" onclick="shareInviteLink()"><i class="fa-solid fa-share-nodes"></i> Invite friends</button>
+          <button class="btn-dark-huge" style="width:48px;padding:0;display:flex;align-items:center;justify-content:center;" onclick="copyReferralLink()"><i class="fa-regular fa-copy"></i></button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- ========================================================
-       PAGE 4: PROMOTIONS & LEADERBOARD
+       SCREEN 7: PROFILE
   ======================================================== -->
-  <div class="screen-content" id="tab-promo">
-    <div style="padding:10px 14px;display:flex;flex-direction:column;gap:12px;">
-      <!-- FEATURE 2: 100,000 ETB WEEKLY TOURNAMENT PODIUM -->
-      <div class="leaderboard-podium">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:13px;font-weight:900;color:var(--gold-primary);"><i class="fa-solid fa-trophy"></i> 100,000 ETB Tournament</span>
-          <span style="font-size:9.5px;color:var(--text-muted);">Ends Sunday</span>
-        </div>
-        <div class="podium-ranks">
-          <div class="podium-col">
-            <span style="font-size:10px;font-weight:800;">TG_902***</span>
-            <div class="podium-box podium-2">🥈 2nd</div>
-            <span style="font-size:9px;color:var(--gold-primary);">25,000 Br</span>
-          </div>
-          <div class="podium-col">
-            <span style="font-size:11px;font-weight:900;color:var(--gold-primary);">TG_418***</span>
-            <div class="podium-box podium-1">🥇 1st</div>
-            <span style="font-size:10px;font-weight:900;color:var(--neon-emerald);">50,000 Br</span>
-          </div>
-          <div class="podium-col">
-            <span style="font-size:10px;font-weight:800;">TG_771***</span>
-            <div class="podium-box podium-3">🥉 3rd</div>
-            <span style="font-size:9px;color:var(--gold-primary);">10,000 Br</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Telegram Referral Box -->
-      <div style="background:rgba(2,132,199,0.1);border:1px dashed var(--electric-cyan);border-radius:var(--radius-md);padding:14px;display:flex;flex-direction:column;gap:8px;">
-        <div style="font-size:13px;font-weight:900;color:#fff;"><i class="fa-brands fa-telegram"></i> Telegram Affiliate Program</div>
-        <div style="font-size:11px;color:var(--text-muted);">Invite your friends to @Hulubetethbot and get 20% lifetime profit share!</div>
-        <button class="modal-yellow-cta" style="padding:10px;font-size:12px;" onclick="copyReferralLink()">
-          <i class="fa-solid fa-copy"></i> Copy Referral Link
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================
-       PAGE 5: USER PROFILE & SETTINGS
-  ======================================================== -->
-  <div class="screen-content" id="tab-profile">
-    <div style="padding:10px 14px;display:flex;flex-direction:column;gap:12px;">
-      <div style="background:var(--panel-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:16px;display:flex;align-items:center;gap:14px;">
-        <div style="width:50px;height:50px;border-radius:50%;background:var(--gold-gradient);display:flex;align-items:center;justify-content:center;font-size:22px;color:#000;">
-          <i class="fa-solid fa-user-astronaut"></i>
+  <div class="screen-view" id="tab-profile">
+    <div style="padding:12px;display:flex;flex-direction:column;gap:12px;">
+      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--emerald-gradient);display:flex;align-items:center;justify-content:center;font-size:20px;color:#000;font-weight:900;">
+          🦁
         </div>
         <div>
-          <div style="font-size:15px;font-weight:900;" id="profUsername">Telegram VIP Player</div>
+          <div style="font-size:15px;font-weight:900;" id="profUsername">Player</div>
           <div style="font-size:11px;color:var(--text-muted);" id="profUserId">ID: Loading...</div>
-          <span style="background:rgba(245,180,0,0.15);color:var(--gold-primary);border:1px solid var(--gold-primary);font-size:9px;font-weight:900;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:4px;">👑 VIP GOLD</span>
         </div>
       </div>
 
-      <!-- FEATURE 9: INSTANT BANK DETAILS COPY HUB -->
-      <div style="background:var(--panel-card);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:12px;">
-        <div style="font-size:11px;font-weight:900;color:var(--gold-primary);margin-bottom:8px;"><i class="fa-solid fa-building-columns"></i> Official Bank Accounts</div>
-        <div class="bank-copy-tile">
-          <div>
-            <div style="font-size:11.5px;font-weight:800;">CBE (Commercial Bank of Ethiopia)</div>
-            <div style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono';">1000284918231</div>
-          </div>
-          <button class="btn-copy-sm" onclick="copyText('1000284918231')">Copy CBE</button>
+      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;">
+        <div style="display:flex;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border-subtle);cursor:pointer;" onclick="openSupportModal()">
+          <span><i class="fa-solid fa-headset" style="color:var(--emerald-primary);margin-right:8px;"></i> 24/7 Agent Support</span>
+          <i class="fa-solid fa-chevron-right" style="color:var(--text-dim);"></i>
         </div>
-        <div class="bank-copy-tile">
-          <div>
-            <div style="font-size:11.5px;font-weight:800;">Telebirr Merchant Code</div>
-            <div style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono';">0911223344</div>
-          </div>
-          <button class="btn-copy-sm" onclick="copyText('0911223344')">Copy Telebirr</button>
-        </div>
-      </div>
-
-      <!-- FEATURE 10: RESPONSIBLE GAMING & 18+ BADGE -->
-      <div class="resp-gaming-card">
-        <div style="font-size:24px;color:var(--red-accent);font-weight:900;">18+</div>
-        <div>Play responsibly. HuluBet uses certified RNG fair algorithms. Set your personal daily limits anytime.</div>
       </div>
     </div>
   </div>
 
   <!-- FLOATING QUICK BETSLIP BAR -->
-  <div id="floatingBetslipBar" onclick="openBetslipModal()">
+  <div id="floatingBetslipBar" style="display:none;position:fixed;bottom:68px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:450px;background:#09121d;border:1.5px solid var(--emerald-primary);border-radius:12px;padding:10px 14px;z-index:75;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 0 20px var(--emerald-glow);" onclick="openBetslipModal()">
     <div style="display:flex;align-items:center;gap:8px;">
-      <span style="background:var(--neon-emerald);color:#000;font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:10px;" id="slipBetCount">1 BET</span>
+      <span style="background:var(--emerald-primary);color:#000;font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:10px;">1 BET</span>
       <span style="font-size:11.5px;font-weight:800;" id="slipBetName">Selection Added</span>
     </div>
-    <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:900;color:var(--neon-emerald);" id="slipBetOdd">2.15</div>
+    <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:900;color:var(--emerald-primary);" id="slipBetOdd">2.15</div>
   </div>
 
-  <!-- FEATURE 3: DAILY LUCKY WHEEL MODAL -->
-  <div class="modal-overlay" id="modalLuckyWheel" onclick="closeModal('modalLuckyWheel')">
-    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
-      <div class="sheet-drag-handle"></div>
-      <span class="sheet-close-x" onclick="closeModal('modalLuckyWheel')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:18px;font-weight:900;margin-bottom:4px;">
-        <i class="fa-solid fa-dharmachakra" style="color:var(--gold-primary);"></i> Daily Fortune Wheel
-      </h3>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">Spin once every 24 hours to win free ETB &amp; Aviator rounds!</p>
-      
-      <div style="width:200px;height:200px;border-radius:50%;border:4px solid var(--gold-primary);position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#1b253d,#0e1526);box-shadow:0 0 25px var(--gold-glow);margin-bottom:16px;" id="wheelCanvas">
-        <div style="font-size:32px;">🎁</div>
-        <div style="position:absolute;top:4px;font-weight:900;font-size:11px;color:var(--gold-primary);">500 ETB</div>
-        <div style="position:absolute;bottom:4px;font-weight:900;font-size:11px;color:var(--neon-emerald);">50 ETB</div>
-        <div style="position:absolute;left:6px;font-weight:900;font-size:11px;color:#fff;">Aviator</div>
-        <div style="position:absolute;right:6px;font-weight:900;font-size:11px;color:var(--electric-cyan);">100 ETB</div>
-      </div>
-
-      <button class="modal-yellow-cta" id="btnSpinWheel" onclick="spinFortuneWheel()">
-        <i class="fa-solid fa-play"></i> Spin for Free
-      </button>
-    </div>
-  </div>
-
-  <!-- FEATURE 4: TELEGRAM LIVE COMMUNITY CHAT MODAL -->
-  <div class="modal-overlay" id="modalLiveChat" onclick="closeModal('modalLiveChat')">
-    <div class="bottom-sheet-card" onclick="event.stopPropagation()" style="height:70vh;">
-      <div class="sheet-drag-handle"></div>
-      <span class="sheet-close-x" onclick="closeModal('modalLiveChat')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:16px;font-weight:900;margin-bottom:4px;">
-        <i class="fa-solid fa-comments" style="color:var(--electric-cyan);"></i> Live Player Chat
-      </h3>
-      <div style="flex:1;width:100%;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:8px 0;" id="chatMessagesList">
-        <div style="background:#131a2b;padding:8px 10px;border-radius:8px;font-size:11px;">
-          <b style="color:var(--gold-primary);">TG_Henok:</b> Aviator reached 45x! 🚀
-        </div>
-        <div style="background:#131a2b;padding:8px 10px;border-radius:8px;font-size:11px;">
-          <b style="color:var(--neon-emerald);">TG_Abel:</b> CBE cashout took only 3 minutes, awesome!
-        </div>
-      </div>
-      <div style="display:flex;gap:6px;width:100%;margin-top:8px;">
-        <input type="text" id="chatInput" class="modal-input-field" style="margin-bottom:0;" placeholder="Type your message...">
-        <button class="btn-deposit-glow" style="padding:0 16px;" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- INTERACTIVE FULL BETSLIP MODAL -->
+  <!-- BETSLIP MODAL -->
   <div class="modal-overlay" id="modalBetslipDrawer" onclick="closeModal('modalBetslipDrawer')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
-      <div class="sheet-drag-handle"></div>
       <span class="sheet-close-x" onclick="closeModal('modalBetslipDrawer')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:17px;font-weight:900;margin-bottom:8px;">
-        <i class="fa-solid fa-ticket" style="color:var(--neon-emerald);"></i> Betslip
-      </h3>
-      <div style="width:100%;background:#131b2e;padding:10px;border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
-        <div>
-          <div style="font-size:12px;font-weight:800;" id="modalSlipMatch">Arsenal FC vs Real Madrid</div>
-          <div style="font-size:10px;color:var(--text-muted);" id="modalSlipMarket">Market: Next Goal (ARS)</div>
-        </div>
-        <div style="font-family:'JetBrains Mono';font-size:14px;font-weight:900;color:var(--neon-emerald);" id="modalSlipOdd">2.15</div>
+      <h3 style="font-family:'Outfit';font-size:17px;font-weight:900;margin-bottom:8px;">Betslip</h3>
+      <div style="width:100%;background:#0e1522;padding:10px;border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;">
+        <span id="modalSlipMatch">Arsenal FC vs Real Madrid</span>
+        <b style="color:var(--emerald-primary);" id="modalSlipOdd">2.15</b>
       </div>
-      <input type="number" id="betslipStakeInput" class="modal-input-field" placeholder="Stake amount" value="100" oninput="calculateBetslipWin()">
-      <div class="amount-presets-row">
-        <div class="preset-chip" onclick="setBetslipPreset(50)">50</div>
-        <div class="preset-chip" onclick="setBetslipPreset(100)">100</div>
-        <div class="preset-chip" onclick="setBetslipPreset(250)">250</div>
-        <div class="preset-chip" onclick="setBetslipPreset(500)">500</div>
+      <input type="number" id="betslipStakeInput" style="width:100%;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:8px;padding:12px;color:#fff;font-weight:800;margin-bottom:10px;" value="100">
+      <button class="btn-emerald-huge" style="width:100%;" onclick="placeBetslipTicket()">Confirm Bet</button>
+    </div>
+  </div>
+
+  <!-- DAILY LUCKY WHEEL MODAL -->
+  <div class="modal-overlay" id="modalLuckyWheel" onclick="closeModal('modalLuckyWheel')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
+      <span class="sheet-close-x" onclick="closeModal('modalLuckyWheel')">✕</span>
+      <h3 style="font-family:'Outfit';font-size:18px;font-weight:900;margin-bottom:6px;">Daily Lucky Spin</h3>
+      <div style="width:180px;height:180px;border-radius:50%;border:4px solid var(--emerald-primary);display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#0f2419,#06100b);box-shadow:0 0 25px var(--emerald-glow);margin:14px 0;" id="wheelSpinnerBox">
+        <div style="font-size:32px;">🎁</div>
       </div>
-      <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:12px;">
-        <span style="font-size:12px;color:var(--text-muted);">Est. Return:</span>
-        <b style="color:var(--neon-emerald);font-size:14px;" id="betslipEstWin">215.00 ETB</b>
+      <button class="btn-emerald-huge" style="width:100%;" onclick="spinFortuneWheel()">Spin for Free</button>
+    </div>
+  </div>
+
+  <!-- LIVE COMMUNITY CHAT MODAL -->
+  <div class="modal-overlay" id="modalLiveChat" onclick="closeModal('modalLiveChat')">
+    <div class="bottom-sheet-card" onclick="event.stopPropagation()" style="height:65vh;">
+      <span class="sheet-close-x" onclick="closeModal('modalLiveChat')">✕</span>
+      <h3 style="font-family:'Outfit';font-size:16px;font-weight:900;margin-bottom:8px;">Live Community Chat</h3>
+      <div style="flex:1;width:100%;overflow-y:auto;display:flex;flex-direction:column;gap:6px;" id="chatMsgFeed">
+        <div style="background:#0e1524;padding:8px;border-radius:8px;font-size:11px;"><b>TG_Abebe:</b> Aviator 30x hit! 🔥</div>
+        <div style="background:#0e1524;padding:8px;border-radius:8px;font-size:11px;"><b>TG_Natnael:</b> Fast Telebirr cashout, thanks agent!</div>
       </div>
-      <button class="modal-yellow-cta" style="background:var(--neon-emerald);color:#000;" onclick="placeBetslipTicket()">
-        Place Bet Now
-      </button>
+      <div style="display:flex;gap:6px;width:100%;margin-top:8px;">
+        <input type="text" id="liveChatInput" style="flex:1;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:8px;padding:10px;color:#fff;outline:none;" placeholder="Say something...">
+        <button class="btn-deposit-header" onclick="sendChatMsg()">Send</button>
+      </div>
     </div>
   </div>
 
   <!-- FULLSCREEN GAME VIEWPORT MODAL -->
   <div class="game-viewport-modal" id="gameViewport">
     <div class="viewport-topbar">
-      <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="closeGameViewport()">
-        <i class="fa-solid fa-arrow-left"></i> Lobby
-      </button>
-      <span class="viewport-title" id="activeGameTitle"><i class="fa-solid fa-gamepad"></i> Game</span>
-      <button class="btn-deposit-glow" style="padding:4px 12px;font-size:11px;" onclick="openDepositDrawer()">+ Deposit</button>
+      <button class="btn-deposit-header" style="padding:4px 10px;font-size:11px;" onclick="closeGameViewport()"><i class="fa-solid fa-arrow-left"></i> Lobby</button>
+      <span style="font-size:12px;font-weight:900;color:var(--emerald-primary);" id="activeGameTitle">Game</span>
+      <button class="btn-deposit-header" style="padding:4px 10px;font-size:11px;" onclick="openDepositScreen()">+ Deposit</button>
     </div>
     <iframe class="viewport-iframe" id="gameIframe" src="about:blank" allow="autoplay; fullscreen"></iframe>
   </div>
 
-  <!-- CASHIER MODAL 1: DEPOSIT (Telebirr & CBE) -->
-  <div class="modal-overlay" id="modalDepositDrawer" onclick="closeModal('modalDepositDrawer')">
-    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
-      <div class="sheet-drag-handle"></div>
-      <span class="sheet-close-x" onclick="closeModal('modalDepositDrawer')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:17px;font-weight:900;margin-bottom:4px;">
-        <i class="fa-solid fa-wallet" style="color:var(--gold-primary);"></i> Instant Deposit
-      </h3>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center;">
-        Official Agent: <b>@Agent1hulubet</b>. Send request and pay in Telegram.
-      </p>
-
-      <select id="depMethod" class="modal-input-field">
-        <option value="Telebirr">Telebirr (ቴሌብር)</option>
-        <option value="CBE">CBE (የኢትዮጵያ ንግድ ባንክ)</option>
-      </select>
-
-      <input type="number" id="depositAmountInput" class="modal-input-field" placeholder="Deposit amount (min 50 ETB)" min="50" inputmode="decimal">
-
-      <div class="amount-presets-row">
-        <div class="preset-chip" onclick="document.getElementById('depositAmountInput').value = 50">+50</div>
-        <div class="preset-chip" onclick="document.getElementById('depositAmountInput').value = 100">+100</div>
-        <div class="preset-chip" onclick="document.getElementById('depositAmountInput').value = 500">+500</div>
-        <div class="preset-chip" onclick="document.getElementById('depositAmountInput').value = 1000">+1,000</div>
-      </div>
-
-      <input type="text" id="depositRefInput" class="modal-input-field" placeholder="Payment reference / SMS (optional)" maxlength="30">
-      <button class="modal-yellow-cta" id="depBtn" onclick="submitDepositOrder()">
-        <i class="fa-solid fa-paper-plane"></i> Send Deposit Request
-      </button>
-    </div>
-  </div>
-
-  <!-- CASHIER MODAL 2: CASHOUT / WITHDRAW -->
+  <!-- CASHOUT / WITHDRAW MODAL -->
   <div class="modal-overlay" id="modalWithdrawDrawer" onclick="closeModal('modalWithdrawDrawer')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
-      <div class="sheet-drag-handle"></div>
       <span class="sheet-close-x" onclick="closeModal('modalWithdrawDrawer')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:17px;font-weight:900;margin-bottom:4px;">
-        <i class="fa-solid fa-money-bill-transfer" style="color:var(--neon-emerald);"></i> Fast Cashout
-      </h3>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center;" id="wdInfo">Checking balance...</p>
-
-      <select id="wdMethod" class="modal-input-field">
-        <option value="Telebirr">Telebirr (ቴሌብር)</option>
-        <option value="CBE">CBE (ንግድ ባንክ)</option>
-      </select>
-
-      <input type="number" id="withdrawAmountInput" class="modal-input-field" placeholder="Amount (min 100 ETB)" min="100" inputmode="decimal">
-      <input type="tel" id="withdrawAccountInput" class="modal-input-field" placeholder="Phone / CBE account number">
-      <button class="modal-yellow-cta" id="wdBtn" style="background:var(--neon-emerald);color:#000;" onclick="submitWithdrawOrder()">
-        <i class="fa-solid fa-check-circle"></i> Confirm Cashout
-      </button>
+      <h3 style="margin-bottom:6px;font-size:16px;">Fast Cashout</h3>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center;" id="wdInfo">Checking...</p>
+      <select id="wdMethod" style="width:100%;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:8px;padding:12px;color:#fff;font-weight:800;margin-bottom:10px;"><option>Telebirr</option><option>CBE</option></select>
+      <input type="number" id="withdrawAmountInput" style="width:100%;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:8px;padding:12px;color:#fff;font-weight:800;margin-bottom:10px;" placeholder="Amount (min 100 ETB)" min="100">
+      <input type="tel" id="withdrawAccountInput" style="width:100%;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:8px;padding:12px;color:#fff;font-weight:800;margin-bottom:12px;" placeholder="Phone / Account number">
+      <button class="btn-emerald-huge" id="wdBtn" style="width:100%;" onclick="submitWithdrawOrder()">Confirm Cashout</button>
     </div>
   </div>
 
-  <!-- CASHIER MODAL 3: TRANSACTION HISTORY -->
-  <div class="modal-overlay" id="modalHistory" onclick="closeModal('modalHistory')">
-    <div class="bottom-sheet-card" onclick="event.stopPropagation()">
-      <div class="sheet-drag-handle"></div>
-      <span class="sheet-close-x" onclick="closeModal('modalHistory')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:17px;font-weight:900;margin-bottom:12px;">
-        <i class="fa-solid fa-clock-rotate-left" style="color:var(--electric-cyan);"></i> Deposits &amp; Withdrawals
-      </h3>
-      <div id="histList" style="width:100%;max-height:50vh;overflow-y:auto;"></div>
-    </div>
-  </div>
-
-  <!-- SUPPORT HUB MODAL -->
+  <!-- SUPPORT MODAL -->
   <div class="modal-overlay" id="modalSupport" onclick="closeModal('modalSupport')">
     <div class="bottom-sheet-card" onclick="event.stopPropagation()">
-      <div class="sheet-drag-handle"></div>
       <span class="sheet-close-x" onclick="closeModal('modalSupport')">✕</span>
-      <h3 style="font-family:'Outfit';font-size:17px;font-weight:900;margin-bottom:4px;">
-        <i class="fa-solid fa-headset" style="color:var(--electric-cyan);"></i> Official Cashier Support
-      </h3>
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center;">
-        Instant 24/7 deposits, cashouts and assistance via Telegram.
-      </p>
-      <div style="background:#131b2e;padding:12px;border-radius:10px;width:100%;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="window.open('https://t.me/Agent1hulubet','_blank')">
+      <h3 style="margin-bottom:6px;font-size:16px;">HuluBet Official Support</h3>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">Direct 24/7 Ethiopian Birr cashier:</p>
+      <div style="background:#0e1524;padding:12px;border-radius:10px;width:100%;display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="window.open('https://t.me/Agent1hulubet','_blank')">
         <div style="display:flex;align-items:center;gap:10px;">
           <i class="fa-brands fa-telegram" style="font-size:24px;color:#0284c7;"></i>
-          <div>
-            <div style="font-weight:800;font-size:12px;">Official Agent 1</div>
-            <div style="font-size:9.5px;color:var(--neon-emerald);">● Online (Telebirr &amp; CBE)</div>
-          </div>
+          <div><b>Official Agent</b><div style="font-size:10px;color:var(--emerald-primary);">● Online</div></div>
         </div>
-        <span style="font-size:11px;color:var(--gold-primary);font-weight:800;">@Agent1hulubet</span>
+        <span style="color:var(--gold-primary);font-weight:800;">@Agent1hulubet</span>
       </div>
     </div>
   </div>
 
-  <!-- CURVED BOTTOM NAVIGATION DOCK -->
+  <!-- BOTTOM DOCK NAVIGATION -->
   <nav class="bottom-dock-nav">
-    <button class="b-nav-item active" id="navItemCasino" onclick="navigateToTab('casino')">
+    <button class="dock-nav-item active" id="dockCasino" onclick="navigateToTab('casino')">
       <i class="fa-solid fa-dice"></i>
       <span>Casino</span>
     </button>
-    <button class="b-nav-item" id="navItemSports" onclick="navigateToTab('sports')">
+    <button class="dock-nav-item" id="dockSports" onclick="navigateToTab('sports')">
       <i class="fa-solid fa-futbol"></i>
       <span>Sports</span>
     </button>
-    <button class="b-nav-item" id="navItemBets" onclick="navigateToTab('bets')">
-      <i class="fa-solid fa-ticket"></i>
-      <span>My Bets</span>
+    <button class="dock-nav-item" id="dockDeposit" onclick="openDepositScreen()">
+      <i class="fa-solid fa-wallet"></i>
+      <span>Deposit</span>
     </button>
-    <button class="b-nav-item" id="navItemPromo" onclick="navigateToTab('promo')">
-      <i class="fa-solid fa-gift"></i>
-      <span>Promos</span>
+    <button class="dock-nav-item" id="dockInvite" onclick="navigateToTab('invite')">
+      <i class="fa-solid fa-user-group"></i>
+      <span>Invite</span>
     </button>
-    <button class="b-nav-item" id="navItemProfile" onclick="navigateToTab('profile')">
+    <button class="dock-nav-item" id="dockProfile" onclick="navigateToTab('profile')">
       <i class="fa-solid fa-user"></i>
       <span>Profile</span>
     </button>
   </nav>
 </div>
+
+<!-- ========================================================
+     MASTER JAVASCRIPT: 12 PLAYABLE GAMES ENGINE
+======================================================== -->
 <script>
-// ========================================================
-// 1. SYSTEM CONFIGURATION & TELEGRAM INITIALIZATION
-// ========================================================
 const SERVER_URL = "https://hulubet-server.onrender.com";
-const SPORT_SERVER_URL = "https://sport-server-6t9m.onrender.com";
 const GAME_ORIGIN = "https://hulubetsupport.github.io";
 
 const tg = window.Telegram?.WebApp;
@@ -1459,47 +1313,31 @@ const INIT_DATA = tg?.initData || "";
 const tgUser = tg?.initDataUnsafe?.user;
 const USER_ID = tgUser ? String(tgUser.id) : "";
 
-// Gatekeeper verification: Require opening from Telegram Bot
 if (!INIT_DATA || !USER_ID) {
   const noSess = document.getElementById('noSession');
   if (noSess) noSess.style.display = 'flex';
 } else {
-  // Sync Profile info with Telegram User
-  const profUser = document.getElementById('profUsername');
-  const profId = document.getElementById('profUserId');
-  if (profUser) {
-    profUser.innerText = (tgUser.first_name || '') + (tgUser.last_name ? ' ' + tgUser.last_name : (tgUser.username ? ' (@' + tgUser.username + ')' : ''));
-  }
-  if (profId) profId.innerText = 'ID: ' + USER_ID;
+  const pUser = document.getElementById('profUsername');
+  const pId = document.getElementById('profUserId');
+  if (pUser) pUser.innerText = (tgUser.first_name || '') + (tgUser.last_name ? ' ' + tgUser.last_name : '');
+  if (pId) pId.innerText = 'ID: ' + USER_ID;
 }
 
-// Telegram Haptic Feedback trigger helper
-function haptic(type = 'light') {
-  const isHapticOn = document.getElementById('settingHaptic')?.checked !== false;
-  if (isHapticOn && tg?.HapticFeedback) {
-    if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
-    else if (type === 'heavy') tg.HapticFeedback.impactOccurred('heavy');
-    else if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
-    else if (type === 'error') tg.HapticFeedback.notificationOccurred('error');
+function haptic(t = 'light') {
+  if (tg?.HapticFeedback) {
+    if (t === 'medium') tg.HapticFeedback.impactOccurred('medium');
+    else if (t === 'success') tg.HapticFeedback.notificationOccurred('success');
     else tg.HapticFeedback.impactOccurred('light');
   }
 }
 
-// ========================================================
-// 2. CORE V1 BACKEND API & BALANCE MANAGEMENT
-// ========================================================
-let currentBalance = null;
-let wagerLeft = 0;
-let isBalanceHidden = false;
+let currentBalance = null, wagerLeft = 0, isBalanceHidden = false;
 
 async function api(path, opts = {}) {
   try {
     const r = await fetch(SERVER_URL + path, {
       ...opts,
-      headers: {
-        'Content-Type': 'application/json',
-        'x-telegram-init-data': INIT_DATA
-      }
+      headers: { 'Content-Type': 'application/json', 'x-telegram-init-data': INIT_DATA }
     });
     const d = await r.json();
     if (r.status === 401) toast("Session expired. Reopen from Telegram.");
@@ -1517,18 +1355,24 @@ function toast(msg) {
   t.innerText = msg;
   box.appendChild(t);
   haptic('medium');
-  setTimeout(() => t.remove(), 2800);
+  setTimeout(() => t.remove(), 2600);
 }
 
 function updateBalanceDisplay() {
   const el = document.getElementById('headerBalTxt');
-  if (el) {
-    el.innerText = (isBalanceHidden || currentBalance === null) ? '••••••' : currentBalance.toFixed(2) + ' ETB';
-  }
+  const valStr = (isBalanceHidden || currentBalance === null) ? '••••••' : currentBalance.toFixed(2) + ' ETB';
+  if (el) el.innerText = valStr;
+
+  const wTotal = document.getElementById('walletTotalBalTxt');
+  if (wTotal) wTotal.innerText = (currentBalance ?? 0).toFixed(2) + ' ETB';
+
+  const wWith = document.getElementById('walletWithdrawableTxt');
+  if (wWith) wWith.innerText = Math.max(0, (currentBalance ?? 0) - wagerLeft).toFixed(2) + ' ETB';
+
   const wdInfo = document.getElementById('wdInfo');
   if (wdInfo) {
     wdInfo.innerText = wagerLeft > 0 
-      ? `Bonus wagering left: ${wagerLeft.toFixed(2)} ETB (bet this much to unlock)` 
+      ? `Bonus wagering left: ${wagerLeft.toFixed(2)} ETB` 
       : `Available cashout: ${(currentBalance ?? 0).toFixed(2)} ETB`;
   }
 }
@@ -1537,9 +1381,7 @@ function toggleBalanceVisibility() {
   haptic('light');
   isBalanceHidden = !isBalanceHidden;
   const eye = document.getElementById('balEyeIcon');
-  if (eye) {
-    eye.className = isBalanceHidden ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
-  }
+  if (eye) eye.className = isBalanceHidden ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
   updateBalanceDisplay();
 }
 
@@ -1551,14 +1393,12 @@ async function syncDatabaseBalance() {
     currentBalance = d.balance;
     wagerLeft = d.wagerRequirementLeft || 0;
     updateBalanceDisplay();
-  } else if (d.message) {
-    toast(d.message);
-  }
+  } else if (d.message) toast(d.message);
 }
 syncDatabaseBalance();
 
 // ========================================================
-// 3. CORE V1 GAMES & POSTMESSAGE ENGINE
+// THE COMPLETE 12 OFFICIAL VERIFIED GAMES REGISTRY
 // ========================================================
 const GAMES = {
   aviator: { title: "Aviator", url: GAME_ORIGIN + "/Aveiter/" },
@@ -1566,38 +1406,32 @@ const GAMES = {
   jetx: { title: "Jet-X", url: GAME_ORIGIN + "/Jet-x/" },
   road: { title: "Chicken Road 2", url: GAME_ORIGIN + "/Chekn-road/" },
   slot: { title: "777 Multi Slot", url: GAME_ORIGIN + "/Slot-777-/" },
-  avia: { title: "Avia Masters", url: GAME_ORIGIN + "/Avia-master/" }
+  avia: { title: "Avia Masters", url: GAME_ORIGIN + "/Avia-master/" },
+  // 6 NEW UPDATED GAMES
+  roulette: { title: "Roulette", url: GAME_ORIGIN + "/Roulette/" },
+  classickeno: { title: "Classic Keno", url: GAME_ORIGIN + "/Classic-Keno/" },
+  plinko: { title: "Plinko", url: GAME_ORIGIN + "/Plinkok/" },
+  luckychicken: { title: "Lucky Chicken", url: GAME_ORIGIN + "/Lucky-Chicken-/" },
+  roastedchicken: { title: "Roasted Chicken", url: GAME_ORIGIN + "/Rosted-cheken/" },
+  megablock: { title: "Mega Block", url: GAME_ORIGIN + "/Mega-block/" }
 };
 
-let currentLoadedGame = null;
-let isGameRoundActive = false;
-
+let currentLoadedGame = null, isGameRoundActive = false;
 const gameWin = () => document.getElementById('gameIframe')?.contentWindow;
-
 const sendInit = () => {
   try {
-    gameWin().postMessage({
-      type: 'INIT',
-      userId: USER_ID,
-      initData: INIT_DATA,
-      balance: currentBalance
-    }, GAME_ORIGIN);
+    gameWin().postMessage({ type: 'INIT', userId: USER_ID, initData: INIT_DATA, balance: currentBalance }, GAME_ORIGIN);
   } catch (e) {}
 };
 
 function launchGameEngine(key, title) {
   if (!INIT_DATA) return toast("Open the app from Telegram");
-  const g = GAMES[key];
-  if (!g) return;
+  const g = GAMES[key] || GAMES['aviator'];
   haptic('medium');
-  document.getElementById('activeGameTitle').innerHTML = `<i class="fa-solid fa-gamepad"></i> ` + (title || g.title);
+  document.getElementById('activeGameTitle').innerText = title || g.title;
   const iframe = document.getElementById('gameIframe');
   document.getElementById('gameViewport').style.display = 'flex';
-  
-  if (currentLoadedGame === key) {
-    sendInit();
-    return;
-  }
+  if (currentLoadedGame === key) { sendInit(); return; }
   currentLoadedGame = key;
   isGameRoundActive = false;
   iframe.src = g.url;
@@ -1605,14 +1439,9 @@ function launchGameEngine(key, title) {
 
 function closeGameViewport() {
   haptic('light');
-  const leave = () => {
-    document.getElementById('gameViewport').style.display = 'none';
-    syncDatabaseBalance();
-  };
+  const leave = () => { document.getElementById('gameViewport').style.display = 'none'; syncDatabaseBalance(); };
   if (!isGameRoundActive) return leave();
-  const msg = "You have an active round running. Return to lobby?";
-  if (tg?.showConfirm) tg.showConfirm(msg, ok => ok && leave());
-  else if (confirm(msg)) leave();
+  if (confirm("You have a round in progress. Return to lobby?")) leave();
 }
 
 window.addEventListener('message', e => {
@@ -1623,26 +1452,61 @@ window.addEventListener('message', e => {
   else if (d.type === 'BET_ENDED') isGameRoundActive = false;
   else if (d.type === 'BALANCE_UPDATE') {
     const b = parseFloat(d.newBalance);
-    if (Number.isFinite(b)) {
-      currentBalance = b;
-      updateBalanceDisplay();
-    }
-  } else if (d.type === 'OPEN_DEPOSIT') openDepositDrawer();
+    if (Number.isFinite(b)) { currentBalance = b; updateBalanceDisplay(); }
+  } else if (d.type === 'OPEN_DEPOSIT') openDepositScreen();
 });
 
-// ========================================================
-// 4. CASHIER OPERATIONS (DEPOSIT, WITHDRAW, HISTORY)
-// ========================================================
+/* NAVIGATION & MODALS */
+function navigateToTab(t) {
+  haptic('light');
+  document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('tab-' + t);
+  if (target) target.classList.add('active');
+
+  const btnSubCasino = document.getElementById('btnSubCasino');
+  const btnSubSports = document.getElementById('btnSubSports');
+  if (btnSubCasino && btnSubSports) {
+    btnSubCasino.classList.toggle('active', t === 'casino');
+    btnSubSports.classList.toggle('active', t === 'sports');
+  }
+
+  const navMap = { casino: 'dockCasino', sports: 'dockSports', invite: 'dockInvite', profile: 'dockProfile' };
+  document.querySelectorAll('.dock-nav-item').forEach(b => b.classList.remove('active'));
+  if (navMap[t]) document.getElementById(navMap[t])?.classList.add('active');
+}
+
+const openWalletScreen = () => { navigateToTab('wallet'); loadHistoryList(); };
+const openDepositScreen = () => navigateToTab('deposit');
 const openModal = id => { haptic('light'); document.getElementById(id).style.display = 'flex'; };
 const closeModal = id => { haptic('light'); document.getElementById(id).style.display = 'none'; };
-const openDepositDrawer = () => openModal('modalDepositDrawer');
-function openWithdrawDrawer() { syncDatabaseBalance(); openModal('modalWithdrawDrawer'); }
+const openWithdrawDrawer = () => { syncDatabaseBalance(); openModal('modalWithdrawDrawer'); };
 const openSupportModal = () => openModal('modalSupport');
-const openSettingsModal = () => openModal('modalSettings');
+const openLuckyWheelModal = () => openModal('modalLuckyWheel');
+const openLiveChatModal = () => openModal('modalLiveChat');
+
+/* CASHIER LOGIC */
+function selectDepositProvider(prov) {
+  haptic('light');
+  document.getElementById('depMethod').value = prov;
+  document.getElementById('checkTelebirr').style.color = prov === 'Telebirr' ? 'var(--emerald-primary)' : 'var(--border-subtle)';
+  document.getElementById('checkCBE').style.color = prov === 'CBE' ? 'var(--emerald-primary)' : 'var(--border-subtle)';
+}
+
+function setDepPreset(val) {
+  haptic('light');
+  document.getElementById('depositAmountInput').value = val;
+}
+
+function goToPaymentDetailsStep() {
+  const amt = Number(document.getElementById('depositAmountInput').value);
+  if (!amt || amt < 50) return toast("Minimum deposit is 50 ETB");
+  document.getElementById('checkoutPayAmount').innerText = amt + ' ETB';
+  navigateToTab('payment-details');
+}
 
 async function submitDepositOrder() {
   const amount = Number(document.getElementById('depositAmountInput').value);
-  if (!amount || amount < 50) return toast("Minimum deposit is 50 ETB");
+  const prov = document.getElementById('depMethod').value;
   const btn = document.getElementById('depBtn');
   btn.disabled = true;
 
@@ -1650,41 +1514,37 @@ async function submitDepositOrder() {
     method: 'POST',
     body: JSON.stringify({
       amount,
-      method: document.getElementById('depMethod').value,
+      method: prov,
       agentAssigned: 'Agent1hulubet',
       bankRef: document.getElementById('depositRefInput').value.trim()
     })
   });
   btn.disabled = false;
   if (!d.success) return toast(d.message || "Deposit request failed");
-  
+
   haptic('success');
-  closeModal('modalDepositDrawer');
   const text = encodeURIComponent(`📥 DEPOSIT REQUEST: ${amount} ETB\nPlayer ID: ${USER_ID}\nRef: ${d.txnId}`);
   const link = `https://t.me/${d.agent}?text=${text}`;
   if (tg?.openTelegramLink) tg.openTelegramLink(link);
   else window.open(link, '_blank');
+  navigateToTab('casino');
 }
 
 async function submitWithdrawOrder() {
   const amount = Number(document.getElementById('withdrawAmountInput').value);
   const account = document.getElementById('withdrawAccountInput').value.trim();
-  if (!amount || amount < 100) return toast("Minimum withdrawal is 100 ETB");
+  if (!amount || amount < 100) return toast("Minimum cashout is 100 ETB");
   if (!account) return toast("Account number required");
-  
+
   const btn = document.getElementById('wdBtn');
   btn.disabled = true;
   const d = await api('/api/cashier/withdraw', {
     method: 'POST',
-    body: JSON.stringify({
-      amount,
-      accountNumber: account,
-      method: document.getElementById('wdMethod').value
-    })
+    body: JSON.stringify({ amount, accountNumber: account, method: document.getElementById('wdMethod').value })
   });
   btn.disabled = false;
-  if (!d.success) return toast(d.message || "Withdrawal failed");
-  
+  if (!d.success) return toast(d.message || "Cashout failed");
+
   haptic('success');
   currentBalance = d.newBalance;
   updateBalanceDisplay();
@@ -1692,143 +1552,52 @@ async function submitWithdrawOrder() {
   toast("Cashout request submitted");
 }
 
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const STATUS = { pending: '⏳ Pending', approved: '✅ Approved', rejected: '❌ Rejected', cancelled: '⚪ Cancelled', expired: '⚪ Expired' };
-
-async function openHistory() {
-  openModal('modalHistory');
+async function loadHistoryList() {
   const box = document.getElementById('histList');
-  box.innerHTML = '<p class="sheet-note">Loading history…</p>';
+  if (!box) return;
+  box.innerHTML = '<p style="color:var(--text-muted);font-size:11px;">Loading transactions...</p>';
   const d = await api('/api/cashier/history');
-  if (!d.success) {
-    box.innerHTML = `<p class="sheet-note">${esc(d.message || 'Could not load history')}</p>`;
+  if (!d.success || !d.items.length) {
+    box.innerHTML = '<p style="color:var(--text-dim);font-size:11px;">No transactions yet</p>';
     return;
   }
-  box.innerHTML = d.items.length ? d.items.map(i => `
-    <div class="hist-item">
+  box.innerHTML = d.items.map(i => `
+    <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center;">
       <div>
-        <b>${i.type === 'DEPOSIT' ? '📥 Deposit' : '💸 Cashout'}</b> · ${Number(i.amount).toFixed(2)} ETB
-        <small>${esc(i.method)} · ${new Date(i.at).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}${i.note ? ' · ' + esc(i.note) : ''}</small>
+        <b style="font-size:12px;">${i.type === 'DEPOSIT' ? '📥 Deposit' : '💸 Cashout'}</b>
+        <small style="color:var(--text-muted);display:block;font-size:10px;">${i.method} · ${new Date(i.at).toLocaleDateString()}</small>
       </div>
-      <div>
-        <span class="chip ${esc(i.status)}">${STATUS[i.status] || esc(i.status)}</span>
-        ${i.status === 'pending' ? `<button class="btn-cancel" data-cancel="${esc(i.id)}">Cancel</button>` : ''}
+      <div style="text-align:right;">
+        <b style="color:var(--emerald-primary);font-size:12px;">${Number(i.amount).toFixed(2)} ETB</b>
+        <small style="display:block;font-size:9px;color:${i.status === 'approved' ? 'var(--emerald-primary)' : 'var(--gold-primary)'};">${i.status}</small>
       </div>
-    </div>`).join('')
-  : '<p class="sheet-note">No transactions recorded yet</p>';
-  
-  box.onclick = e => {
-    const b = e.target.closest('[data-cancel]');
-    if (b) cancelRequest(b.dataset.cancel);
-  };
+    </div>`).join('');
 }
 
-async function cancelRequest(id) {
-  const go = async () => {
-    const d = await api('/api/cashier/cancel', { method: 'POST', body: JSON.stringify({ txnId: id }) });
-    toast(d.message || 'Failed');
-    if (d.success) {
-      if (d.newBalance != null) {
-        currentBalance = d.newBalance;
-        updateBalanceDisplay();
-      }
-      openHistory();
-    }
-  };
-  if (tg?.showConfirm) tg.showConfirm('Cancel this request?', ok => ok && go());
-  else if (confirm('Cancel this request?')) go();
-}
-
-// ========================================================
-// 5. MASTER NAVIGATION & TAB SWITCHER
-// ========================================================
-function navigateToTab(tab) {
-  haptic('light');
-  document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById('tab-' + tab);
-  if (target) target.classList.add('active');
-
-  // Sub-nav buttons
-  const btnSubCasino = document.getElementById('btnSubCasino');
-  const btnSubSports = document.getElementById('btnSubSports');
-  if (btnSubCasino && btnSubSports) {
-    btnSubCasino.classList.toggle('active', tab === 'casino');
-    btnSubSports.classList.toggle('active', tab === 'sports');
-  }
-
-  // Curved bottom dock navigation
-  const navMap = {
-    casino: 'navItemCasino',
-    sports: 'navItemSports',
-    bets: 'navItemBets',
-    promo: 'navItemPromo',
-    profile: 'navItemProfile'
-  };
-  document.querySelectorAll('.b-nav-item').forEach(b => b.classList.remove('active'));
-  const activeDockItem = document.getElementById(navMap[tab]);
-  if (activeDockItem) activeDockItem.classList.add('active');
-
-  // Sync balance when switching
-  if (tab === 'bets' || tab === 'profile') syncDatabaseBalance();
-}
-
-// ========================================================
-// 6. INTERACTIVE BETSLIP ENGINE (SPORTS & COMBOS)
-// ========================================================
-let activeBetSelection = { match: "Arsenal FC vs Real Madrid", market: "Next Goal (ARS)", odds: 2.15, type: "single" };
-
-function addToQuickSlip(market, odds, match = "Arsenal FC vs Real Madrid") {
+/* BETSLIP ENGINE */
+let activeBetSelection = { match: "Arsenal FC vs Real Madrid", market: "Arsenal Win", odds: 2.15 };
+function addToQuickSlip(market, odds, match = "Arsenal vs Real Madrid") {
   haptic('medium');
-  activeBetSelection = { match, market, odds: parseFloat(odds), type: "single" };
-  
+  activeBetSelection = { match, market, odds: parseFloat(odds) };
   const bar = document.getElementById('floatingBetslipBar');
   if (bar) {
     bar.style.display = 'flex';
     document.getElementById('slipBetName').innerText = market;
     document.getElementById('slipBetOdd').innerText = odds.toFixed(2);
   }
-  toast(`Added to Betslip: ${market} (${odds})`);
+  toast(`Added: ${market} (${odds})`);
 }
 
 function openBetslipModal() {
   document.getElementById('modalSlipMatch').innerText = activeBetSelection.match;
-  document.getElementById('modalSlipMarket').innerText = 'Market: ' + activeBetSelection.market;
   document.getElementById('modalSlipOdd').innerText = activeBetSelection.odds.toFixed(2);
-  calculateBetslipWin();
   openModal('modalBetslipDrawer');
-}
-
-function setBetslipType(type) {
-  haptic('light');
-  activeBetSelection.type = type;
-  document.getElementById('tabSingleBet').classList.toggle('active', type === 'single');
-  document.getElementById('tabComboBet').classList.toggle('active', type === 'combo');
-  calculateBetslipWin();
-}
-
-function setBetslipPreset(val) {
-  haptic('light');
-  document.getElementById('betslipStakeInput').value = val;
-  calculateBetslipWin();
-}
-
-function calculateBetslipWin() {
-  const stake = parseFloat(document.getElementById('betslipStakeInput').value) || 0;
-  const isCombo = activeBetSelection.type === 'combo';
-  const effectiveOdds = isCombo ? activeBetSelection.odds * 1.15 : activeBetSelection.odds;
-  
-  document.getElementById('betslipTotalOdds').innerText = effectiveOdds.toFixed(2) + (isCombo ? ' (+15% Boost)' : '');
-  const estWin = (stake * effectiveOdds).toFixed(2);
-  document.getElementById('betslipEstWin').innerText = estWin + ' ETB';
 }
 
 function placeBetslipTicket() {
   const stake = parseFloat(document.getElementById('betslipStakeInput').value) || 0;
-  if (stake < 20) return toast("Minimum stake is 20 ETB");
-  if (currentBalance !== null && currentBalance < stake) {
-    return toast("Insufficient balance. Please deposit.");
-  }
-  
+  if (stake < 20) return toast("Minimum bet is 20 ETB");
+  if (currentBalance !== null && currentBalance < stake) return toast("Insufficient balance. Please deposit.");
   haptic('success');
   if (currentBalance !== null) {
     currentBalance -= stake;
@@ -1836,78 +1605,71 @@ function placeBetslipTicket() {
   }
   closeModal('modalBetslipDrawer');
   document.getElementById('floatingBetslipBar').style.display = 'none';
-  toast(`Ticket placed successfully: ${stake} ETB!`);
-  navigateToTab('bets');
+  toast(`Bet placed: ${stake} ETB! Good luck!`);
 }
 
-// ========================================================
-// 7. REAL-TIME WIDGETS: JACKPOT, PROMO SLIDER & LIVE WINS
-// ========================================================
+/* LUCKY WHEEL & CHAT */
+function spinFortuneWheel() {
+  haptic('medium');
+  const wheel = document.getElementById('wheelSpinnerBox');
+  wheel.style.transition = 'transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+  wheel.style.transform = 'rotate(' + (1440 + Math.floor(Math.random() * 360)) + 'deg)';
+  setTimeout(() => {
+    haptic('success');
+    toast("Congratulations! You won a Free Flight! 🎁");
+    closeModal('modalLuckyWheel');
+  }, 3200);
+}
 
-// 1. Progressive Jackpot Ticker
-let jackpotAmount = 1845920.50;
-setInterval(() => {
-  jackpotAmount += (Math.random() * 0.85);
-  const el = document.getElementById('liveJackpotCounter');
-  if (el) el.innerText = jackpotAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ETB';
-}, 1500);
+function sendChatMsg() {
+  const inp = document.getElementById('liveChatInput');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  const feed = document.getElementById('chatMsgFeed');
+  const d = document.createElement('div');
+  d.style.cssText = 'background:#0e1524;padding:8px;border-radius:8px;font-size:11px;';
+  d.innerHTML = `<b>You:</b> ${txt}`;
+  feed.appendChild(d);
+  feed.scrollTop = feed.scrollHeight;
+  inp.value = '';
+}
 
-// 2. Dynamic Promotional Banner Slider
-const PROMO_SLIDES = [
-  { tag: "HOT DEAL", title: "100% First Deposit Bonus", desc: "Double your first deposit via Telebirr or CBE. Get up to 5,000 ETB extra!" },
-  { tag: "AVIATOR RAIN", title: "Free Flight Rain in Chat", desc: "Rain drops every 2 hours in Aviator chat. Catch up to 500 ETB free!" },
-  { tag: "VIP CASHBACK", title: "10% Weekly Loss Rebate", desc: "Play your favorite games worry-free. Get 10% auto-refund every Monday!" }
-];
-let currentSlideIdx = 0;
-setInterval(() => {
-  currentSlideIdx = (currentSlideIdx + 1) % PROMO_SLIDES.length;
-  const slide = PROMO_SLIDES[currentSlideIdx];
-  const slideBox = document.getElementById('heroBannerSlide');
-  if (slideBox) {
-    slideBox.querySelector('.hero-tag').innerHTML = `<i class="fa-solid fa-bolt"></i> ` + slide.tag;
-    slideBox.querySelector('.hero-title').innerText = slide.title;
-    slideBox.querySelector('.hero-desc').innerText = slide.desc;
-    const dots = slideBox.querySelectorAll('.hero-dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === currentSlideIdx));
-  }
-}, 5000);
-
-// 3. Live High Rollers Winning Marquee
-const RECENT_WINS = [
-  { user: "TG_481***", game: "Aviator", multi: "14.2x", win: "8,420.00 ETB" },
-  { user: "TG_920***", game: "Fast Keno", multi: "10/10", win: "15,000.00 ETB" },
-  { user: "TG_312***", game: "Chicken Road 2", multi: "8.5x", win: "4,250.00 ETB" },
-  { user: "TG_774***", game: "Jet-X", multi: "31.4x", win: "12,800.00 ETB" }
-];
-let winIdx = 0;
-setInterval(() => {
-  winIdx = (winIdx + 1) % RECENT_WINS.length;
-  const w = RECENT_WINS[winIdx];
-  const feed = document.getElementById('liveWinsFeedTxt');
-  if (feed) {
-    feed.innerHTML = `User <b>${w.user}</b> won <span>${w.win}</span> in ${w.game} (${w.multi})`;
-  }
-}, 3500);
-
-// 4. Live Search Filter for Games
-document.getElementById('gameSearchInput')?.addEventListener('input', e => {
-  const q = e.target.value.toLowerCase().trim();
-  document.querySelectorAll('.game-square-card').forEach(card => {
-    const title = card.querySelector('.game-label-under')?.innerText.toLowerCase() || '';
-    card.style.display = title.includes(q) ? 'flex' : 'none';
+function copyText(str) {
+  navigator.clipboard.writeText(str).then(() => {
+    haptic('light');
+    toast("Copied: " + str);
   });
-});
+}
 
-// 5. Telegram Referral Link Copier
 function copyReferralLink() {
   haptic('medium');
-  const refLink = `https://t.me/Hulubetethbot?start=${USER_ID || 'vip'}`;
-  navigator.clipboard.writeText(refLink).then(() => {
-    toast("Referral link copied to clipboard!");
-  }).catch(() => {
-    toast(refLink);
-  });
+  const link = `https://t.me/Hulubetethbot?start=${USER_ID || 'vip'}`;
+  navigator.clipboard.writeText(link).then(() => toast("Referral link copied!"));
 }
+
+function shareInviteLink() {
+  const link = `https://t.me/Hulubetethbot?start=${USER_ID || 'vip'}`;
+  const text = encodeURIComponent(`Play 12 games on HuluBet and get 100 ETB Bonus! Join here: ${link}`);
+  if (tg?.openTelegramLink) tg.openTelegramLink(`https://t.me/share/url?url=${link}&text=${text}`);
+  else window.open(`https://t.me/share/url?url=${link}&text=${text}`, '_blank');
+}
+
+// Progressive Jackpot
+let curJackpot = 1845920.50;
+setInterval(() => {
+  curJackpot += (Math.random() * 0.95);
+  const el = document.getElementById('liveJackpotCounter');
+  if (el) el.innerText = curJackpot.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ETB';
+}, 1500);
+
+// Search Filtering across all 12 games
+document.getElementById('gameSearchInput')?.addEventListener('input', e => {
+  const q = e.target.value.toLowerCase().trim();
+  document.querySelectorAll('.game-square-card, .game-card-tall').forEach(c => {
+    const title = c.innerText.toLowerCase();
+    c.style.display = title.includes(q) ? 'flex' : 'none';
+  });
+});
 </script>
 </body>
 </html>
